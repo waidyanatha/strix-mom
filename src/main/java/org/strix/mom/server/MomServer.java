@@ -26,6 +26,7 @@ public class MomServer {
     }
 
     private void initComponents() {
+    	System.out.println("INIT MOM SERVER7");
         webSocketTokenServer.init();
         for (UdpServer udpServer : udpServerList) {
             udpServer.setLoggingLevel(Level.OFF);
@@ -36,6 +37,8 @@ public class MomServer {
         }
     }
 
+    
+    
     public WebSocketTokenServer getWebSocketTokenServer() {
         return webSocketTokenServer;
     }

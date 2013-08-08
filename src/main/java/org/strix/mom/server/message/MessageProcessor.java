@@ -1,5 +1,10 @@
 package org.strix.mom.server.message;
 
+import java.util.List;
+
+import org.strix.mom.server.client.User;
+import org.strix.mom.server.client.UserHandler;
+import org.strix.mom.server.communication.impl.UdpServer;
 import org.strix.mom.server.message.api.Message;
 import org.strix.mom.server.message.api.MessageHandler;
 import org.strix.mom.server.message.file.FileHandler;
@@ -15,6 +20,7 @@ import org.strix.mom.server.message.json.JsonMessageHandler;
 public class MessageProcessor {
     private MessageHandler messageHandler = null;
     private FileHandler fileHandler = null;
+    private UserHandler userHandler = null;
 
     /*public MessageProcessor() {
         messageHandler = new JsonMessageHandler();
@@ -28,15 +34,25 @@ public class MessageProcessor {
     public ServerMessage processMessage(String string) {
         Message message =  messageHandler.parseMessage(string);
         ServerMessage serverMessage = new ServerMessage();
-        if(message!=null){
+        boolean replyMessage = true;
+        if(message!=null && message.getType()!=null){
 
-            if(message.getType()!=null && message.getType().equalsIgnoreCase("getDirectoryListing")){
+            if(message.getType().equalsIgnoreCase("getDirectoryListing")){
                 message.setData(fileHandler.getDirectoryListing());
                 message.setAction("getDirectoryListing");
             }
+            if(message.getType().equalsIgnoreCase("login")){
+            	if(userHandler.authenticate(message.getUsername(), message.getPassword())){
+            		message.setData("1");
+            		message.setAction("login");
+            	}else{
+            		message.setData("-1");
+            		message.setAction("login");
+            	}
+            }
             System.out.println("message"+message);
             String jsonResponse = messageHandler.getMessage(message);
-            serverMessage.setSentReply(true);
+            serverMessage.setSentReply(replyMessage);
             serverMessage.setResponseData(jsonResponse);
         }
         return serverMessage;
@@ -57,4 +73,16 @@ public class MessageProcessor {
     public void setFileHandler(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
     }
+
+	public UserHandler getUserHandler() {
+		return userHandler;
+	}
+
+	public void setUserHandler(UserHandler userHandler) {
+		this.userHandler = userHandler;
+	}
+
+	
+    
+    
 }

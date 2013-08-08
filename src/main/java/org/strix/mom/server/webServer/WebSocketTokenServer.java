@@ -67,7 +67,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     }
 
     public void processToken(WebSocketServerTokenEvent serverTokenEvent, Token token) {
-//        System.out.println("temp.JwebSockClient.processToken"+token);
+        System.out.println("temp.JwebSockClient.processToken"+token);
     }
 
     public void processClosed(WebSocketServerEvent event) {

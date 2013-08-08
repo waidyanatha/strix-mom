@@ -112,7 +112,7 @@ public class FileSender {
 
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring-processor.xml"});
+        ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"test-client.xml"});
         FileSender fileSender = (FileSender) context.getBean("fileSender");
         fileSender.createConnection();
     }

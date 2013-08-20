@@ -1,0 +1,161 @@
+<%
+
+var action, data, message, exists, error = false, log = new Log(), user = require('../modules/user.js'), matcher = new URIMatcher(request.getRequestURI());
+callAPI();
+function callAPI() {
+	if(matcher.match('/{context}/apis/user/{action}')) {
+		action = matcher.elements().action;
+		log.info(action);
+		switch (action) {
+			case 'login':
+				try {
+					log.info("action - Login");
+					log.info(request.getMethod());
+					log.info(request.getQueryString());
+					error = !user.login(request.getHeader('username'), request.getHeader('password'));
+					log.info(error);
+					if(error) {
+						message = 'Invalid username or password.';
+					} else {
+						message = 'Login success';
+					}
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					message : message
+				});
+				break;
+			//  return;
+			case 'logout':
+				try {
+					user.logout();
+					message = "Logout success"
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					message : message
+				});
+				//  return;
+				break;
+			case 'signup':
+				try {
+					log.info(request.getHeader('username') + request.getHeader('password'));
+					user.register(request.getHeader('username'), request.getHeader('password'));
+					message = "Signup was success";
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					message : message
+				});
+				//    return;
+				break;
+			case 'register':
+				try {
+					user = require('../modules/user.js').current();
+					if(!user) {
+						error = true;
+						response.sendError(401, 'Unauthorized');
+						message = "Unauthorized";
+
+						return;
+					}
+					var tmpuser = require('../modules/user.js');
+					tmpuser.registerNew(request.getHeader('username'), request.getHeader('password'));
+					message = "Registered successfully";
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					message : message
+				});
+				//    return;
+				break;
+			case 'exists':
+				try {
+					data = parse(request.getContent());
+					exists = user.userExists(data.username);
+					if(!exists) {
+						message = 'Username ' + data + ' has already taken.';
+
+					}
+
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					exists : exists,
+					message : message
+				});
+
+				break;
+			case 'remove':
+				try {
+					data = request.getHeader('username')
+					exists = user.userExists(data);
+					log.info(data + "xxxxxxxxxxxxxxxxxxxxxxx" + exists)
+					if(!exists) {
+						message = 'Username ' + data + ' is not existing';
+					} else {
+						user.removeUser(data);
+						message = "User " + data + " is removed."
+					}
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					exists : exists,
+					message : message
+				});
+
+				break;
+
+			case 'all':
+				try {
+					data = user.listUsers();
+					message = "list of Users";
+				} catch(e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					exists : exists,
+					message : message,
+					data : {
+						userlist : data
+					}
+				});
+
+				break;
+
+		}
+
+		//  return;
+	} else {
+		response.sendError(404, 'API Endpoint Not Found');
+	}
+}
+
+%>

@@ -5,6 +5,7 @@
 
 	<import resource="upd-servers.xml" />
 	<import resource="users-auth.xml" />
+	<import resource="config-files.xml"/>
 
 	<bean id="momServer" class="org.strix.mom.server.MomServer">
 		<property name="webSocketTokenServer" ref="webSocketTokenServer" />
@@ -37,7 +38,7 @@
 
 
 	<bean id="fileHandler" class="org.strix.mom.server.message.file.FileHandler">
-		<property name="outputLocation" value="/Applications/MAMP/htdocs/demo/out" />
+		<property name="outputLocation"/>outputLocation</property>
 		<property name="mode" value="${mode}"></property>
 	</bean>
 

@@ -129,13 +129,13 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
                 fileHandler.processFrame(evt);
                 break;
             case STREAM:
-
+            	fileHandler.processFrame(evt);
                 break;
             case TEXT:
-
+            	fileHandler.processFrame(evt);
                 break;
             case COMMANDS:
-
+            	fileHandler.processFrame(evt);
                 break;
             default:
                 break;

@@ -15,6 +15,7 @@ import java.util.List;
 public class FileHandler {
 	private HashMap<String, FileEvent> fileEventHashMap = new HashMap<String, FileEvent>();
 	private String outputLocation;
+	private String inputLocation;
 	private String mode;
 
 	public void processFrame(UdpServer.Event evt) {
@@ -110,10 +111,18 @@ public class FileHandler {
 		this.outputLocation = outputLocation;
 	}
 
+	public String getInputLocation() {
+		return inputLocation;
+	}
+
+	public void setInputLocation(String inputLocation) {
+		this.inputLocation = inputLocation;
+	}
+
 	public String getDirectoryListing() {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder sbTable = new StringBuilder();
-		List<String> files = doDir(outputLocation); 
+		List<String> files = doDir(inputLocation); 
 
 		if (mode.equals("dev")) {
 			for (String file : files) {

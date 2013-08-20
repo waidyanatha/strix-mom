@@ -5,5 +5,6 @@
 	
 	<!-- <property name="outputLocation" value="/Applications/MAMP/htdocs/demo/out" /> -->
 	<property name="outputLocation" value="C:\wamp\www\demo\out" />
+	<property name="inputLocation" value="E:\received />
 
 </beans>

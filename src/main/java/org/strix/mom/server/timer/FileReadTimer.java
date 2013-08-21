@@ -41,10 +41,10 @@ public class FileReadTimer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//timer = new Timer();
-		//timer.schedule(new RemindTask(), 0, // initial delay
-		//		1 * frequency); // subsequent rate
-		new RemindTask().run();
+		timer = new Timer();
+		timer.schedule(new RemindTask(), 0, // initial delay
+				1 * frequency); // subsequent rate
+		//new RemindTask().run();
 	}
 
 	class RemindTask extends TimerTask {

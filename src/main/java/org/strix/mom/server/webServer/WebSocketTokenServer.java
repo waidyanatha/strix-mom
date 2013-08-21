@@ -3,6 +3,7 @@ package org.strix.mom.server.webServer;/*
  * and open the template in the editor.
  */
 
+import org.jwebsocket.api.WebSocketConnector;
 import org.jwebsocket.api.WebSocketPacket;
 import org.jwebsocket.config.JWebSocketConfig;
 import org.jwebsocket.config.JWebSocketServerConstants;
@@ -16,22 +17,28 @@ import org.jwebsocket.token.Token;
 import org.strix.mom.server.client.ApplicationClient;
 import org.strix.mom.server.message.MessageProcessor;
 import org.strix.mom.server.message.ServerMessage;
+import org.strix.mom.server.message.api.Message;
 import org.strix.mom.server.message.file.FileHandler;
+import org.strix.mom.server.message.file.FileListener;
+import org.strix.mom.server.timer.FileReadTimer;
 import org.strix.mom.server.communication.impl.UdpServer;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.DatagramPacket;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 
 /**
  * @author tharinduj
  */
-public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpServer.Listener, PropertyChangeListener {
+public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpServer.Listener, PropertyChangeListener,FileListener {
     private String resourcePath;
     private TokenServer tokenServer;
     private FileHandler fileHandler;
+    private FileReadTimer fileReadTimer;
     private ApplicationClientManager applicationClientManager;
     private MessageProcessor messageProcessor;
 
@@ -61,6 +68,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             } else {
                 System.out.println("server was NOT found");
             }
+            fileReadTimer.init(this);
         } catch (Exception lEx) {
             lEx.printStackTrace();
         }
@@ -93,16 +101,15 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         applicationClientManager.addApplicationClient(applicationClient);
     }
 
-    /*public void sendPacket(int slideNumber) {
+    public void sendPacket(String messageData) {
         Map lConnectorMap = getTokenServer().getAllConnectors();
-
         Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
         for (WebSocketConnector wsc : lConnectors) {
-            String json = "{\"action\":\"slide\",\"uniqueId\":123,\"slideNumber\":" + slideNumber + "}";
-            WebSocketPacket wsPacket = new RawPacket(json);
-            getTokenServer().sendPacket(wsc, wsPacket);            
+            WebSocketPacket wsPacket = new RawPacket(messageData);
+            getTokenServer().sendPacket(wsc, wsPacket); 
+            System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
         }
-    }*/
+    }
 
     public void processPacket(WebSocketServerEvent event, WebSocketPacket packet) {
         System.out.println("packet received " + packet.getString());
@@ -141,6 +148,24 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
                 break;
         }
     }
+    
+    @Override
+	public void fileRecevied(String type,String filename,String messageData) {
+    	System.out.println("FILE RECEIVED"+messageData);
+		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
+		
+		if(type.equalsIgnoreCase("fileReceived")){
+			//"ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"3","pool":"","data":"Your Message"
+			message.setNs("org.jwebsocket.plugins.system");
+            message.setAction("fileReceived");
+            message.setType("broadcast");
+            message.setData(filename);
+            sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+        }
+		
+		
+		
+	}
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -247,4 +272,16 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     public void setMessageProcessor(MessageProcessor messageProcessor) {
         this.messageProcessor = messageProcessor;
     }
+
+	public FileReadTimer getFileReadTimer() {
+		return fileReadTimer;
+	}
+
+	public void setFileReadTimer(FileReadTimer fileReadTimer) {
+		this.fileReadTimer = fileReadTimer;
+	}
+
+	
+    
+    
 }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<import resource="upd-servers.xml" />
 	<import resource="users-auth.xml" />
@@ -18,6 +20,7 @@
 		<property name="fileHandler" ref="fileHandler" />
 		<property name="applicationClientManager" ref="applicationClientManager" />
 		<property name="messageProcessor" ref="messageProcessor" />
+		<property name="fileReadTimer" ref="fileReadTimer"/>
 	</bean>
 
 
@@ -38,9 +41,15 @@
 
 
 	<bean id="fileHandler" class="org.strix.mom.server.message.file.FileHandler">
-		<property name="outputLocation"/>outputLocation</property>
+		<property name="outputLocation" value="${outputLocation}"/>
 		<property name="mode" value="${mode}"></property>
-		<property name="outputLocation"/>inputLocation</property>
+		<property name="inputLocation" value="${inputLocation}"/>
 	</bean>
+	
+	<bean id="fileReadTimer" class="org.strix.mom.server.timer.FileReadTimer">
+		<property name="frequency" value="1000"/>
+		<property name="fileHandler" ref="fileHandler"/>
+	</bean>
+	
 
 </beans>

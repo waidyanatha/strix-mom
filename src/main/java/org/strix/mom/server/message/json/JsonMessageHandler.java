@@ -39,4 +39,10 @@ public class JsonMessageHandler implements MessageHandler {
         String json = gson.toJson(message);
         return json;
     }
+
+	@Override
+	public Message getEmptyMessage() {
+		// TODO Auto-generated method stub
+		return new JsonMessage();
+	}
 }

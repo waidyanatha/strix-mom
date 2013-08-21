@@ -11,4 +11,6 @@ public interface MessageHandler {
     Message parseMessage(String string);
 
     String getMessage(Message message);
+    
+    Message getEmptyMessage();
 }

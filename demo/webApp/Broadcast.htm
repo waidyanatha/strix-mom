@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+   <!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01//EN" "http://www.w3.org/TR/html4/transitional.dtd">
 <html>
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -103,6 +103,9 @@
 						if( aToken.action == "getDirectoryListing") {
 							logList(aToken.data);
 						// check if new client connected and send the current for initialization
+						}else if( aToken.action == "fileReceived") {
+							logList(aToken.data);
+							// check if new client connected and send the current for initialization
 						} else if( "event" == aToken.type
 							&& "connect" == aToken.name ) {
 							lCientCount = aToken.clientCount;

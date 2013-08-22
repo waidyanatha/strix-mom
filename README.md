@@ -36,3 +36,8 @@ TO DO MESSAGE BROADCASTING
 
   Response:
   "ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"4","pool":"","data":"Your Message"
+  
+ TO GET ASYNCHORONOUS CALL BACKS ON FILE REVCEIVING
+ 
+  Response
+  "ns":"org.jwebsocket.plugins.system","type":"broadcast","data":<file_name>,"action":"fileReceived"

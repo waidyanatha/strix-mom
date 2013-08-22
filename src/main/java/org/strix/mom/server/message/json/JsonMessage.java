@@ -31,6 +31,7 @@ public class JsonMessage implements Message {
     private String pool = null;//"pool":null
     private String data = null;//"data":"test"
     private String action = null;//"action":"test"
+    private byte[] dataStream = null;
 
     @Override
     public String getNs() {
@@ -231,4 +232,16 @@ public class JsonMessage implements Message {
     public void setAction(String action) {
         this.action = action;
     }
+    
+    @Override
+	public byte[] getDataStream() {
+		return dataStream;
+	}
+
+    @Override
+    public void setDataStream(byte[] dataStream) {
+		this.dataStream = dataStream;
+	}
+    
+    
 }

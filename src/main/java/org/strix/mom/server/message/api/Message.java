@@ -88,4 +88,8 @@ public interface Message {
     
     void setAction(String action);
     
+    byte[] getDataStream();
+
+    void setDataStream(byte[] dataStream);
+    
 }

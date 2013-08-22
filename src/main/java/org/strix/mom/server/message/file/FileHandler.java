@@ -18,40 +18,64 @@ public class FileHandler {
 	private String inputLocation;
 	private String mode;
 
-	public void processFrame(UdpServer.Event evt) {
+	public byte[] processFrame(UdpServer.Event evt) {
 		DatagramPacket packet = evt.getUdpServer().getPacket();
 		byte[] data = evt.getPacketAsBytes();
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
-		ObjectInputStream is = null;
-		try {
-			is = new ObjectInputStream(in);
+		if (mode.equals("dev")) {
+			ObjectInputStream is = null;
+			try {
+				is = new ObjectInputStream(in);
 
-			FileEvent fileEvent = (FileEvent) is.readObject();
-			if (fileEvent.getStatus().equalsIgnoreCase("Error")) {
-				System.out
-						.println("Some issue happened while packing the data @ client side");
-				System.exit(0);
+				FileEvent fileEvent = (FileEvent) is.readObject();
+				if (fileEvent.getStatus().equalsIgnoreCase("Error")) {
+					System.out
+							.println("Some issue happened while packing the data @ client side");
+					System.exit(0);
+				}
+				createAndWriteFile(fileEvent); // writing the file to hard disk
+				if (fileEvent.isLast()) {
+					InetAddress IPAddress = packet.getAddress();
+					int port = packet.getPort();
+					String reply = "Thank you for the message";
+					byte[] replyBytea = reply.getBytes();
+					DatagramPacket replyPacket = new DatagramPacket(replyBytea,
+							replyBytea.length, IPAddress, port);
+					evt.getUdpServer().send(replyPacket);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-			createAndWriteFile(fileEvent); // writing the file to hard disk
-			if (fileEvent.isLast()) {
-				InetAddress IPAddress = packet.getAddress();
-				int port = packet.getPort();
-				String reply = "Thank you for the message";
-				byte[] replyBytea = reply.getBytes();
-				DatagramPacket replyPacket = new DatagramPacket(replyBytea,
-						replyBytea.length, IPAddress, port);
-				evt.getUdpServer().send(replyPacket);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		} else {
+			/*DataInputStream dis = null;
+			try {
+				dis = new DataInputStream(in);
+				int length = dis.available();
+				// create buffer
+				byte[] buf = new byte[length];
+				// read the full data into the buffer
+				dis.readFully(buf);
+			} catch (Exception e) {
+				// if any error occurs
+				e.printStackTrace();
+			} finally {
+				// releases all system resources from the streams
+				if (dis != null)
+					try {
+						dis.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}*/
 		}
+		return data;
 	}
 
 	private void createAndWriteFile(FileEvent fileEvent) {
-		String outputFile = outputLocation
-				+ File.separator
+		String outputFile = outputLocation + File.separator
 				+ fileEvent.getFilename();
 		System.out.println("outputFile" + outputFile);
 		if (!new File(outputLocation).exists()) {
@@ -122,49 +146,43 @@ public class FileHandler {
 	public String getDirectoryListing() {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder sbTable = new StringBuilder();
-		List<String> files = doDir(inputLocation); 
+		List<String> files = doDir(inputLocation);
 
 		if (mode.equals("dev")) {
 			for (String file : files) {
-				/*if (file.endsWith((".mp4"))) {
-					String videoHtml = "<video width=\"320\" height=\"240\" controls>\n"
-							+ "  <source src=\"file:///"
-							+ outputLocation
-							+ "/"
-							+ file
-							+ "\" type=\"video/mp4\">\n"
-							+ "Your browser does not support the video tag.\n"
-							+ "</video>";
-					sb.append("  <tr>\n" + "    <td>" + videoHtml + "</td>\n"
-							+ "  </tr>\n");
-
-				} else if (file.endsWith((".mp3"))) {
-					String audioHtml = "<audio width=\"320\" height=\"240\" controls>\n"
-							+ "  <source src=\"file:///"
-							+ outputLocation
-							+ "/"
-							+ file
-							+ "\" type=\"audio/mp3\">\n"
-							+ "Your browser does not support the video tag.\n"
-							+ "</audio>";
-					sb.append("  <tr>\n" + "    <td>" + audioHtml + "</td>\n"
-							+ "  </tr>\n");
-
-				} *//*else {
-					String linkHtml = "<a href=\"file:///" + outputLocation
-							+ "/" + file + "\">" + file + "</a>";
-					sb.append("  <tr>\n" + "    <td>" + linkHtml + "</td>\n"
-							+ "  </tr>\n");
-				}*///else {
-					String linkHtml = "<a href=\"" + "/demo/out"
-							+ "/" + file + "\">" + file + "</a>";
-					sb.append("  <tr>\n" + "    <td>" + linkHtml + "</td>\n"
-							+ "  </tr>\n");
-				//}
+				/*
+				 * if (file.endsWith((".mp4"))) { String videoHtml =
+				 * "<video width=\"320\" height=\"240\" controls>\n" +
+				 * "  <source src=\"file:///" + outputLocation + "/" + file +
+				 * "\" type=\"video/mp4\">\n" +
+				 * "Your browser does not support the video tag.\n" +
+				 * "</video>"; sb.append("  <tr>\n" + "    <td>" + videoHtml +
+				 * "</td>\n" + "  </tr>\n");
+				 * 
+				 * } else if (file.endsWith((".mp3"))) { String audioHtml =
+				 * "<audio width=\"320\" height=\"240\" controls>\n" +
+				 * "  <source src=\"file:///" + outputLocation + "/" + file +
+				 * "\" type=\"audio/mp3\">\n" +
+				 * "Your browser does not support the video tag.\n" +
+				 * "</audio>"; sb.append("  <tr>\n" + "    <td>" + audioHtml +
+				 * "</td>\n" + "  </tr>\n");
+				 * 
+				 * }
+				 *//*
+					 * else { String linkHtml = "<a href=\"file:///" +
+					 * outputLocation + "/" + file + "\">" + file + "</a>";
+					 * sb.append("  <tr>\n" + "    <td>" + linkHtml + "</td>\n"
+					 * + "  </tr>\n"); }
+					 */// else {
+				String linkHtml = "<a href=\"" + "/demo/out" + "/" + file
+						+ "\">" + file + "</a>";
+				sb.append("  <tr>\n" + "    <td>" + linkHtml + "</td>\n"
+						+ "  </tr>\n");
+				// }
 			}
-		}else{
+		} else {
 			for (String file : files) {
-					sb.append(file+"\n");
+				sb.append(file + "\n");
 			}
 		}
 

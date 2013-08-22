@@ -42,7 +42,7 @@
 
 	<bean id="fileHandler" class="org.strix.mom.server.message.file.FileHandler">
 		<property name="outputLocation" value="${outputLocation}"/>
-		<property name="mode" value="dev"></property>
+		<property name="mode" value="${mode}"></property>
 		<property name="inputLocation" value="${inputLocation}"/>
 	</bean>
 	

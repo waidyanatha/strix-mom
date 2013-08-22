@@ -129,14 +129,14 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     public void packetReceived(UdpServer.Event evt) {
         DatagramPacket packet = evt.getUdpServer().getPacket(); // Not actually using this here.
         final String message = evt.getPacketAsString();
-        //System.out.println(evt.getUdpServer().getType() + "UdpServer.Event " + message);
+        System.out.println(evt.getUdpServer().getType() + "UdpServer.Event " + message);
 
         switch (evt.getUdpServer().getType()){
             case FILE:
                 fileHandler.processFrame(evt);
                 break;
             case STREAM:
-            	fileHandler.processFrame(evt);
+            	streamRecevied("streamReceived","stream",evt.getPacketAsBytes());
                 break;
             case TEXT:
             	fileHandler.processFrame(evt);
@@ -160,6 +160,20 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             message.setAction("fileReceived");
             message.setType("broadcast");
             message.setData(filename);
+            sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+        }		
+	}
+    
+	public void streamRecevied(String type,String filename,byte[] messageData) {
+    	System.out.println("STREAM RECEIVED"+messageData);
+		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
+		
+		if(type.equalsIgnoreCase("streamReceived")){
+			//"ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"3","pool":"","data":"Your Message"
+			message.setNs("org.jwebsocket.plugins.system");
+            message.setAction("streamReceived");
+            message.setType("broadcast");
+            message.setDataStream(messageData);
             sendPacket(messageProcessor.getMessageHandler().getMessage(message));
         }
 		

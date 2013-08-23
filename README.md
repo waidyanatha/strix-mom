@@ -37,7 +37,22 @@ TO DO MESSAGE BROADCASTING
   Response:
   "ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"4","pool":"","data":"Your Message"
   
- TO GET ASYNCHORONOUS CALL BACKS ON FILE REVCEIVING
+TO GET ASYNCHORONOUS CALL BACKS ON FILE REVCEIVING
  
   Response
   "ns":"org.jwebsocket.plugins.system","type":"broadcast","data":<file_name>,"action":"fileReceived"
+
+IN SYNCRONOUS COMMUNITCATION MODE
+
+  Note that in this mode bytes will be send to client.
+  Response
+  "ns":"org.jwebsocket.plugins.system","type":"broadcast","data":<byte_data>,"action":"streamReceived"
+  
+[21/8/13 12:38:32 PM] Rakesh Raghavan K:Plese read below comments on the <byte_data> being received and the rate of data that comes out will be a max of 128 Kbps in our Satellite case
+[21/8/13 12:39:32 PM] Rakesh Raghavan K: Sending Video App (AAC+ H264 Codec) -> Receiving Video App (AAC+ H264)
+[21/8/13 12:39:46 PM] Rakesh Raghavan K: So, when yo're broadcasting it, your html5 solution should be able to render it
+[21/8/13 12:39:58 PM] Rakesh Raghavan K: We are currently using MX player in Android to interpret it
+[21/8/13 12:40:12 PM] Rakesh Raghavan K: In your case, end device will have to use HTML5 to interpret it
+
+
+  

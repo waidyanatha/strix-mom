@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>		
+		<title>Strix - API</title>		
+	</head>
+	<body>
+<h2>Strix File API</h2>
+<a href="./resources.jag">Resources</a><br>
+<a href="./permissions.jag">Permissions</a><br>
+<a href="./permission_mapping.jag">Permission Mapping</a><br>
+	</body>
+</html>

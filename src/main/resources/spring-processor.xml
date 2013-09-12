@@ -37,7 +37,13 @@
 		<property name="users" ref="userList" />
 	</bean>
 
-	<bean id="messageHandler" class="org.strix.mom.server.message.json.JsonMessageHandler" />
+	<bean id="messageHandler" class="org.strix.mom.server.message.json.JsonMessageHandler">
+	    <property name="restClient" ref="restClient"></property>
+	</bean> 
+	
+	<bean id="restClient" class="org.strix.mom.server.message.json.RestClient">
+	    <property name="resUrl" value="${resUrl}"/>
+	</bean>
 
 
 	<bean id="fileHandler" class="org.strix.mom.server.message.file.FileHandler">

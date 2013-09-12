@@ -2,6 +2,9 @@ package org.strix.mom.server.message.json;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+
+import org.strix.mom.rest.client.AddResourceMessage;
+import org.strix.mom.rest.client.ResourceMessage;
 import org.strix.mom.server.message.api.Message;
 import org.strix.mom.server.message.api.MessageHandler;
 
@@ -14,6 +17,7 @@ import org.strix.mom.server.message.api.MessageHandler;
  */
 public class JsonMessageHandler implements MessageHandler {
     private static Gson gson = new Gson();
+    private RestClient restClient = null;
 
     /**
      * Parse messages from the client
@@ -45,4 +49,53 @@ public class JsonMessageHandler implements MessageHandler {
 		// TODO Auto-generated method stub
 		return new JsonMessage();
 	}
+
+	@Override
+	public String sendRestMessage(ResourceMessage resourceMessage,int type) {
+		String response = null;
+		if(type==ResourceMessage.TYPE_ADD_RESOURCE){
+			AddResourceMessage addResourceMessage = (AddResourceMessage) resourceMessage;
+			String messageString = addResourceMessage.toString();
+			UrlGenerator urlGenerator  = new UrlGenerator();
+			
+			//http://202.69.197.115:9763/library/api/api/resources.jag?
+			//action=addresources& resourcesName={resourcesName}& resourcesGrade={resourcesGrade}
+			//& resourcesCategory={resourcesCategory}& resourcesActive=1& resourcesPath={resourcesPath}
+			//& resourcesFilename={resourcesFilename}& resourcesAuthor={resourcesAuthor}
+			//& resourcesSize={resourcesSize}& resourcesExtra={resourcesExtra}& 
+			//resourcesDetails={resourcesDetails}& resourcesContent={resourcesContent}&
+			urlGenerator.setParameter("action", addResourceMessage.getAction());
+			urlGenerator.setParameter("resourcesName", addResourceMessage.getResourcesName());
+			urlGenerator.setParameter("resourcesActive", addResourceMessage.getResourcesActive());
+			urlGenerator.setParameter("resourcesFilename", addResourceMessage.getResourcesFilename());
+			urlGenerator.setParameter("resourcesPath", addResourceMessage.getResourcesPath());
+	        response = restClient.sendMessage(urlGenerator.getUrl());
+		}
+        return response;
+	}
+
+	@Override
+	public ResourceMessage getResourceMessage(int type) {
+		ResourceMessage resourceMessage = null;
+		if(type==ResourceMessage.TYPE_ADD_RESOURCE){
+			AddResourceMessage addResourceMessage = new AddResourceMessage();
+			addResourceMessage.setAction("addresources");
+			return addResourceMessage;
+		}
+		return resourceMessage;
+	}
+
+	public RestClient getRestClient() {
+		return restClient;
+	}
+
+	public void setRestClient(RestClient restClient) {
+		this.restClient = restClient;
+	}
+	
+	
+	
+	
+	
+	
 }

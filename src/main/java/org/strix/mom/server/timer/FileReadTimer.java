@@ -35,9 +35,10 @@ public class FileReadTimer {
 			watcher = FileSystems.getDefault().newWatchService();
 		    dir = Paths.get(fileHandler.getInputLocation());
 			    WatchKey key = dir.register(watcher,
-			    		StandardWatchEventKinds.ENTRY_CREATE,
-			    		StandardWatchEventKinds.ENTRY_DELETE,
-			    		StandardWatchEventKinds.ENTRY_MODIFY);
+			    		StandardWatchEventKinds.ENTRY_CREATE
+			    		//,StandardWatchEventKinds.ENTRY_DELETE
+			    		//,StandardWatchEventKinds.ENTRY_MODIFY
+			    		);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -78,7 +79,7 @@ public class FileReadTimer {
 			        Path filename = ev.context();
 			        System.out.println("KIND:"+kind+" filename:"+filename);
 			        
-			        fileListener.fileRecevied("fileReceived",filename.toString(),filename.toString());
+			        fileListener.fileRecevied("fileReceived",filename.toString(),filename.toAbsolutePath().toString());
 			    }
 
 			    // Reset the key -- this step is critical if you want to

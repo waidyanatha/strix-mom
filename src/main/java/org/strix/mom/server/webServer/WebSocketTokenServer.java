@@ -14,6 +14,8 @@ import org.jwebsocket.listener.WebSocketServerTokenEvent;
 import org.jwebsocket.listener.WebSocketServerTokenListener;
 import org.jwebsocket.server.TokenServer;
 import org.jwebsocket.token.Token;
+import org.strix.mom.rest.client.AddResourceMessage;
+import org.strix.mom.rest.client.ResourceMessage;
 import org.strix.mom.server.client.ApplicationClient;
 import org.strix.mom.server.message.MessageProcessor;
 import org.strix.mom.server.message.ServerMessage;
@@ -153,14 +155,23 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	public void fileRecevied(String type,String filename,String messageData) {
     	System.out.println("FILE RECEIVED"+messageData);
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
-		
+		AddResourceMessage resourceMessage = (AddResourceMessage)messageProcessor.getMessageHandler().getResourceMessage(ResourceMessage.TYPE_ADD_RESOURCE);
 		if(type.equalsIgnoreCase("fileReceived")){
 			//"ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"3","pool":"","data":"Your Message"
 			message.setNs("org.jwebsocket.plugins.system");
             message.setAction("fileReceived");
             message.setType("broadcast");
             message.setData(filename);
+            
+            resourceMessage.setResourcesActive("1");
+            resourceMessage.setResourcesName(filename);
+            resourceMessage.setResourcesFilename(filename);
+            resourceMessage.setResourcesPath(messageData);
+            
+            messageProcessor.getMessageHandler().sendRestMessage(resourceMessage,ResourceMessage.TYPE_ADD_RESOURCE);
             sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+            
+            
         }		
 	}
     
@@ -294,6 +305,8 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	public void setFileReadTimer(FileReadTimer fileReadTimer) {
 		this.fileReadTimer = fileReadTimer;
 	}
+	
+	
 
 	
     

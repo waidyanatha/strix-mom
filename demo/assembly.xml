@@ -25,14 +25,14 @@
            conventions.
        -->
         <fileSet>
-            <directory>/Users/eleos/git/strix-mom/src/main/scripts</directory>
+            <directory>${project.build.scriptSourceDirectory}</directory>
             <outputDirectory></outputDirectory>
             <includes>
                 <include>startup.*</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>/Users/eleos/git/strix-mom/src/main/java</directory>
+            <directory>${project.build.SourceDirectory}</directory>
             <outputDirectory></outputDirectory>
             <includes>
                 <include>*.sh</include>
@@ -40,7 +40,7 @@
         </fileSet>
         <!-- adds jar package to the root directory of zip package -->
         <fileSet>
-            <directory>/Users/eleos/git/strix-mom/target</directory>
+            <directory>${project.build.directory}</directory>
             <outputDirectory></outputDirectory>
             <includes>
                 <include>*.jar</include>

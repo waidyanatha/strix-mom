@@ -80,9 +80,6 @@ public class MessageProcessor {
 
 	public void setUserHandler(UserHandler userHandler) {
 		this.userHandler = userHandler;
-	}
-
-	
-    
+	} 
     
 }

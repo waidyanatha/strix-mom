@@ -16,7 +16,7 @@
 
 	<bean id="webSocketTokenServer" class="org.strix.mom.server.webServer.WebSocketTokenServer">
 		<!--<property name="resourcePath" value="src/main/resources"/> -->
-		<property name="resourcePath" value="src/main/resources" />
+		<property name="resourcePath" value="." />
 		<property name="fileHandler" ref="fileHandler" />
 		<property name="applicationClientManager" ref="applicationClientManager" />
 		<property name="messageProcessor" ref="messageProcessor" />
@@ -37,12 +37,18 @@
 		<property name="users" ref="userList" />
 	</bean>
 
-	<bean id="messageHandler" class="org.strix.mom.server.message.json.JsonMessageHandler" />
+	<bean id="messageHandler" class="org.strix.mom.server.message.json.JsonMessageHandler">
+	    <property name="restClient" ref="restClient"></property>
+	</bean> 
+	
+	<bean id="restClient" class="org.strix.mom.server.message.json.RestClient">
+	    <property name="resUrl" value="${resUrl}"/>
+	</bean>
 
 
 	<bean id="fileHandler" class="org.strix.mom.server.message.file.FileHandler">
 		<property name="outputLocation" value="${outputLocation}"/>
-		<property name="mode" value="${mode}"></property>
+		<property name="mode" value="prod"></property>
 		<property name="inputLocation" value="${inputLocation}"/>
 	</bean>
 	

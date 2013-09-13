@@ -1,0 +1,32 @@
+<%
+
+include("../controller/file.jag");
+var log = new Log();
+var action = request.getParameter('action');
+var filaName = request.getParameter('filename');
+var grade = request.getParameter('grade');
+
+switch(action) {
+	case "deleteFile":
+		print(deleteFile());
+		break;
+	case "saveFile":
+		print(saveFile());
+		break;
+	case "listFiles":
+		print(listFiles());
+		break;
+	case "isDirectory":
+		print(isDirectory(filaName));
+		break;
+	case "getresources":
+		print(getresources(resourcesId));
+		break;
+	case "settabel":
+		print(settabel());
+		break;
+	default:
+		print(invokeError("resources action not define"));
+}
+
+%>

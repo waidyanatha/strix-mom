@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Strix - Library</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/offcanvas.css" rel="stylesheet">
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="../../assets/js/html5shiv.js"></script>
+		<script src="../../assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+<%
+include('/includes/topnavi.jag');
+%>
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-right">
+				<div class="col-xs-12 col-sm-9">
+					<p class="pull-right visible-xs">
+						<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+							Toggle nav
+						</button>
+					</p>
+					<div class="jumbotron">
+						<h1>Strix - Book</h1>
+						<p>
+							Strix - Library, is an organized collection of information resources made accessible to a defined community for reference or digital access to materials
+						</p>
+					</div>
+											<div class="well well-large" id="bname">
+<h4>{ Book Name}</h4>
+</div>	
+				<div class="row" id="row">
+  <div class="col-md-9 col-md-push-3">
+  <p>{Book Meta Data}</p>
+   <p>{Book Description}</p>
+  <button type="button" class="btn btn-primary">Download</button>
+  </div>
+  <div class="col-md-3 col-md-pull-9">
+  <div class="thumbnail">
+	<img alt="..." src="resources\1.png">
+	</div>
+	</div>
+</div>		
+					
+				</div><!--/span-->
+								<%
+include('/includes/sidebar.jag');
+%>
+
+			</div><!--/row-->
+			<hr>
+			<footer>
+				<p>
+					&copy; Strix 2013
+				</p>
+			</footer>
+		</div><!--/.container-->
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="js/assets/js/jquery.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/offcanvas.js"></script>
+		<script src="js/mustache.js"></script>
+		<script id="myTemplatex" type="text/template"> 
+{{#.}} 
+				<div class="row" id="row">
+  <div class="col-md-9 col-md-push-3">
+  <p>Book id :: {{resources_id}}</p>
+   <p>Resource ::{{resources_name}}</p>
+    <p>Resources Grade ::{{resources_grade}}</p>
+     <p>Resources category ::{{resources_category}}</p>
+  <button type="button" class="btn btn-primary">Download</button>
+  </div>
+  <div class="col-md-3 col-md-pull-9">
+  <div class="thumbnail">
+	<img alt="..." src="resources\1.png">
+	</div>
+	</div>
+</div>		
+					
+				</div><!--/span-->{{/.}} 
+</script>
+				<script> 
+				function getid()
+{
+ var stringUrl = window.location.href;
+ var n=stringUrl.split("id=")[1]; 
+ return n;
+}
+
+				$(function() {
+				var id = 	getid();
+				console.log(id);
+      $.ajax({
+        type: "GET",
+        url: "../library/api/api/resources.jag?action=getresources&resourcesId="+id,
+        dataType: "json",
+        success: parseXml
+      });
+       });
+
+       function parseXml(xml) {
+       	var data = xml.results;
+       	
+       	 $('#bname').html('<h4>'+data[0].resources_name+'</h4>');
+    var template = $('#myTemplatex').html(); 
+    var html = Mustache.to_html(template, data); 
+    $('#row').html(html); 
+console.log("Passed");
+console.log(html);
+    }
+ 
+</script>
+	</body>
+</html>

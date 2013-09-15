@@ -32,7 +32,7 @@ include('/includes/topnavi.jag');
 							Strix - Library, is an organized collection of information resources made accessible to a defined community for reference or digital access to materials
 						</p>
 					</div>
-					<div class="row">
+					<div class="row" id="row">
 							<div class="col-sm-4 col-md-4">
 							<div class="thumbnail">
 								<img alt="..." src="resources\1.png">
@@ -109,5 +109,42 @@ include('/includes/sidebar.jag');
 		<script src="js/assets/js/jquery.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/offcanvas.js"></script>
+		<script src="js/mustache.js"></script>
+		<script id="myTemplate" type="text/template"> 
+{{#.}} 
+<div class="col-sm-4 col-md-4">
+							<div class="thumbnail">
+								<img alt="..." src="resources\1.png">
+								<div class="caption">
+									<h4>Book {{resources_id}}</h4>
+									<p>
+										<a href="./book.jag?id={{resources_id}}" class="btn btn-primary">View</a> <a href="#" class="btn btn-default">Download</a>
+									</p>
+								</div>
+							</div>
+						</div><!--/span-->{{/.}}
+</script>
+				<script> 
+				$(function() {
+      $.ajax({
+        type: "GET",
+        url: "../library/api/api/resources.jag?action=listresources",
+        dataType: "json",
+        success: parseXml
+      });
+       });
+
+       function parseXml(xml) {
+       	var data = xml.results;
+    var template = $('#myTemplate').html(); 
+    var html = Mustache.to_html(template, data); 
+    $('#row').html(html); 
+console.log("Passed");
+console.log(html);
+    }
+ 
+</script>
+
+		
 	</body>
 </html>

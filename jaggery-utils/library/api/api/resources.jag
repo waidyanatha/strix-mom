@@ -25,6 +25,9 @@ case "listresources":
 	case "addresources":
 		print(addresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
 		break;
+	case "addminiresources":
+		print(addminiresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
+		break;
 	case "updateresources":
 		print(updateresources(resourcesId,resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
 		break;

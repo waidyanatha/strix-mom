@@ -142,6 +142,10 @@ var getRoleListOfUser = function(username) {
 	var server = require('/modules/server.js');
 	return server.userManager().getRoleListOfUser(username);
 };
+var setUserRole = function(rolename,username) {
+	var server = require('/modules/server.js');
+	return server.userManager().addRole(rolename,username,null);
+};
 /*
  End of new funtion
  */
@@ -166,6 +170,8 @@ var register = function(username, password) {
 	}
 	login(username, password);
 };
+
+
 var registerNew = function(username, password) {
 	var user, role, id, perms, r, p, server = require('/modules/server.js'), um = server.userManager(), opts = options();
 	um.addUser(username, password, opts.userRoles);

@@ -85,8 +85,9 @@ function callAPI() {
 				});
 				//    return;
 				break;
-				
-							case 'adduser':
+
+			case 'adduser':
+			log.info('****adduser*****');
 				try {
 					user = require('../modules/user.js').current();
 					if(!user) {
@@ -97,8 +98,17 @@ function callAPI() {
 						return;
 					}
 					var tmpuser = require('../modules/user.js');
-					tmpuser.addRole(request.getHeader('rolename'));
-					message = "Role added successfully";
+					//var usermgt = require('../modules/user-manager.js');
+					log.info(tmpuser);
+					if(!(tmpuser.roleExists(request.getHeader('rolename')))){
+						message = "Role is  not existing";
+					}
+					if(!(tmpuser.userExists(request.getHeader('username')))){
+						message = "User is  not existing";
+					}
+					tmpuser.setUserRole(request.getHeader('rolename'),request.getHeader('username'),null);
+					log.info(request.getHeader('rolename'));
+					message = "User Role added successfully";
 				} catch (e) {
 					log.error(e);
 					error = true;
@@ -115,9 +125,9 @@ function callAPI() {
 					exists = user.userExists(data.username);
 					if(!exists) {
 						message = 'Username ' + data + ' has already taken.';
-						
+
 					}
-					 
+
 				} catch (e) {
 					log.error(e);
 					error = true;
@@ -134,12 +144,12 @@ function callAPI() {
 				try {
 					data = request.getHeader('rolename')
 					exists = user.roleExists(data);
-					log.info(data+" Role is "+exists)
+					log.info(data + " Role is " + exists)
 					if(!exists) {
 						message = 'Rolename ' + data + ' is not existing';
-					}else{
-					user.removeRole(data);
-					message = "Role "+data+ " is removed."
+					} else {
+						user.removeRole(data);
+						message = "Role " + data + " is removed."
 					}
 				} catch (e) {
 					log.error(e);
@@ -153,7 +163,7 @@ function callAPI() {
 				});
 
 				break;
-				
+
 			case 'all':
 				try {
 					data = user.listRoles();
@@ -175,7 +185,7 @@ function callAPI() {
 				break;
 
 		}
-		
+
 		//  return;
 	} else {
 		response.sendError(404, 'API Endpoint Not Found');

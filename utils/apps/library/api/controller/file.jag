@@ -1,0 +1,122 @@
+<%
+
+function deleteFile() {
+	log.info("Delete File");
+	var path = "/resources/Books/Grade1/foo.txt";
+	var file = new File(path), results = file.del();
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function saveFile() {
+	log.info("Save File");
+	var file = new File("../../resources/Books/Grade1/foo.txt");
+	file.open("w");
+	file.write("Hello World!");
+	file.close();
+	
+	return {
+		"error" : false,
+		"results" : "saved file"
+	};
+}
+function listFiles() {
+	log.info("List File");
+	var file = new File("../../resources/Books/Grade1/"),
+	
+	results = file.listFiles();
+	log.info(file.listFiles());
+	log.info(file.isDirectory());
+	file.close();
+	
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function isDirectory(fileName) {
+	log.info("isDirectory"+fileName);
+	var file = new File("../../resources/Books/"+fileName),
+	
+	results = file.isDirectory();
+	log.info(results);
+	file.close();
+	
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function addpermissions(permissionsName, permissionsDetail, permissionsEdit, permissionsView, permissionsAdd, permissionsResource) {
+	log.info("add permissions");
+	if(permissionsName != null && permissionsDetail != null && permissionsEdit != null && permissionsView != null && permissionsAdd != null && permissionsResource != null) {
+		var db_qury = db_query_permissions_add(null, permissionsName, permissionsDetail, permissionsEdit, permissionsView, permissionsAdd, permissionsResource);
+		log.info(db_qury);
+		var results = db.query(db_qury);
+		return {
+			"error" : false,
+			"results" : results
+		};
+	} else {
+		return invokeError("Please enter permissionsName, permissionsDetail, permissionsEdit, permissionsView, permissionsAdd, permissionsResource");
+	}
+}
+
+function updatepermissions(permissionsId, permissionsName, permissionsDetail, permissionsEdit, permissionsView, permissionsAdd, permissionsResource) {
+	log.info("update permissions");
+	if(permissionsId != null && permissionsName != null && permissionsDetail != null && permissionsEdit != null && permissionsView != null && permissionsAdd != null && permissionsResource != null) {
+		var db_qury = db_query_permissions_update(permissionsId, permissionsName, permissionsDetail, permissionsEdit, permissionsView, permissionsAdd, permissionsResource);
+		log.info(db_qury);
+		var results = db.query(db_qury);
+		return {
+			"error" : false,
+			"results" : results
+		};
+	} else {
+		return invokeError("Please enter permissionsId, permissionsName, permissionsDetail, permissionsEdit, permissionsView, permissionsAdd, permissionsResource");
+	}
+}
+
+function deletpermissions(permissionsId) {
+	log.info("delet permissions ");
+	if(permissionsId != null) {
+		var db_qury = db_query_permissions_delet(permissionsId);
+		log.info(db_qury);
+		var results = db.query(db_qury);
+		return {
+			"error" : false,
+			"results" : results
+		};
+	} else {
+		return invokeError("Please enter permissionsId");
+	}
+}
+
+function getpermissions(permissionsId) {
+	log.info("get permissions ");
+	if(permissionsId != null) {
+		var db_qury = db_query_permissions_get(permissionsId);
+		log.info(db_qury);
+		var results = db.query(db_qury);
+		return {
+			"error" : false,
+			"results" : results
+		};
+	} else {
+		return invokeError("Please enter permissionsId");
+	}
+}
+
+function invokeError(msg) {
+	log.info(msg);
+	return {
+		"error" : true,
+		"errorMsg" : msg
+	};
+}
+
+%>

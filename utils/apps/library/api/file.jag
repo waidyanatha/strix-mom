@@ -1,0 +1,17 @@
+<html>
+<head>
+<title>MadhukaTestAPI-permissions</title>
+</head>
+<body>
+<h1>PermissionsAPI</h1>
+<a href="api/file.jag?action=deleteFile">deleteFile</a><br>
+<a href="api/file.jag?action=saveFile">saveFile</a><br>
+<a href="api/file.jag?action=listFiles">listFiles</a><br>
+<a href="api/file.jag?action=isDirectory&filename=Grade1">isDirectory</a><br>
+<a href="api/permissions.jag?action=addpermissions&permissionsName=testString&permissionsDetail=testString&permissionsEdit=1&permissionsView=1&permissionsAdd=1&permissionsResource=testString&">AddPermissions</a><br>
+<a href="api/permissions.jag?action=listpermissions">ListPermissions</a><br>
+<a href="api/permissions.jag?action=updatepermissions&permissionsId=1&&permissionsName=testString&permissionsDetail=testString&permissionsEdit=1&permissionsView=1&permissionsAdd=1&permissionsResource=testString&">UpdatePermissions</a><br>
+<a href="api/permissions.jag?action=getpermissions&permissionsId=1&">GetPermissions</a><br>
+<a href="api/permissions.jag?action=deletpermissions&permissionsId=1&">DeletPermissions</a><br>
+<body>
+</html>

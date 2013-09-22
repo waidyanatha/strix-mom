@@ -1,0 +1,17 @@
+<html>
+<head>
+<title>MadhukaTestAPI-resources</title>
+</head>
+<body>
+<h1>ResourcesAPI</h1>
+<a href="api/resources.jag?action=settabel">SetTableResources</a><br>
+<a href="api/resources.jag?action=addresources&resourcesName=testString&resourcesGrade=testString&resourcesCategory=testString&resourcesActive=1&resourcesPath=testString&resourcesFilename=testString&resourcesAuthor=testString&resourcesSize=testString&resourcesExtra=testString&resourcesDetails=testString&resourcesContent=testString&">AddResources</a><br>
+<a href="api/resources.jag?action=addminiresources&resourcesName=testString&resourcesGrade=testString&resourcesCategory=testString&resourcesActive=1">AddMiniResources</a><br>
+<a href="api/resources.jag?action=listresources">ListResources</a><br>
+<a href="api/resources.jag?action=updateresources&resourcesId=1&&resourcesName=testString&resourcesGrade=testString&resourcesCategory=testString&resourcesActive=1&resourcesPath=testString&resourcesFilename=testString&resourcesAuthor=testString&resourcesSize=testString&resourcesExtra=testString&resourcesDetails=testString&resourcesContent=testString&">UpdateResources</a><br>
+<a href="api/resources.jag?action=getresources&resourcesId=1&">GetResources</a>|
+<a href="api/resources.jag?action=getgrades">GetGrades</a>|
+<a href="api/resources.jag?action=getcategory&resourcesGrade=testString">GetCategory</a><br>
+<a href="api/resources.jag?action=deletresources&resourcesId=1&">DeletResources</a><br>
+<body>
+</html>

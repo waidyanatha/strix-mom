@@ -1,0 +1,35 @@
+<%
+
+include("../model/dbinit.jag");
+include("../model/permission_mapping.jag");
+include("../controller/permission_mapping.jag");
+
+ var action = request.getParameter('action');
+ var permission_mappingId = request.getParameter('permission_mappingId');
+ var permission_mappingPermissions_id = request.getParameter('permission_mappingPermissions_id');
+ var permission_mappingResource_id = request.getParameter('permission_mappingResource_id');
+
+switch(action) {
+case "listpermission_mapping":
+		print(listpermission_mapping());
+		break;
+	case "addpermission_mapping":
+		print(addpermission_mapping(permission_mappingPermissions_id, permission_mappingResource_id));
+		break;
+	case "updatepermission_mapping":
+		print(updatepermission_mapping(permission_mappingId,permission_mappingPermissions_id, permission_mappingResource_id));
+		break;
+	case "deletpermission_mapping":
+		print(deletpermission_mapping(permission_mappingId));
+		break;
+	case "getpermission_mapping":
+		print(getpermission_mapping(permission_mappingId));
+		break;
+	case "settabel":
+		print(settabel());
+		break;
+	default:
+		print(invokeError("permission_mapping action not define"));
+}
+
+%>

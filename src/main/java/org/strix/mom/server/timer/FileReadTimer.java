@@ -1,5 +1,6 @@
 package org.strix.mom.server.timer;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -79,7 +80,7 @@ public class FileReadTimer {
 			        Path filename = ev.context();
 			        System.out.println("KIND:"+kind+" filename:"+filename);
 			        
-			        fileListener.fileRecevied("fileReceived",filename.toString(),filename.toAbsolutePath().toString());
+			        fileListener.fileRecevied("fileReceived",filename.toString(),fileHandler.getInputLocation()+File.separator+filename.toString());
 			    }
 
 			    // Reset the key -- this step is critical if you want to

@@ -1,0 +1,53 @@
+<%
+
+include("../model/dbinit.jag");
+include("../model/resources.jag");
+include("../controller/resources.jag");
+
+var action = request.getParameter('action');
+var resourcesId = request.getParameter('resourcesId');
+var resourcesName = request.getParameter('resourcesName');
+var resourcesGrade = request.getParameter('resourcesGrade');
+var resourcesCategory = request.getParameter('resourcesCategory');
+var resourcesActive = request.getParameter('resourcesActive');
+var resourcesPath = request.getParameter('resourcesPath');
+var resourcesFilename = request.getParameter('resourcesFilename');
+var resourcesAuthor = request.getParameter('resourcesAuthor');
+var resourcesSize = request.getParameter('resourcesSize');
+var resourcesExtra = request.getParameter('resourcesExtra');
+var resourcesDetails = request.getParameter('resourcesDetails');
+var resourcesContent = request.getParameter('resourcesContent');
+
+switch(action) {
+	case "listresources":
+		print(listresources());
+		break;
+	case "addresources":
+		print(addresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
+		break;
+	case "addminiresources":
+		print(addminiresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
+		break;
+	case "updateresources":
+		print(updateresources(resourcesId, resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
+		break;
+	case "deletresources":
+		print(deletresources(resourcesId));
+		break;
+	case "getresources":
+		print(getresources(resourcesId));
+		break;
+	case "getgrades":
+		print(getgrades());
+		break;
+	case "getcategory":
+		print(getcategory(resourcesGrade));
+		break;
+	case "settabel":
+		print(settabel());
+		break;
+	default:
+		print(invokeError("resources action not define"));
+}
+
+%>

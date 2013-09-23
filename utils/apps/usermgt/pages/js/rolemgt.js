@@ -12,6 +12,18 @@ console.log(xhr.status);
 });
 }
 
+this.addUserRole = function() {
+RoleMgt.clear();
+var data = {"roleRolename":$('#listroletag').val(),"username":$('#listuserstag').val()};
+console.log(data);
+Util.makeJsonRequest("POST","../../library/api/api/role.jag?action=addrole&roleRolename="+$('#listroletag').val()+"&roleOut=1&roleUsername="+$('#listuserstag').val(),null,data,function(data,status, xhr) {
+RoleMgt.makeout(data);
+console.log(data);
+console.log(status);
+console.log(xhr.status);
+});
+}
+
 this.remove = function() {
 RoleMgt.clear();
 var data = {"rolename":$('#rolename1').val()};

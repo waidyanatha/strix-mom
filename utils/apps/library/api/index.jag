@@ -7,6 +7,9 @@
 <h2>Strix File API</h2>
 <a href="./resources.jag">Resources</a><br>
 <a href="./permissions.jag">Permissions</a><br>
-<a href="./permission_mapping.jag">Permission Mapping</a><br>
+<a href="./permission_mapping.jag">Permission Mapping*</a><br>
+<a href="./role.jag">Role</a><br>
+<a href="./rolepermission.jag">Role Permission Mapping</a><br>
+
 	</body>
 </html>

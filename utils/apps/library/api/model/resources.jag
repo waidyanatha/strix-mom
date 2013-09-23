@@ -12,6 +12,16 @@ var outStr = "SELECT *  FROM `resources` WHERE `resources_id` = " + resources_id
 return outStr;
 }
 
+function db_query_resources_getgrade() {
+var outStr = "SELECT DISTINCT `resources_grade`  FROM `resources` WHERE  `resources_grade` NOT LIKE  '' ORDER BY  `resources`.`resources_grade` ASC LIMIT 15";
+return outStr;
+}
+
+function db_query_resources_getcategory(resourcesGrade) {
+var outStr = "SELECT DISTINCT `resources_category`  FROM `resources` WHERE `resources_grade` LIKE  '"+resourcesGrade+"' AND `resources_category` NOT LIKE  '' ORDER BY  `resources`.`resources_category` ASC LIMIT 15";
+return outStr;
+}
+
 function db_query_resources_add(resources_id,resources_name,resources_grade,resources_category,resources_active,resources_path,resources_filename,resources_author,resources_size,resources_extra,resources_details,resources_content) {
 var outStr = "INSERT INTO  `resources` (`resources_id`, `resources_name`, `resources_grade`, `resources_category`, `resources_active`, `resources_path`, `resources_filename`, `resources_author`, `resources_size`, `resources_extra`, `resources_details`, `resources_content`,`resources_create_time` ,`resources_modified_time`)VALUES ("+resources_id+",'"+resources_name+"','"+resources_grade+"','"+resources_category+"','"+resources_active+"','"+resources_path+"','"+resources_filename+"','"+resources_author+"','"+resources_size+"','"+resources_extra+"','"+resources_details+"','"+resources_content+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
 return outStr;

@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>TestAPI-role permission</title>
+</head>
+<body>
+<h1>RolepermissionAPI</h1>
+<a href="api/rolepermission.jag?action=settabel">SetTableRolepermission</a><br>
+<a href="api/rolepermission.jag?action=addrolepermission&rolepermissionRolename=testString&rolepermissionOut=1&rolepermissionPermissionid=18&">AddRolepermission</a><br>
+<a href="api/rolepermission.jag?action=listrolepermission">ListRolepermission</a><br>
+<a href="api/rolepermission.jag?action=updaterolepermission&rolepermissionId=1&&rolepermissionRolename=testString&rolepermissionOut=1&rolepermissionPermissionid=18&">UpdateRolepermission</a><br>
+<a href="api/rolepermission.jag?action=getrolepermission&rolepermissionId=1&">GetRolepermission</a><br>
+<a href="api/rolepermission.jag?action=deletrolepermission&rolepermissionId=1&">DeletRolepermission</a><br>
+<body>
+</html>

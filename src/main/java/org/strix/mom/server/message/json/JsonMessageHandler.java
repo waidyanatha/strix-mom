@@ -79,7 +79,7 @@ public class JsonMessageHandler implements MessageHandler {
 		ResourceMessage resourceMessage = null;
 		if(type==ResourceMessage.TYPE_ADDMINI_RESOURCE){
 			AddResourceMessage addResourceMessage = new AddResourceMessage();
-			addResourceMessage.setAction("addminiResource");
+			addResourceMessage.setAction("addminiresources");
 			return addResourceMessage;
 		}
 		return resourceMessage;

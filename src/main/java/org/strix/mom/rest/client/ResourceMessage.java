@@ -3,6 +3,7 @@ package org.strix.mom.rest.client;
 public class ResourceMessage {
 	
 	public static final int TYPE_ADD_RESOURCE=1;
+	public static final int TYPE_ADDMINI_RESOURCE=2;
 	
 	private String action=null;
 	private String resourcesId=null; 

@@ -53,7 +53,7 @@ public class JsonMessageHandler implements MessageHandler {
 	@Override
 	public String sendRestMessage(ResourceMessage resourceMessage,int type) {
 		String response = null;
-		if(type==ResourceMessage.TYPE_ADD_RESOURCE){
+		if(type==ResourceMessage.TYPE_ADDMINI_RESOURCE){
 			AddResourceMessage addResourceMessage = (AddResourceMessage) resourceMessage;
 			String messageString = addResourceMessage.toString();
 			UrlGenerator urlGenerator  = new UrlGenerator();
@@ -77,9 +77,9 @@ public class JsonMessageHandler implements MessageHandler {
 	@Override
 	public ResourceMessage getResourceMessage(int type) {
 		ResourceMessage resourceMessage = null;
-		if(type==ResourceMessage.TYPE_ADD_RESOURCE){
+		if(type==ResourceMessage.TYPE_ADDMINI_RESOURCE){
 			AddResourceMessage addResourceMessage = new AddResourceMessage();
-			addResourceMessage.setAction("addresources");
+			addResourceMessage.setAction("addminiResource");
 			return addResourceMessage;
 		}
 		return resourceMessage;

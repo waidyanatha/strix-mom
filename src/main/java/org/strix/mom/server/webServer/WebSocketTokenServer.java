@@ -155,7 +155,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	public void fileRecevied(String type,String filename,String messageData) {
     	System.out.println("FILE RECEIVED"+messageData);
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
-		AddResourceMessage resourceMessage = (AddResourceMessage)messageProcessor.getMessageHandler().getResourceMessage(ResourceMessage.TYPE_ADD_RESOURCE);
+		AddResourceMessage resourceMessage = (AddResourceMessage)messageProcessor.getMessageHandler().getResourceMessage(ResourceMessage.TYPE_ADDMINI_RESOURCE);
 		if(type.equalsIgnoreCase("fileReceived")){
 			//"ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"3","pool":"","data":"Your Message"
 			message.setNs("org.jwebsocket.plugins.system");
@@ -168,7 +168,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             resourceMessage.setResourcesFilename(filename);
             resourceMessage.setResourcesPath(messageData);
             
-            messageProcessor.getMessageHandler().sendRestMessage(resourceMessage,ResourceMessage.TYPE_ADD_RESOURCE);
+            messageProcessor.getMessageHandler().sendRestMessage(resourceMessage,ResourceMessage.TYPE_ADDMINI_RESOURCE);
             sendPacket(messageProcessor.getMessageHandler().getMessage(message));
             
             

@@ -68,7 +68,7 @@ public class JsonMessageHandler implements MessageHandler {
 			urlGenerator.setParameter("resourcesName", addResourceMessage.getResourcesName());
 			urlGenerator.setParameter("resourcesActive", addResourceMessage.getResourcesActive());
 			urlGenerator.setParameter("resourcesFilename", addResourceMessage.getResourcesFilename());
-			urlGenerator.setParameter("resourcesPath", addResourceMessage.getResourcesPath());
+			//urlGenerator.setParameter("resourcesPath", addResourceMessage.getResourcesPath());
 	        response = restClient.sendMessage(urlGenerator.getUrl());
 		}
         return response;

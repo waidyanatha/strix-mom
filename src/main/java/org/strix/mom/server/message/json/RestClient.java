@@ -43,7 +43,7 @@ public class RestClient {
 
 		String url = resUrl+message;
 		String output = null;
-		System.out.println("Input to the Server .... " + url);
+		System.out.println("Input message to the Server .... " + url);
 		try {
 
 			URL obj = new URL(url);

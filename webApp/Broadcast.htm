@@ -99,13 +99,21 @@
 					
 					// OnMessage callback
 					OnToken: function( aToken ) {
-						// check if slide has to be updated
 						if( aToken.action == "getDirectoryListing") {
 							logList(aToken.data);
-						// check if new client connected and send the current for initialization
 						}else if( aToken.action == "fileReceived") {
 							logList(aToken.data);
-							// check if new client connected and send the current for initialization
+						} else if( aToken.type == "broadcast") {
+							if(aToken.action =='streamReceived'){
+								//STREAM DISPLAYING HAS TO BE DONE HERE
+								logList("STREAM RECEIVED "+aToken.data);
+								//THIS aToken.data has streams and it has to be shown in a proper player
+								//Here a live stream is send as bytes from server and comes out will be at a max of 128 Kbps from the Satellite.
+								//Sending Video App uses this codec and receiving one also should use it (AAC+ H264 Codec). 
+								//This can be shown using MX player in Android to interpret it.
+							}else{
+								logList("BROADCASE RECEIVED "+aToken.data);	
+							}
 						} else if( "event" == aToken.type
 							&& "connect" == aToken.name ) {
 							lCientCount = aToken.clientCount;

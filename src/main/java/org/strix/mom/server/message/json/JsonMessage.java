@@ -32,6 +32,18 @@ public class JsonMessage implements Message {
     private String data = null;//"data":"test"
     private String action = null;//"action":"test"
     private byte[] dataStream = null;
+    
+    private String resourcesName=null; 
+    private String resourcesGrade=null;
+    private String resourcesCategory=null; 
+    private String resourcesActive=null;
+    private String resourcesPath=null;
+    private String resourcesFilename =null;
+    private String resourcesAuthor=null; 
+    private String resourcesSize=null; 
+    private String resourcesExtra=null;
+    private String resourcesDetails=null;
+    private String resourcesContent=null;
 
     @Override
     public String getNs() {
@@ -242,6 +254,118 @@ public class JsonMessage implements Message {
     public void setDataStream(byte[] dataStream) {
 		this.dataStream = dataStream;
 	}
+    
+    @Override
+	public String getResourcesName() {
+		return resourcesName;
+	}
+
+    @Override
+	public void setResourcesName(String resourcesName) {
+		this.resourcesName = resourcesName;
+	}
+    
+    @Override
+	public String getResourcesGrade() {
+		return resourcesGrade;
+	}
+    
+    @Override
+	public void setResourcesGrade(String resourcesGrade) {
+		this.resourcesGrade = resourcesGrade;
+	}
+    
+    @Override
+	public String getResourcesCategory() {
+		return resourcesCategory;
+	}
+
+    @Override
+    public void setResourcesCategory(String resourcesCategory) {
+		this.resourcesCategory = resourcesCategory;
+	}
+
+    @Override
+    public String getResourcesActive() {
+		return resourcesActive;
+	}
+
+    @Override
+    public void setResourcesActive(String resourcesActive) {
+		this.resourcesActive = resourcesActive;
+	}
+
+    @Override
+    public String getResourcesPath() {
+		return resourcesPath;
+	}
+
+    @Override
+    public void setResourcesPath(String resourcesPath) {
+		this.resourcesPath = resourcesPath;
+	}
+
+    @Override
+    public String getResourcesFilename() {
+		return resourcesFilename;
+	}
+
+    @Override
+    public void setResourcesFilename(String resourcesFilename) {
+		this.resourcesFilename = resourcesFilename;
+	}
+
+    @Override
+    public String getResourcesAuthor() {
+		return resourcesAuthor;
+	}
+
+    @Override
+    public void setResourcesAuthor(String resourcesAuthor) {
+		this.resourcesAuthor = resourcesAuthor;
+	}
+
+    @Override
+    public String getResourcesSize() {
+		return resourcesSize;
+	}
+
+    @Override
+    public void setResourcesSize(String resourcesSize) {
+		this.resourcesSize = resourcesSize;
+	}
+
+    @Override
+    public String getResourcesExtra() {
+		return resourcesExtra;
+	}
+
+    @Override
+    public void setResourcesExtra(String resourcesExtra) {
+		this.resourcesExtra = resourcesExtra;
+	}
+
+    @Override
+    public String getResourcesDetails() {
+		return resourcesDetails;
+	}
+
+    @Override
+    public void setResourcesDetails(String resourcesDetails) {
+		this.resourcesDetails = resourcesDetails;
+	}
+
+    @Override
+    public String getResourcesContent() {
+		return resourcesContent;
+	}
+
+    @Override
+    public void setResourcesContent(String resourcesContent) {
+		this.resourcesContent = resourcesContent;
+	}
+    
+    
     
     
 }

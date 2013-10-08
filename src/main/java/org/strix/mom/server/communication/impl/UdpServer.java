@@ -292,6 +292,8 @@ public class UdpServer {
                     fireUdpServerPacketReceived();
 
                 }   //end if: not closed
+                
+                Thread.sleep(1000);
             }   // end while: keepGoing
 
         } catch (Exception exc) {

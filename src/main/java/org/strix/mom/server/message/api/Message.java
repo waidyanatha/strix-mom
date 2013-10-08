@@ -91,5 +91,50 @@ public interface Message {
     byte[] getDataStream();
 
     void setDataStream(byte[] dataStream);
+
+	String getResourcesName();
+
+	void setResourcesName(String resourcesName);
+    
+	String getResourcesGrade() ;
+    
+	void setResourcesGrade(String resourcesGrade) ;
+    
+	String getResourcesCategory() ;
+
+    void setResourcesCategory(String resourcesCategory) ;
+
+    String getResourcesActive() ;
+
+    void setResourcesActive(String resourcesActive) ;
+
+    String getResourcesPath() ;
+
+    void setResourcesPath(String resourcesPath) ;
+
+    String getResourcesFilename() ;
+
+    void setResourcesFilename(String resourcesFilename) ;
+
+    String getResourcesAuthor() ;
+
+    void setResourcesAuthor(String resourcesAuthor) ;
+
+    String getResourcesSize() ;
+
+    void setResourcesSize(String resourcesSize) ;
+
+    String getResourcesExtra() ;
+
+    void setResourcesExtra(String resourcesExtra) ;
+
+    String getResourcesDetails() ;
+
+    void setResourcesDetails(String resourcesDetails) ;
+
+    String getResourcesContent() ;
+
+    void setResourcesContent(String resourcesContent) ;
+    
     
 }

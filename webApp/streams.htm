@@ -104,7 +104,7 @@
 						if( aToken.action == "getDirectoryListing") {
 							logList(aToken.data);
 						}else if( aToken.action == "fileReceived") {
-							logList(aToken.data);
+							logList("FILE RECEIVED "+aToken.data);
 						} else if( aToken.type == "broadcast") {
 							if(aToken.action =='streamReceived'){
 								//STREAM DISPLAYING HAS TO BE DONE HERE

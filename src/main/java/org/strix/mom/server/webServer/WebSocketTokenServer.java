@@ -162,6 +162,10 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             message.setAction("fileReceived");
             message.setType("broadcast");
             message.setData(filename);
+            message.setResourcesActive("1");
+            message.setResourcesName(filename);
+            message.setResourcesFilename(filename);
+            message.setResourcesPath(messageData);
             
             resourceMessage.setResourcesActive("1");
             resourceMessage.setResourcesName(filename);
@@ -305,10 +309,6 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	public void setFileReadTimer(FileReadTimer fileReadTimer) {
 		this.fileReadTimer = fileReadTimer;
 	}
-	
-	
 
-	
-    
     
 }

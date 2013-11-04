@@ -9,14 +9,14 @@
         "http": "%http.host%"
     },
     "roles": {
-        "store": {
+        "teachers": {
         }
     },
     "user": {
         "username": "admin",
         "password": "admin"
     },
-    "userRoles": ["store"],
+    "userRoles": ["teachers"],
     "permissions": {
         "login": {
             "/permission/admin/login": ["ui.execute"]

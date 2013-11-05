@@ -6,11 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 6/21/13
- * Time: 11:37 AM
- * To change this template use File | Settings | File Templates.
+ * Author: Tharindu Jayasuriya
  */
 public class ApplicationClientManager {
 

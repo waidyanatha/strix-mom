@@ -2,6 +2,9 @@ package org.strix.mom.server.client;
 
 import java.util.List;
 
+/**
+ * Author: Tharindu Jayasuriya
+ */
 public class UserHandler {
 	private List<User> users  = null;
 	

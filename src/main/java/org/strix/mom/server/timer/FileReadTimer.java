@@ -16,6 +16,9 @@ import java.util.TimerTask;
 import org.strix.mom.server.message.file.FileHandler;
 import org.strix.mom.server.message.file.FileListener;
 
+/**
+ * Author: Tharindu Jayasuriya
+ */
 public class FileReadTimer {
 	Timer timer;
 	private int frequency = 10;

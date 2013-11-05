@@ -15,7 +15,7 @@ set CLASSPATH=%CLASSPATH%;.\lib\spring-beans-3.0.5.RELEASE.jar
 set CLASSPATH=%CLASSPATH%;.\lib\spring-context-3.0.5.RELEASE.jar
 set CLASSPATH=%CLASSPATH%;.\lib\spring-core-3.0.5.RELEASE.jar
 set CLASSPATH=%CLASSPATH%;.\lib\spring-expression-3.0.5.RELEASE.jar
-set CLASSPATH=%CLASSPATH%;.\server-1.0-SNAPSHOT.jar
+set CLASSPATH=%CLASSPATH%;.\lib\server-1.0-SNAPSHOT.jar
 
 java -Xmx256m -classpath %CLASSPATH%  org.strix.mom.server.MomServer
 

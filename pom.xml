@@ -47,12 +47,9 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
-		<!-- <dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>1.8</version>
-		</dependency> -->
+
+		<!-- <dependency> <groupId>com.sun.jersey</groupId> <artifactId>jersey-client</artifactId> 
+			<version>1.8</version> </dependency> -->
 		<!--<dependency> <groupId>spy</groupId> <artifactId>spymemcached</artifactId> 
 			<version>2.5</version> <scope>provided</scope> </dependency> -->
 	</dependencies>
@@ -79,6 +76,15 @@
 
 	<build>
 		<plugins>
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					specify UTF-8, ISO-8859-1 or any other file encoding
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin> -->
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
@@ -102,21 +108,83 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2.2</version>
+				<configuration>
+					<finalName>strix-dll</finalName>
+					<outputDirectory>Release</outputDirectory>
+					<descriptors>
+						<descriptor>src/main/assembly/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
 				<executions>
 					<execution>
-						<phase>install</phase>
-						<!-- <goals> <goal>copy-dependencies</goal> </goals> -->
-						<!-- The configuration of the plugin -->
-						<configuration>
-							<!-- Specifies the configuration file of the assembly plugin -->
-							<descriptors>
-								<descriptor>src/main/resources/assembly.xml</descriptor>
-							</descriptors>
-						</configuration>
+						<id>assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
 					</execution>
 				</executions>
 
 			</plugin>
+
+			<!-- The configuration of maven-jar-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<!-- The configuration of the plugin -->
+				<configuration>
+					<!-- Configuration of the archiver -->
+					<archive>
+						<!-- Manifest specific configuration -->
+						<manifest>
+							<!-- Classpath is added to the manifest of the created jar file. -->
+							<addClasspath>true</addClasspath>
+							<!-- Configures the classpath prefix. This configuration option is 
+								used to specify that all needed libraries are found under lib/ directory. -->
+							<classpathPrefix>lib/</classpathPrefix>
+							<!-- Specifies the main class of the application -->
+							<mainClass>org.strix.mom.server.MomServer</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Class-Path>.</Class-Path>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- JavaDoc Plugin to generate a JAR containing documentation from the 
+					project. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadoc</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<!-- Source Plugin to generate a JAR containing source code from the 
+					project. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-source</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 
 		<resources>
@@ -141,8 +209,11 @@
 		</profile>
 		<profile>
 			<id>prod</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
 			<properties>
-				<resourcePath></resourcePath>
+				<resourcePath>.</resourcePath>
 				<mode>prod</mode>
 			</properties>
 		</profile>

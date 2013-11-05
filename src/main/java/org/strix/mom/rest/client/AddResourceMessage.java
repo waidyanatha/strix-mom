@@ -1,5 +1,8 @@
 package org.strix.mom.rest.client;
 
+/**
+ * Author: Tharindu Jayasuriya
+ */
 public class AddResourceMessage extends ResourceMessage{
 	
 	private String resourcesName=null; 

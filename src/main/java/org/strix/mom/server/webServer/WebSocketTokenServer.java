@@ -17,6 +17,7 @@ import org.jwebsocket.token.Token;
 import org.strix.mom.rest.client.AddResourceMessage;
 import org.strix.mom.rest.client.ResourceMessage;
 import org.strix.mom.server.client.ApplicationClient;
+import org.strix.mom.server.client.ApplicationClient.EngineType;
 import org.strix.mom.server.message.MessageProcessor;
 import org.strix.mom.server.message.ServerMessage;
 import org.strix.mom.server.message.api.Message;
@@ -32,9 +33,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
-
 /**
- * @author tharinduj
+ * Author: Tharindu Jayasuriya
  */
 public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpServer.Listener, PropertyChangeListener,FileListener {
     private String resourcePath;
@@ -56,6 +56,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 
             System.setProperty(JWebSocketServerConstants.JWEBSOCKET_HOME,
                     resourcePath);
+            System.out.println("Reosurce Path"+resourcePath);
 
             //JWebSocketFactory.printCopyrightToConsole();
             // the following line must not be removed due to GNU LGPL 3.0 license!
@@ -76,8 +77,43 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         }
     }
 
-    public void processToken(WebSocketServerTokenEvent serverTokenEvent, Token token) {
-        System.out.println("temp.JwebSockClient.processToken"+token);
+    public void processToken(WebSocketServerTokenEvent aEvent, Token aToken) {
+        System.out.println("WebSocketTokenServer.processToken"+aToken);
+        String lNS = aToken.getNS();
+	    String lType = aToken.getType();
+
+	    // check if token has a type and a matching namespace
+	      // create a response token
+	      Token lResponse = aEvent.createResponse(aToken);
+	      if ("getInfo".equals(lType)) {
+	        // if type is "getInfo" return some server information
+//	        lResponse.put("vendor", JWebSocketConstants.VENDOR);
+//	        lResponse.put("version", JWebSocketConstants.VERSION_STR);
+//	        lResponse.put("copyright", JWebSocketConstants.COPYRIGHT);
+//	        lResponse.put("license", JWebSocketConstants.LICENSE);
+	      } else {
+	        // if unknown type in this namespace, return corresponding error message
+//	        lResponse.put("code", -1);
+//	        lResponse.put("msg", "Token type '" + lType + "' not supported in namespace '" + lNS + "'.");
+	      }
+	      //aEvent.sendToken(lResponse);
+	      
+	      if (!"login".equals(lType)) {
+	      Map lConnectorMap = getTokenServer().getAllConnectors();
+	        Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
+	        for (WebSocketConnector wsc : lConnectors) {
+//	            WebSocketPacket wsPacket = new RawPacket(messageData);
+//	            getTokenServer().sendPacket(wsc, wsPacket); 
+	            System.out.println("SENDING INFO TO CLIENT RECEIVED"+aToken);
+	            if(wsc==aEvent.getConnector()){
+	            	System.out.println("SENDING INFO ONLY TO CLIENT RECEIVED"+aToken);
+	            	getTokenServer().sendToken(wsc, aToken);
+		        }
+	        }
+	      }else{
+	    	  System.out.println("SENDING INFO ONLY TO LOGIN CLIENT RECEIVED"+aToken);
+	    	  getTokenServer().sendToken(aEvent.getConnector(), aToken);
+	      }
     }
 
     public void processClosed(WebSocketServerEvent event) {
@@ -90,7 +126,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     public void processOpened(WebSocketServerEvent event) {
         System.out.println("***********org.strix.mom.server.client.ApplicationClient '" + event.getSessionId()
                 + "' connected.*********");
-
+        String engineId = event.getConnector().getEngine().getId();
         ApplicationClient applicationClient = new ApplicationClient();
         applicationClient.setUid(event.getConnector().generateUID());
         applicationClient.setId(event.getConnector().getId());
@@ -100,6 +136,8 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         applicationClient.setRemoteHostName(event.getConnector().getRemoteHost().toString());
         applicationClient.setRemoteHostPort(event.getConnector().getRemotePort());
         applicationClient.setWebSocketConnector(event.getConnector());
+        applicationClient.setEngineId(engineId);
+        applicationClient.setEngineType(EngineType.valueOf(engineId));
         applicationClientManager.addApplicationClient(applicationClient);
     }
 
@@ -120,12 +158,44 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         client.setLastMessageReceived(new Date(System.currentTimeMillis()));
 //        System.out.println("Message From " + client);
         ServerMessage replyMessage = messageProcessor.processMessage(packet.getString());
-        if (replyMessage.isSentReply()) {
+        if (replyMessage.isSendToSenderOnly() && replyMessage.isSentReply()) {
+            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
+            System.out.println("WebSocketTokenServer.isSendToSenderOnly" + replyMessage.getResponseData());
+//            getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
+            //event.sendPacket(wsPacket);
+        }else if (replyMessage.isSentReply()) {
             WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
             System.out.println("WebSocketTokenServer.sendpacket" + replyMessage.getResponseData());
-            getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
+            //getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
+//            event.sendPacket(wsPacket);
         }
     }
+    
+    /*public void processToken(WebSocketTokenEvent aEvent, Token aToken) {
+	    log.info("Client '" + aEvent.getSessionId() + "' sent Token: '" + aToken.toString() + "'.");
+	    // here you can interpret the token type sent from the client according to your needs.
+	    String lNS = aToken.getNS();
+	    String lType = aToken.getType();
+
+	    // check if token has a type and a matching namespace
+	    if (lType != null && "my.namespace".equals(lNS)) {
+	      // create a response token
+	      Token lResponse = aEvent.createResponse(aToken);
+	      if ("getInfo".equals(lType)) {
+	        // if type is "getInfo" return some server information
+	        lResponse.put("vendor", JWebSocketConstants.VENDOR);
+	        lResponse.put("version", JWebSocketConstants.VERSION_STR);
+	        lResponse.put("copyright", JWebSocketConstants.COPYRIGHT);
+	        lResponse.put("license", JWebSocketConstants.LICENSE);
+	      } else {
+	        // if unknown type in this namespace, return corresponding error message
+	        lResponse.put("code", -1);
+	        lResponse.put("msg", "Token type '" + lType + "' not supported in namespace '" + lNS + "'.");
+	      }
+	      aEvent.sendToken(lResponse);
+	    }
+	  }*/
+
 
     @Override
     public void packetReceived(UdpServer.Event evt) {

@@ -11,11 +11,7 @@ import org.strix.mom.server.message.file.FileHandler;
 import org.strix.mom.server.message.json.JsonMessageHandler;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 6/21/13
- * Time: 4:43 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Tharindu Jayasuriya
  */
 public class MessageProcessor {
     private MessageHandler messageHandler = null;
@@ -35,13 +31,13 @@ public class MessageProcessor {
         Message message =  messageHandler.parseMessage(string);
         ServerMessage serverMessage = new ServerMessage();
         boolean replyMessage = true;
+        boolean replyToSenderOnly = true;
         if(message!=null && message.getType()!=null){
 
             if(message.getType().equalsIgnoreCase("getDirectoryListing")){
                 message.setData(fileHandler.getDirectoryListing());
                 message.setAction("getDirectoryListing");
-            }
-            if(message.getType().equalsIgnoreCase("login")){
+            }else if(message.getType().equalsIgnoreCase("login")){
             	if(userHandler.authenticate(message.getUsername(), message.getPassword())){
             		message.setData("1");
             		message.setAction("login");
@@ -49,11 +45,14 @@ public class MessageProcessor {
             		message.setData("-1");
             		message.setAction("login");
             	}
+            }else{
+            	replyToSenderOnly = false;
             }
             System.out.println("message"+message);
             String jsonResponse = messageHandler.getMessage(message);
             serverMessage.setSentReply(replyMessage);
             serverMessage.setResponseData(jsonResponse);
+            serverMessage.setSendToSenderOnly(replyToSenderOnly);
         }
         return serverMessage;
     }

@@ -82,7 +82,7 @@
 	<engines>
 		<engine>
 			<name>org.jwebsocket.tcp.TCPEngine</name>
-			<id>tcp0</id>
+			<id>ALL</id>
 			<jar>jWebSocketTCPEngine-1.0.jar</jar>
 			<port>8787</port>
 			<sslport>9797</sslport>
@@ -130,6 +130,111 @@
 				<!-- NIO output writer mechanism thread pool size -->
 				<setting key="workers">50</setting>
 				<!-- NIO output writer mechanism writes timeout -->
+				<setting key="writer_timeout">1000</setting>
+			</settings>		
+		</engine>
+		
+		<engine>
+			<name>org.jwebsocket.tcp.TCPEngine</name>
+			<id>FILE</id>
+			<jar>jWebSocketTCPEngine-1.0.jar</jar>
+			<port>8788</port>
+			<sslport>9798</sslport>
+			<keystore>${JWEBSOCKET_HOME}conf/jWebSocket.ks</keystore>
+			<password>jWebSocket</password>
+			<domains>
+				<domain>*</domain>
+			</domains>
+			<timeout>0</timeout>
+			<maxframesize>1048840</maxframesize>
+			<maxconnections>10000</maxconnections>
+			<onmaxconnections>reject</onmaxconnections>
+			<settings>
+				<setting key="workers">50</setting>
+				<setting key="writer_timeout">1000</setting>
+			</settings>		
+		</engine>
+		
+		<engine>
+			<name>org.jwebsocket.tcp.TCPEngine</name>
+			<id>AUDIO</id>
+			<jar>jWebSocketTCPEngine-1.0.jar</jar>
+			<port>8789</port>
+			<sslport>9799</sslport>
+			<keystore>${JWEBSOCKET_HOME}conf/jWebSocket.ks</keystore>
+			<password>jWebSocket</password>
+			<domains>
+				<domain>*</domain>
+			</domains>
+			<timeout>0</timeout>
+			<maxframesize>1048840</maxframesize>
+			<maxconnections>10000</maxconnections>
+			<onmaxconnections>reject</onmaxconnections>
+			<settings>
+				<setting key="workers">50</setting>
+				<setting key="writer_timeout">1000</setting>
+			</settings>		
+		</engine>
+		
+		<engine>
+			<name>org.jwebsocket.tcp.TCPEngine</name>
+			<id>VIDEO</id>
+			<jar>jWebSocketTCPEngine-1.0.jar</jar>
+			<port>8790</port>
+			<sslport>9800</sslport>
+			<keystore>${JWEBSOCKET_HOME}conf/jWebSocket.ks</keystore>
+			<password>jWebSocket</password>
+			<domains>
+				<domain>*</domain>
+			</domains>
+			<timeout>0</timeout>
+			<maxframesize>1048840</maxframesize>
+			<maxconnections>10000</maxconnections>
+			<onmaxconnections>reject</onmaxconnections>
+			<settings>
+				<setting key="workers">50</setting>
+				<setting key="writer_timeout">1000</setting>
+			</settings>		
+		</engine>
+		
+		<engine>
+			<name>org.jwebsocket.tcp.TCPEngine</name>
+			<id>BROADCAST</id>
+			<jar>jWebSocketTCPEngine-1.0.jar</jar>
+			<port>8791</port>
+			<sslport>9801</sslport>
+			<keystore>${JWEBSOCKET_HOME}conf/jWebSocket.ks</keystore>
+			<password>jWebSocket</password>
+			<domains>
+				<domain>*</domain>
+			</domains>
+			<timeout>0</timeout>
+			<maxframesize>1048840</maxframesize>
+			<maxconnections>10000</maxconnections>
+			<onmaxconnections>reject</onmaxconnections>
+			<settings>
+				<setting key="workers">50</setting>
+				<setting key="writer_timeout">1000</setting>
+			</settings>		
+		</engine>
+		
+		<engine>
+			<name>org.jwebsocket.tcp.TCPEngine</name>
+			<id>API</id>
+			<jar>jWebSocketTCPEngine-1.0.jar</jar>
+			<port>8792</port>
+			<sslport>9802</sslport>
+			<keystore>${JWEBSOCKET_HOME}conf/jWebSocket.ks</keystore>
+			<password>jWebSocket</password>
+			<domains>
+				<domain>*</domain>
+			</domains>
+			<timeout>0</timeout>
+			<maxframesize>1048840</maxframesize>
+			<maxconnections>10000</maxconnections>
+			<onmaxconnections>reject</onmaxconnections>
+			<settings>
+				<setting key="workers">50</setting>
 				<setting key="writer_timeout">1000</setting>
 			</settings>		
 		</engine>

@@ -15,11 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 7/4/13
- * Time: 8:12 AM
- * To change this template use File | Settings | File Templates.
+ * Author: Tharindu Jayasuriya
  */
 public class UdpServer {
 

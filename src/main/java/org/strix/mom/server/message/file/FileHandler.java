@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA. User: SSC1 Date: 7/5/13 Time: 4:10 PM
+ * Author: Tharindu Jayasuriya
  */
 public class FileHandler {
 	private HashMap<String, FileEvent> fileEventHashMap = new HashMap<String, FileEvent>();

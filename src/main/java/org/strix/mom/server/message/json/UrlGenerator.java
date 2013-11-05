@@ -6,6 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Author: Tharindu Jayasuriya
+ */
 public class UrlGenerator {
 	
 	private static String DEFAULT_ENCODING_FOR_URL = "UTF-8";

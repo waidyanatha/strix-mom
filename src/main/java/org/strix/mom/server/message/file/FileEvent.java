@@ -2,6 +2,9 @@ package org.strix.mom.server.message.file;
 
 import java.io.Serializable;
 
+/**
+ * Author: Tharindu Jayasuriya
+ */
 public class FileEvent implements Serializable {
 
     public FileEvent() {

@@ -1,11 +1,7 @@
 package org.strix.mom.server.message.api;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 6/21/13
- * Time: 8:43 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Tharindu Jayasuriya
  */
 public interface Message {
     String getNs();

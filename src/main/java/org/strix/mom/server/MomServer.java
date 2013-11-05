@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 7/4/13
- * Time: 9:12 AM
+ * Author: Tharindu Jayasuriya
  */
 public class MomServer {
     private WebSocketTokenServer webSocketTokenServer;
@@ -26,7 +23,7 @@ public class MomServer {
     }
 
     private void initComponents() {
-    	System.out.println("INIT MOM SERVER8");
+    	System.out.println("INIT MOM SERVER9");
         webSocketTokenServer.init();
         for (UdpServer udpServer : udpServerList) {
             udpServer.setLoggingLevel(Level.OFF);

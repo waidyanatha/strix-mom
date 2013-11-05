@@ -3,11 +3,7 @@ package org.strix.mom.server.message.json;
 import org.strix.mom.server.message.api.Message;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 6/21/13
- * Time: 8:08 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Tharindu Jayasuriya
  */
 public class JsonMessage implements Message {
 

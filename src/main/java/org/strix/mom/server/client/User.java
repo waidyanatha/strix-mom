@@ -2,6 +2,9 @@ package org.strix.mom.server.client;
 
 import org.strix.mom.server.communication.impl.UdpServer.Type;
 
+/**
+ * Author: Tharindu Jayasuriya
+ */
 public class User {
 
 	public static enum UserType {

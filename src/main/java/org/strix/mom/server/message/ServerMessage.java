@@ -1,17 +1,14 @@
 package org.strix.mom.server.message;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 6/21/13
- * Time: 5:04 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Tharindu Jayasuriya
  */
 public class ServerMessage {
     private String requestData;
     private boolean sentReply;
     private String channel;
     private String responseData;
+    private boolean sendToSenderOnly;
 
     public String getRequestData() {
         return requestData;
@@ -44,4 +41,13 @@ public class ServerMessage {
     public void setResponseData(String responseData) {
         this.responseData = responseData;
     }
+
+	public boolean isSendToSenderOnly() {
+		return sendToSenderOnly;
+	}
+
+	public void setSendToSenderOnly(boolean sendToSenderOnly) {
+		this.sendToSenderOnly = sendToSenderOnly;
+	}
+    
 }

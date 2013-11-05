@@ -7,11 +7,7 @@ import org.strix.mom.server.message.ServerMessage;
 import java.util.Date;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 6/21/13
- * Time: 11:19 AM
- * To change this template use File | Settings | File Templates.
+ * Author: Tharindu Jayasuriya
  */
 public class ApplicationClient {
     public static final int STATUS_UP = 1;
@@ -26,6 +22,33 @@ public class ApplicationClient {
     private Date lastMessageReceived = null;
     private WebSocketConnector webSocketConnector = null;
     private MessageProcessor messageProcessor;
+    private String engineId = null;
+    private EngineType engineType = EngineType.ALL;
+    
+    /**
+     * <p>One of four possible types for the server to be in:</p>
+     * <p/>
+     * <ul>
+     * <li>ALL</li>
+     * <li>FILE</li>
+     * <li>AUDIO</li>
+     * <li>VIDEO</li>
+     * <li>BROADCAST</li>
+     * <li>API</li>
+     * </ul>
+     */
+    public static enum EngineType {
+    	ALL("ALL"), FILE("FILE"), AUDIO("AUDIO"), VIDEO("VIDEO"),BROADCAST("BROADCAST"),API("API");
+    	
+    	private String code;
+
+		private EngineType(String code) {
+			this.code = code;
+		}
+    	
+    	
+    	
+    };
 
     public ApplicationClient() {
         messageProcessor = new MessageProcessor();
@@ -102,8 +125,19 @@ public class ApplicationClient {
     public void setWebSocketConnector(WebSocketConnector webSocketConnector) {
         this.webSocketConnector = webSocketConnector;
     }
+    
 
-    @Override
+    public String getEngineId() {
+		return engineId;
+	}
+
+	public void setEngineId(String engineId) {
+		this.engineId = engineId;
+	}
+	
+	
+
+	/*@Override
     public String toString() {
         return "org.strix.mom.server.client.ApplicationClient{" +
                 "uid='" + uid + '\'' +
@@ -114,7 +148,26 @@ public class ApplicationClient {
                 ", remoteHostName='" + remoteHostName + '\'' +
                 ", remoteHostPort=" + remoteHostPort +
                 '}';
-    }
+    }*/
+	
+	public EngineType getEngineType() {
+		return engineType;
+	}
+
+	public void setEngineType(EngineType engineType) {
+		this.engineType = engineType;
+	}
+
+	@Override
+	public String toString() {
+		return "org.strix.mom.server.client.ApplicationClient{uid='" + uid + "', id='" + id + "', status="
+				+ status + ", isAlive=" + isAlive + ", userName='" + userName
+				+ "', remoteHostName='" + remoteHostName + "', remoteHostPort='"
+				+ remoteHostPort + "', lastMessageReceived='"
+				+ lastMessageReceived + "', webSocketConnector='"
+				+ webSocketConnector + "', messageProcessor=" + messageProcessor
+				+ ", engineId='" + engineId + "'}";
+	}
 
 
 }

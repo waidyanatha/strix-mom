@@ -9,11 +9,7 @@ import org.strix.mom.server.message.api.Message;
 import org.strix.mom.server.message.api.MessageHandler;
 
 /**
- * Created by IntelliJ IDEA.
- * User: SSC1
- * Date: 6/21/13
- * Time: 8:06 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Tharindu Jayasuriya
  */
 public class JsonMessageHandler implements MessageHandler {
     private static Gson gson = new Gson();

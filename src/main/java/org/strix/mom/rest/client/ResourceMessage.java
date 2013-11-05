@@ -1,5 +1,8 @@
 package org.strix.mom.rest.client;
 
+/**
+ * Author: Tharindu Jayasuriya
+ */
 public class ResourceMessage {
 	
 	public static final int TYPE_ADD_RESOURCE=1;

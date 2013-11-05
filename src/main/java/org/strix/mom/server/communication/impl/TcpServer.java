@@ -72,12 +72,7 @@ import java.util.logging.Logger;
  * <p><em>This <tt>TcpServer</tt> class was copied to this project from its source as 
  * found at <a href="http://iharder.net" target="_blank">iHarder.net</a>.</em></p>
  *
- * @author Robert Harder
- * @author rharder@users.sourceforge.net
- * @version 0.1
- * @see TcpServer
- * @see Event
- * @see Listener
+ * Author: Tharindu Jayasuriya
  */
 public class TcpServer {
     

@@ -15,9 +15,9 @@ CLASSPATH=$CLASSPATH:./lib/spring-beans-3.0.5.RELEASE.jar
 CLASSPATH=$CLASSPATH:./lib/spring-context-3.0.5.RELEASE.jar
 CLASSPATH=$CLASSPATH:./lib/spring-core-3.0.5.RELEASE.jar
 CLASSPATH=$CLASSPATH:./lib/spring-expression-3.0.5.RELEASE.jar
-CLASSPATH=$CLASSPATH:./server-1.0-SNAPSHOT.jar
+CLASSPATH=$CLASSPATH:./lib/server-1.0-SNAPSHOT.jar
 CLASSPATH=.:$CLASSPATH
 
-java -Xmx256m -cp $CLASSPATH  temp.FileSender
+java -Xmx256m -cp $CLASSPATH  org.strix.mom.server.MomServer
 
 echo ON

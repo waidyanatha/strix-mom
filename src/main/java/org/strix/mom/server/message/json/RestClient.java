@@ -13,6 +13,9 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * Author: Tharindu Jayasuriya
+ */
 public class RestClient {
 	private String resUrl = null;
 

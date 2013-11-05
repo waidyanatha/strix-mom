@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="properties">
+        <util:properties>
+            <prop key="outputLocation">/Applications/MAMP/htdocs/demo/out</prop>
+			<prop key="inputLocation">/Applications/MAMP/htdocs/demo/out</prop>
+			<prop key="resUrl">http://202.69.197.118:9763/library/api/api/resources.jag</prop>
+			<!-- <prop key="outputLocation">C:\wamp\www\demo\out</prop>
+			<prop key="inputLocation">E:\received</prop> -->
+        </util:properties>
+    </property>
+	</bean>
+
+
+</beans>

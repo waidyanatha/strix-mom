@@ -62,31 +62,7 @@ function callAPI() {
 				//    return;
 				break;
 			case 'add':
-				try {
-					user = require('../modules/user.js').current();
-					if(!user) {
-						error = true;
-						response.sendError(401, 'Unauthorized');
-						message = "Unauthorized";
-
-						return;
-					}
-					var tmpuser = require('../modules/user.js');
-					tmpuser.addRole(request.getHeader('rolename'));
-					message = "Role added successfully";
-				} catch (e) {
-					log.error(e);
-					error = true;
-					message = e.message;
-				}
-				print({
-					error : error,
-					message : message
-				});
-				//    return;
-				break;
-				
-							case 'adduser':
+			log.info('xxxxxxxxxxxxxxxxxx adding role');
 				try {
 					user = require('../modules/user.js').current();
 					if(!user) {
@@ -108,7 +84,62 @@ function callAPI() {
 					error : error,
 					message : message
 				});
+				//    return;
 				break;
+
+			case 'addRole':
+			try {
+				log.info('addRole for User');
+				user = require('../modules/user.js').current();
+				if(!user) {
+					error = true;
+					response.sendError(401, 'Unauthorized');
+					message = "Unauthorized";
+
+					return;
+				}
+				var tmpuser = require('../modules/user.js');
+				user.updateRoles(request.getHeader('username'),null,request.getHeader('rolename'));
+				message = "Role added for user successfully";
+			} catch (e) {
+				log.error(e);
+				error = true;
+				message = e.message;
+			}
+			print({
+				error : error,
+				message : message
+			});
+			break;
+		
+			case 'removeRole':
+			try {
+				log.info('removedUser');
+				user = require('../modules/user.js').current();
+				if(!user) {
+					error = true;
+					response.sendError(401, 'Unauthorized');
+					message = "Unauthorized";
+
+					return;
+				}
+				var tmpuser = require('../modules/user.js');
+				user.updateRoles(request.getHeader('username'), request.getHeader('rolename'), null);
+				message = "Role Removed for user successfully";
+			} catch (e) {
+				log.error(e);
+				error = true;
+				message = e.message;
+			}
+			print({
+				error : error,
+				message : message
+			});
+			break;
+
+
+
+
 			case 'exists':
 				try {
 					data = parse(request.getContent());

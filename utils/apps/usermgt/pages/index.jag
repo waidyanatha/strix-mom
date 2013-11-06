@@ -78,8 +78,9 @@ user.init(configs);
 						
 							<div id="listuser"><input type="text" id="username2" value=""/></div>
 							<p>
-								<input type="button" id="updateRole" value="Add User Role"  class="btn btn-primary" onclick="RoleMgt.logout();"/>
-								<input type="button" id="role" value="Update User Role"  class="btn btn-primary" onclick="RoleMgt.register();"/>
+								<input type="button" id="updateRole" value="Add User Role"  class="btn btn-primary" onclick="RoleMgt.addRole();"/>
+								<input type="button" id="role" value="Update User Role"  class="btn btn-primary" onclick="RoleMgt.addRole();"/>
+								<input type="button" id="roleremove" value="Remove User Role"  class="btn btn-primary" onclick="RoleMgt.removeRole();"/>
 							</p>
 						</div>
 					</div>

@@ -11,6 +11,28 @@ console.log(xhr.status);
 });
 }
 
+this.addRole = function() {
+RoleMgt.clear();
+var data = {"rolename":$('#listroletag').val(),"username":$('#listuserstag').val()};
+Util.makeJsonRequest("POST","../apis/role/addRole/",null,data,function(data,status, xhr) {
+RoleMgt.makeout(data);
+console.log(data);
+console.log(status);
+console.log(xhr.status);
+});
+}
+
+this.removeRole = function() {
+RoleMgt.clear();
+var data = {"rolename":$('#listroletag').val(),"username":$('#listuserstag').val()};
+Util.makeJsonRequest("POST","../apis/role/removeRole/",null,data,function(data,status, xhr) {
+RoleMgt.makeout(data);
+console.log(data);
+console.log(status);
+console.log(xhr.status);
+});
+}
+
 this.remove = function() {
 RoleMgt.clear();
 var data = {"rolename":$('#rolename1').val()};

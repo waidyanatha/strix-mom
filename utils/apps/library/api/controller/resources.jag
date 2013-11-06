@@ -20,6 +20,17 @@ function settabel() {
 	};
 }
 
+
+function deltabel() {
+	var db_qury = db_query_resources_del;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
 function addresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent) {
 	log.info("add resources");
 	if(resourcesName != null && resourcesGrade != null && resourcesCategory != null && resourcesActive != null && resourcesPath != null && resourcesFilename != null && resourcesAuthor != null && resourcesSize != null && resourcesExtra != null && resourcesDetails != null && resourcesContent != null ){
@@ -102,29 +113,6 @@ function getresources(resourcesId) {
 	}else {
 		return invokeError("Please enter resourcesId");
 	}
-}
-
-function getgrades() {
-	log.info("get grades ");
-	var db_qury = db_query_resources_getgrade();
-	log.info(db_qury);
-	var results = db.query(db_qury);
-	return {
-		"error" : false,
-		"results" : results
-	};
-	
-}
-function getcategory(resourcesGrade) {
-	log.info("get category ");
-	var db_qury = db_query_resources_getcategory(resourcesGrade);
-	log.info(db_qury);
-	var results = db.query(db_qury);
-	return {
-		"error" : false,
-		"results" : results
-	};
-	
 }
 
 function invokeError(msg) {

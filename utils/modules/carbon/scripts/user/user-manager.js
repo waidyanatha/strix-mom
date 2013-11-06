@@ -46,8 +46,18 @@
     };
 
     UserManager.prototype.roleExists = function (role) {
+    	log.info(role);
+    	log.info("roleExists");
         return this.manager.isExistingRole(role);
     };
+
+	UserManager.prototype.getRoleListOfUser = function(username) {
+		log.info(role);
+		log.info("getRoleListOfUser");
+		return this.manager.getRoleListOfUser(username);
+	};
+
+
 
     UserManager.prototype.getClaims = function (username, profile) {
         return this.manager.getUserClaimValues(username, profile);
@@ -72,6 +82,8 @@
     };
 
     UserManager.prototype.removeRole = function (role) {
+    	log.info(role);
+    	log.info("Removexx");
         this.manager.deleteRole(role);
     };
 

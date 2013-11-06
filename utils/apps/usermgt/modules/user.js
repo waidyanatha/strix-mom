@@ -120,6 +120,11 @@ var removeRole = function(rolename) {
 	var server = require('/modules/server.js');
 	return server.userManager().removeRole(role);
 };
+
+var getRoles = function(username) {	
+	var server = require('/modules/server.js');
+	return server.userManager().getRoleListOfUser(username);
+};
 var addRole = function(rolename) {
 	var user, role, id, perms, r, p, server = require('/modules/server.js'), um = server.userManager(), opts = options();
 	user = um.getUser("admin");

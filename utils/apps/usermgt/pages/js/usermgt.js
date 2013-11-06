@@ -8,6 +8,14 @@ UserMgt.makeout(html);
 });
 }
 
+this.getRolesCurrentUser = function() {
+UserMgt.clear();
+var data = {"username":$('#username').val()};
+Util.makeJsonRequest("POST","../apis/user/getRoles/",null,data,function(html) {
+UserMgt.makeout(html);
+});
+}
+
 this.logout = function() {
 UserMgt.clear();
 Util.makeJsonRequest("GET","../apis/user/logout/",null,null,function(html) {

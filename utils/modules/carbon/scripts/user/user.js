@@ -48,6 +48,7 @@ var user = {};
     };
 
     User.prototype.addRoles = function (roles) {
+    
         return this.um.manager.updateRoleListOfUser(this.username, [], roles);
     };
 
@@ -55,8 +56,13 @@ var user = {};
         return this.um.manager.updateRoleListOfUser(this.username, roles, []);
     };
 
-    User.prototype.updateRoles = function (remove, add) {
-        return this.um.manager.updateRoleListOfUser(this.username, remove, add);
+    User.prototype.updateRoles = function (username,remove, add) {
+    	if(remove != null && add != null){
+        return this.um.manager.updateRoleListOfUser(username, [remove], [add]);}
+        if(remove != null ){
+        return this.um.manager.updateRoleListOfUser(username, [remove], add);}
+        if(add != null){
+        return this.um.manager.updateRoleListOfUser(username, remove, [add]);}
     };
 
     User.prototype.isAuthorized = function (permission, action) {

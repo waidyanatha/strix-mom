@@ -149,6 +149,29 @@ function callAPI() {
 				});
 
 				break;
+				
+			case 'getRoles':
+			try {
+				username = request.getHeader('username')
+				data = user.getRoles(username);
+				message = "list of Rolse of current Users";
+			} catch(e) {
+				log.error(e);
+				error = true;
+				message = e.message;
+			}
+			print({
+				error : error,
+				exists : exists,
+				message : message,
+				data : {
+					userlist : data
+				}
+			});
+
+			break;
+
+
 
 		}
 

@@ -19,7 +19,6 @@ user.init(configs);
 		<script src="./js/mustache.js"></script>
 		<script src="./js/usermgt.js"></script>
 		<script src="./js/rolemgt.js"></script>
-		<script src="./js/permmgt.js"></script>
 		<script src="./js/bootstrap.min.js"></script>
 		<link href="./css/bootstrap.css" rel="stylesheet">
 	</head>
@@ -41,6 +40,7 @@ user.init(configs);
 							<p>
 								<input type="button" id="login" value="Login" class="btn btn-primary" onclick="UserMgt.login();"/>
 								<input type="button" id="logout" value="Logout" class="btn btn-primary"  onclick="UserMgt.logout();"/>
+								<input type="button" id="getRoles" value="getRoles" class="btn btn-primary" onclick="UserMgt.getRolesCurrentUser();"/>
 								<h4>Add New Student</h4>
 							StudentName :
 							<input type="text" id="susername" value="admin"/>
@@ -78,7 +78,8 @@ user.init(configs);
 						
 							<div id="listuser"><input type="text" id="username2" value=""/></div>
 							<p>
-								<input type="button" id="updateRole" value="Add User Role"  class="btn btn-primary" onclick="RoleMgt.addUserRole();"/>
+								<input type="button" id="updateRole" value="Add User Role"  class="btn btn-primary" onclick="RoleMgt.logout();"/>
+								<input type="button" id="role" value="Update User Role"  class="btn btn-primary" onclick="RoleMgt.register();"/>
 							</p>
 						</div>
 					</div>
@@ -91,15 +92,15 @@ user.init(configs);
 						<div class="accordion-inner">
 							<!-- Permision UI --->
 							<h4>Permissions</h4>
-							<div id="plistrole"><input type="text" id="rolename2" value=""/></div>
-							<div id="plistgra"><input type="text" id="grtext" value=""/></div>
-							
+							Role Name :
+							<input type="text" id="rolename" value=""/>
+							Permissions Name :
+							<input type="text" id="permissionname" value=""/>
 							<p>
-								<input type="button" id="addPerm" value="Add Permission"  class="btn btn-primary" onclick="PermMgt.add();"/>							
-							</p>
-							<div id="plistperm"><input type="text" id="permtest" value=""/></div>
-							<p>
-								<input type="button" id="removePerm" value="remove Permission"  class="btn btn-primary" onclick="PermMgt.remove();"/>						
+								<input type="button" id="addRole" value="Add Permission"  class="btn btn-primary" onclick="UserMgt.login();"/>
+								<input type="button" id="updateRole" value="Update Permission"  class="btn btn-primary" onclick="UserMgt.logout();"/>
+								<input type="button" id="role" value="Roles for User"  class="btn btn-primary" onclick="UserMgt.register();"/>
+								<input type="button" id="deletRole" value="Remove Role"  class="btn btn-primary" onclick="UserMgt.signup();"/>
 							</p>
 						</div>
 					</div>
@@ -117,11 +118,6 @@ user.init(configs);
 	<script language='javascript'>
 		RoleMgt.listUsers();
 		RoleMgt.listRoles();
-		PermMgt.listRoles();
-		PermMgt.listGrade();
-		PermMgt.listPerm();
-		
-		
 
 </script>
 </html>

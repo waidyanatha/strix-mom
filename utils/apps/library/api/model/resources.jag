@@ -1,6 +1,7 @@
 <%
 var db_query_resources_view = "SELECT * FROM  `resources` LIMIT 0 , 30"
 var db_query_resources_create = "CREATE TABLE  `resources` (`resources_id` INT NOT NULL AUTO_INCREMENT, `resources_name` VARCHAR( 120 ) NOT NULL, `resources_grade` VARCHAR( 120 ) NOT NULL, `resources_category` VARCHAR( 120 ) NOT NULL, `resources_active` BOOL NOT NULL DEFAULT  '1', `resources_path` VARCHAR( 120 ) NOT NULL, `resources_filename` VARCHAR( 120 ) NOT NULL, `resources_author` VARCHAR( 120 ) NOT NULL, `resources_size` VARCHAR( 120 ) NOT NULL, `resources_extra` VARCHAR( 120 ) NOT NULL, `resources_details` VARCHAR( 120 ) NOT NULL, `resources_content` VARCHAR( 120 ) NOT NULL,`resources_create_time` TIMESTAMP NOT NULL ,`resources_modified_time` TIMESTAMP NOT NULL ,PRIMARY KEY (  `resources_id` ))";
+var db_query_resources_del = "DROP TABLE STRIX";  
 
 function db_query_resources_delet(resources_id) {
 var outStr = "DELETE FROM `resources` WHERE `resources_id` = " + resources_id + " LIMIT 1";
@@ -9,16 +10,6 @@ return outStr;
 
 function db_query_resources_get(resources_id) {
 var outStr = "SELECT *  FROM `resources` WHERE `resources_id` = " + resources_id + " LIMIT 1";
-return outStr;
-}
-
-function db_query_resources_getgrade() {
-var outStr = "SELECT DISTINCT `resources_grade`  FROM `resources` WHERE  `resources_grade` NOT LIKE  '' ORDER BY  `resources`.`resources_grade` ASC LIMIT 15";
-return outStr;
-}
-
-function db_query_resources_getcategory(resourcesGrade) {
-var outStr = "SELECT DISTINCT `resources_category`  FROM `resources` WHERE `resources_grade` LIKE  '"+resourcesGrade+"' AND `resources_category` NOT LIKE  '' ORDER BY  `resources`.`resources_category` ASC LIMIT 15";
 return outStr;
 }
 

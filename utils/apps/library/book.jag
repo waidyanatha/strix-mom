@@ -76,7 +76,7 @@ include('/includes/sidebar.jag');
    <p>Resource ::{{resources_name}}</p>
     <p>Resources Grade ::{{resources_grade}}</p>
      <p>Resources category ::{{resources_category}}</p>
-  <button type="button" class="btn btn-primary">Download</button>
+  <button type="button" class="btn btn-primary" onclick="location.href='http://202.69.197.118:9763/library/resources/Books/Unknow/{{resources_name}}';">Download</button>
   </div>
   <div class="col-md-3 col-md-pull-9">
   <div class="thumbnail">

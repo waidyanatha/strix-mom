@@ -1,6 +1,10 @@
 <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+<div class="well sidebar-nav">
+<iframe src="http://202.69.197.118:9763/library/jwebsoc/filestreams.htm" width="100%" height="200" scrolling="no"></iframe>
+			</div>		
 					<div class="well sidebar-nav">
 						<ul class="nav">
+						
 							<li>
 								Add Sidebar 1
 							</li>

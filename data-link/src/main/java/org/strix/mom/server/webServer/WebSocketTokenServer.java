@@ -32,6 +32,7 @@ import java.net.DatagramPacket;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+import org.springframework.security.crypto.codec.Base64;
 
 /**
  * Author: Tharindu Jayasuriya
@@ -211,10 +212,8 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             	streamRecevied("streamReceived","stream",evt.getPacketAsBytes());
                 break;
             case TEXT:
-            	fileHandler.processFrame(evt);
                 break;
             case COMMANDS:
-            	fileHandler.processFrame(evt);
                 break;
             default:
                 break;
@@ -258,7 +257,12 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 			message.setNs("org.jwebsocket.plugins.system");
             message.setAction("streamReceived");
             message.setType("broadcast");
+            String stringToStore = Base64.encode(messageData).toString();
+            byte[] restoredBytes = Base64.decode(stringToStore.getBytes());
+            //message.setDataStream(messageData);
             message.setDataStream(messageData);
+            message.setData(stringToStore);
+            System.out.println("STREAM ENCODED"+stringToStore);
             sendPacket(messageProcessor.getMessageHandler().getMessage(message));
         }
 		

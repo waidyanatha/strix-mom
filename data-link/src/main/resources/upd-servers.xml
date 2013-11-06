@@ -9,7 +9,7 @@
                 <!-- <ref bean="udpServer1"/>
                 <ref bean="udpServer2"/> -->
                 <ref bean="udpServer3"/>
-                <!-- <ref bean="udpServer4"/> -->
+                <ref bean="udpServer4"/>
             </list>
         </constructor-arg>
     </bean>

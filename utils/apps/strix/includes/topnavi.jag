@@ -25,20 +25,41 @@ user.init(configs);
 							<a href=".">Home</a>
 						</li>
 						<li>
-                            <a href=".">Class</a>
+                            <a href="./classroom.jag">Class</a>
                         </li>
                         <li>
                             <a href="./libIndex.jag">Library</a>
                         </li>
                         <li>
+                        <% var userRolesList = session.get('LoggedInUserRoles'), userAdmin=false;
+                        if(userRolesList != null){
+                        for (var i=0; i<userRolesList.length;i++){
+                            if (userRolesList[i]=='admin' ||userRolesList[i] == 'teachers' )
+                            {
+                                userAdmin=true;
+                            }else if(userRolesList[i] != 'Internal/everyone' && userRolesList[i] != 'schoolMember')
+                            {
+                                log.info("student role for UI.. adding");%>
+                                 <a href="#<% print(userRolesList[i]); %>">
+                                 <% print(userRolesList[i]); %>
+                                 </a>
+                                 <%
+                            }
+                        }
+                        }
+                        if (userAdmin){
+                            %>
                             <a href="#office">Office</a>
                         </li>
+                        <%}%>
 						<li>
 							<a href="#help">Help</a>
 						</li>	
+						<% if (session.get('LoggedInUser') != null){%>
 						<li>
-                            <a class="forkme" onclick="UserMgt.logout();">Logout <% print(session.get('LoggedInUser'));%></a>
-                        </li>				
+                            <a class="logoutButton" onclick="UserMgt.logout();">Logout [<% print(session.get('LoggedInUser'));%>]</a>
+                        </li>
+                        <% }%>				
 					</ul>
 					
 				</div><!-- /.nav-collapse -->

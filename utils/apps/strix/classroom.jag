@@ -3,6 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -14,11 +16,52 @@ include('/includes/loginCheck.jag');
 %>
    <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/offcanvas.css" rel="stylesheet">
+        
+<link href="skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css" />
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script src="../../assets/js/html5shiv.js"></script>
         <script src="../../assets/js/respond.min.js"></script>
+
         <![endif]-->
+                <script src="js/assets/js/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript" src="./js/jquery.jplayer.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+//http://192.168.56.1:9763/jwebsoc/streams.htm
+//http://listen.radionomy.com/abc-jazz
+//http://202.69.197.118:8900/satellite_restream.mp3
+    var stream = {
+        title: "ABC Jazz",
+        mp3: "http://listen.radionomy.com/abc-jazz"
+    },
+    ready = false;
+
+    $("#jquery_jplayer_1").jPlayer({
+        ready: function (event) {
+            ready = true;
+            $(this).jPlayer("setMedia", stream);
+        },
+        pause: function() {
+            $(this).jPlayer("clearMedia");
+        },
+        error: function(event) {
+            if(ready && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
+                // Setup the media stream again and play it.
+                $(this).jPlayer("setMedia", stream).jPlayer("play");
+            }
+        },
+        swfPath: "js",
+        supplied: "mp3",
+        preload: "none",
+        wmode: "window",
+        keyEnabled: true
+    });
+
+});
+//]]>
+</script>
     </head>
     <body>
 <%
@@ -38,43 +81,44 @@ include('/includes/topnavi.jag');
                     %>
 
                     <div class="row" id="row">
-                     <a href="./libIndex.jag">
-                            <div class="col-sm-4 col-md-6"><center>
-                            <div class="thumbnail">
-                                <img alt="..." src="img\stream.png" height="200px">
-                                 
-                                <div class="caption">
-                                    
-                                    <p>
-                                         <a href="#" class="btn btn-default">Go To Class Room</a>
-                                    </p>
-                                </div>
-                                 
-                            </div>
-                        </center></div><!--/span--></a>
-                         <a href="./libIndex.jag">
-                            <div class="col-sm-6 col-md-6">
-                            <center>
-                            <div class="thumbnail">
-                                <img alt="..." src="img\files.png" height="200px">
-                               
-                                <div class="caption">
-                                    
-                                    <p>
-                                        <a href="./libIndex.jag" class="btn btn-default">Visit Library</a>
-                                    </p>
-                                </div>
-                               
-                            </div>
-                             </center>
+                   
+                            <div class="col-sm-4 col-md-3">
+                            <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+
+        <div id="jp_container_1" class="jp-audio-stream">
+            <div class="jp-type-single">
+                <div class="jp-gui jp-interface">
+                    <ul class="jp-controls">
+                        <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+                        <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+                        <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+                        <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+                        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+                    </ul>
+                    <div class="jp-volume-bar">
+                        <div class="jp-volume-bar-value"></div>
+                    </div>
+                </div>
+                <div class="jp-title">
+                    <ul>
+                        <li>Stream..</li>
+                    </ul>
+                </div>
+                <div class="jp-no-solution">
+                    <span>Update Required</span>
+                    To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                </div>
+            </div>
+        </div>
+                        
                         </div></a><!--/span-->
                   
                     </div><!--/row-->
                 </div><!--/span-->
                 
                 <%
-include('/includes/sidebar.jag');
-%>
+                    include('/includes/sidebar.jag');
+                %>
 
             </div><!--/row-->
             <hr>
@@ -87,7 +131,6 @@ include('/includes/sidebar.jag');
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="js/assets/js/jquery.js"></script>
         <script src="js/bootstrap.js"></script>
         <script src="js/offcanvas.js"></script>
         <script src="js/mustache.js"></script>

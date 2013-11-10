@@ -38,22 +38,31 @@ include('/includes/topnavi.jag');
                     %>
 
                     <div class="row" id="row">
-                     <a href="./libIndex.jag">
-                            <div class="col-sm-4 col-md-6"><center>
+                    
+                            
+                         
+                         
+                           <div class="col-sm-6 col-md-6">
+                            <a href="./classroom.jag">
+                            <center>
                             <div class="thumbnail">
                                 <img alt="..." src="img\stream.png" height="200px">
-                                 
+                               
                                 <div class="caption">
                                     
                                     <p>
-                                         <a href="#" class="btn btn-default">Go To Class Room</a>
+                                        <a href="./classroom.jag" class="btn btn-default">Visit Library</a>
                                     </p>
                                 </div>
-                                 
+                               
                             </div>
-                        </center></div><!--/span--></a>
-                         <a href="./libIndex.jag">
+                             </center>
+                        </div><!--/span-->
+                        
+                        
+                        
                             <div class="col-sm-6 col-md-6">
+                            <a href="./libIndex.jag">
                             <center>
                             <div class="thumbnail">
                                 <img alt="..." src="img\files.png" height="200px">
@@ -67,14 +76,14 @@ include('/includes/topnavi.jag');
                                
                             </div>
                              </center>
-                        </div></a><!--/span-->
+                        </div><!--/span-->
                   
                     </div><!--/row-->
                 </div><!--/span-->
                 
                 <%
-include('/includes/sidebar.jag');
-%>
+                    include('/includes/sidebar.jag');
+                %>
 
             </div><!--/row-->
             <hr>

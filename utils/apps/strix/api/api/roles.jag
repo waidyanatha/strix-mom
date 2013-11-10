@@ -1,0 +1,37 @@
+<%
+
+include("../model/dbinit.jag");
+include("../model/roles.jag");
+include("../controller/roles.jag");
+
+ var action = request.getParameter('action');
+ var rolesId = request.getParameter('rolesId');
+ var rolesName = request.getParameter('rolesName');
+ var rolesOut = request.getParameter('rolesOut');
+ var rolesExtNo = request.getParameter('rolesExtNo');
+ var rolesExt = request.getParameter('rolesExt');
+
+switch(action) {
+case "listroles":
+		print(listroles());
+		break;
+	case "addroles":
+		print(addroles(rolesName, rolesOut, rolesExtNo, rolesExt));
+		break;
+	case "updateroles":
+		print(updateroles(rolesId,rolesName, rolesOut, rolesExtNo, rolesExt));
+		break;
+	case "deletroles":
+		print(deletroles(rolesId));
+		break;
+	case "getroles":
+		print(getroles(rolesId));
+		break;
+	case "settabel":
+		print(settabel());
+		break;
+	default:
+		print(invokeError("roles action not define"));
+}
+
+%>

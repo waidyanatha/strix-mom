@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>MadhukaTestAPI-roles</title>
+</head>
+<body>
+<h1>RolesAPI</h1>
+<a href="api/roles.jag?action=settabel">SetTableRoles</a><br>
+<a href="api/roles.jag?action=addroles&rolesName=testString&rolesOut=1&rolesExtNo=18&rolesExt=testString&">AddRoles</a><br>
+<a href="api/roles.jag?action=listroles">ListRoles</a><br>
+<a href="api/roles.jag?action=updateroles&rolesId=1&&rolesName=testString&rolesOut=1&rolesExtNo=18&rolesExt=testString&">UpdateRoles</a><br>
+<a href="api/roles.jag?action=getroles&rolesId=1&">GetRoles</a><br>
+<a href="api/roles.jag?action=deletroles&rolesId=1&">DeletRoles</a><br>
+<body>
+</html>

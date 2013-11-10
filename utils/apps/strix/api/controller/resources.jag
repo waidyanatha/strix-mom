@@ -1,0 +1,126 @@
+<%
+
+function listresources() {
+	var db_qury = db_query_resources_view;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function settabel() {
+	var db_qury = db_query_resources_create;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+
+function deltabel() {
+	var db_qury = db_query_resources_del;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function addresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent) {
+	log.info("add resources");
+	if(resourcesName != null && resourcesGrade != null && resourcesCategory != null && resourcesActive != null && resourcesPath != null && resourcesFilename != null && resourcesAuthor != null && resourcesSize != null && resourcesExtra != null && resourcesDetails != null && resourcesContent != null ){
+	var db_qury = db_query_resources_add(null ,resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent");
+	}
+}
+
+function addminiresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent) {
+	log.info("add mini resources");
+	var resourcesName="", resourcesGrade="", resourcesCategory="", resourcesActive=1, resourcesPath="", resourcesFilename="", resourcesAuthor="", resourcesSize="", resourcesExtra="", resourcesDetails="", resourcesContent="";
+	resourcesName = this.resourcesName;
+	resourcesGrade = this.resourcesGrade;
+	resourcesCategory = this.resourcesCategory;
+	resourcesActive = this.resourcesActive;
+	resourcesPath = this.resourcesPath;
+	resourcesFilename = this.resourcesFilename;
+	resourcesAuthor = this.resourcesAuthor;
+	resourcesSize = this.resourcesSize;
+	resourcesExtra = this.resourcesExtra;
+	resourcesDetails = this.resourcesDetails;
+	resourcesContent = this.resourcesContent;
+	var db_qury = db_query_resources_add(null ,resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}
+
+
+function updateresources(resourcesId,resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent) {
+	log.info("update resources");
+	if(resourcesId != null  && resourcesName != null && resourcesGrade != null && resourcesCategory != null && resourcesActive != null && resourcesPath != null && resourcesFilename != null && resourcesAuthor != null && resourcesSize != null && resourcesExtra != null && resourcesDetails != null && resourcesContent != null ){
+	var db_qury = db_query_resources_update(resourcesId ,resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter resourcesId, resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent");
+	}
+}
+
+function deletresources(resourcesId) {
+	log.info("delet resources ");
+	if(resourcesId != null ){
+	var db_qury = db_query_resources_delet(resourcesId);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter resourcesId");
+	}
+}
+
+function getresources(resourcesId) {
+	log.info("get resources ");
+	if(resourcesId != null ){
+	var db_qury = db_query_resources_get(resourcesId);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter resourcesId");
+	}
+}
+
+function invokeError(msg) {
+	log.info(msg);
+	return {
+		"error" : true,
+		"errorMsg" : msg
+	};
+}
+
+%>

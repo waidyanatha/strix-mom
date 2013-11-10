@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="js/assets/ico/favicon.png">
+
+    <title>Strix Class</title>
+<% 
+include('/includes/loginCheck.jag');
+%>
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/offcanvas.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="../../assets/js/html5shiv.js"></script>
+        <script src="../../assets/js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+<%
+include('/includes/topnavi.jag');
+%>
+        <div class="container">
+            <div class="row row-offcanvas row-offcanvas-right">
+                <div class="col-xs-12 col-sm-9">
+                    <p class="pull-right visible-xs">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                            Toggle nav
+                        </button>
+                    </p>
+
+                    <%
+                        include('/includes/banner.jag');
+                    %>
+
+                    <div class="row" id="row">
+                     <a href="./libIndex.jag">
+                            <div class="col-sm-4 col-md-6"><center>
+                            <div class="thumbnail">
+                                <img alt="..." src="img\stream.png" height="200px">
+                                 
+                                <div class="caption">
+                                    
+                                    <p>
+                                         <a href="#" class="btn btn-default">Go To Class Room</a>
+                                    </p>
+                                </div>
+                                 
+                            </div>
+                        </center></div><!--/span--></a>
+                         <a href="./libIndex.jag">
+                            <div class="col-sm-6 col-md-6">
+                            <center>
+                            <div class="thumbnail">
+                                <img alt="..." src="img\files.png" height="200px">
+                               
+                                <div class="caption">
+                                    
+                                    <p>
+                                        <a href="./libIndex.jag" class="btn btn-default">Visit Library</a>
+                                    </p>
+                                </div>
+                               
+                            </div>
+                             </center>
+                        </div></a><!--/span-->
+                  
+                    </div><!--/row-->
+                </div><!--/span-->
+                
+                <%
+include('/includes/sidebar.jag');
+%>
+
+            </div><!--/row-->
+            <hr>
+            <footer>
+                <p>
+                   Powered by Spoton - STRIX
+                </p>
+            </footer>
+        </div><!--/.container-->
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="js/assets/js/jquery.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/offcanvas.js"></script>
+        <script src="js/mustache.js"></script>
+        <script src="./js/util.js"></script>
+        <script src="./js/usermgt.js"></script>
+      
+
+        
+    </body>
+</html>

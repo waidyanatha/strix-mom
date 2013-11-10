@@ -1,0 +1,91 @@
+<%
+
+function listroles() {
+	var db_qury = db_query_roles_view;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function settabel() {
+	var db_qury = db_query_roles_create;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function addroles(rolesName, rolesOut, rolesExtNo, rolesExt) {
+	log.info("add roles");
+	if(rolesName != null && rolesOut != null && rolesExtNo != null && rolesExt != null ){
+	var db_qury = db_query_roles_add(null ,rolesName, rolesOut, rolesExtNo, rolesExt);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter rolesName, rolesOut, rolesExtNo, rolesExt");
+	}
+}
+
+function updateroles(rolesId,rolesName, rolesOut, rolesExtNo, rolesExt) {
+	log.info("update roles");
+	if(rolesId != null  && rolesName != null && rolesOut != null && rolesExtNo != null && rolesExt != null ){
+	var db_qury = db_query_roles_update(rolesId ,rolesName, rolesOut, rolesExtNo, rolesExt);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter rolesId, rolesName, rolesOut, rolesExtNo, rolesExt");
+	}
+}
+
+function deletroles(rolesId) {
+	log.info("delet roles ");
+	if(rolesId != null ){
+	var db_qury = db_query_roles_delet(rolesId);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter rolesId");
+	}
+}
+
+function getroles(rolesId) {
+	log.info("get roles ");
+	if(rolesId != null ){
+	var db_qury = db_query_roles_get(rolesId);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter rolesId");
+	}
+}
+
+function invokeError(msg) {
+	log.info(msg);
+	return {
+		"error" : true,
+		"errorMsg" : msg
+	};
+}
+
+%>

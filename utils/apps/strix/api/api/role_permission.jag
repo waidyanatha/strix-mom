@@ -1,0 +1,36 @@
+<%
+
+include("../model/dbinit.jag");
+include("../model/role_permission.jag");
+include("../controller/role_permission.jag");
+
+ var action = request.getParameter('action');
+ var role_permissionId = request.getParameter('role_permissionId');
+ var role_permissionOut = request.getParameter('role_permissionOut');
+ var role_permissionRole = request.getParameter('role_permissionRole');
+ var role_permissionPermission = request.getParameter('role_permissionPermission');
+
+switch(action) {
+case "listrole_permission":
+		print(listrole_permission());
+		break;
+	case "addrole_permission":
+		print(addrole_permission(role_permissionOut, role_permissionRole, role_permissionPermission));
+		break;
+	case "updaterole_permission":
+		print(updaterole_permission(role_permissionId,role_permissionOut, role_permissionRole, role_permissionPermission));
+		break;
+	case "deletrole_permission":
+		print(deletrole_permission(role_permissionId));
+		break;
+	case "getrole_permission":
+		print(getrole_permission(role_permissionId));
+		break;
+	case "settabel":
+		print(settabel());
+		break;
+	default:
+		print(invokeError("role_permission action not define"));
+}
+
+%>

@@ -1,0 +1,24 @@
+<%
+var db_query_role_permission_view = "SELECT * FROM  `role_permission` LIMIT 0 , 30"
+var db_query_role_permission_create = "CREATE TABLE  `role_permission` (`role_permission_id` INT NOT NULL AUTO_INCREMENT, `role_permission_out` BOOL NOT NULL DEFAULT  '1', `role_permission_role` INT NOT NULL, `role_permission_permission` INT NOT NULL,`role_permission_create_time` TIMESTAMP NOT NULL ,`role_permission_modified_time` TIMESTAMP NOT NULL ,PRIMARY KEY (  `role_permission_id` ))";
+
+function db_query_role_permission_delet(role_permission_id) {
+var outStr = "DELETE FROM `role_permission` WHERE `role_permission_id` = " + role_permission_id + " LIMIT 1";
+return outStr;
+}
+
+function db_query_role_permission_get(role_permission_id) {
+var outStr = "SELECT *  FROM `role_permission` WHERE `role_permission_id` = " + role_permission_id + " LIMIT 1";
+return outStr;
+}
+
+function db_query_role_permission_add(role_permission_id,role_permission_out,role_permission_role,role_permission_permission) {
+var outStr = "INSERT INTO  `role_permission` (`role_permission_id`, `role_permission_out`, `role_permission_role`, `role_permission_permission`,`role_permission_create_time` ,`role_permission_modified_time`)VALUES ("+role_permission_id+",'"+role_permission_out+"','"+role_permission_role+"','"+role_permission_permission+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
+return outStr;
+}
+
+function db_query_role_permission_update(role_permission_id,role_permission_out,role_permission_role,role_permission_permission) {
+var outStr = "UPDATE  `role_permission` SET  `role_permission_out` =  '"+role_permission_out+"',`role_permission_role` =  '"+role_permission_role+"',`role_permission_permission` =  '"+role_permission_permission+"',`role_permission_modified_time` = CURRENT_TIMESTAMP WHERE  `role_permission_id` =" + role_permission_id + " LIMIT 1 ;";
+return outStr;
+}
+%>

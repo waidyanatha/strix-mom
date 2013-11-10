@@ -1,0 +1,24 @@
+<%
+var db_query_roles_view = "SELECT * FROM  `roles` LIMIT 0 , 30"
+var db_query_roles_create = "CREATE TABLE  `roles` (`roles_id` INT NOT NULL AUTO_INCREMENT, `roles_name` VARCHAR( 120 ) NOT NULL, `roles_out` BOOL NOT NULL DEFAULT  '1', `roles_extNo` INT NOT NULL, `roles_ext` VARCHAR( 120 ) NOT NULL,`roles_create_time` TIMESTAMP NOT NULL ,`roles_modified_time` TIMESTAMP NOT NULL ,PRIMARY KEY (  `roles_id` ))";
+
+function db_query_roles_delet(roles_id) {
+var outStr = "DELETE FROM `roles` WHERE `roles_id` = " + roles_id + " LIMIT 1";
+return outStr;
+}
+
+function db_query_roles_get(roles_id) {
+var outStr = "SELECT *  FROM `roles` WHERE `roles_id` = " + roles_id + " LIMIT 1";
+return outStr;
+}
+
+function db_query_roles_add(roles_id,roles_name,roles_out,roles_extNo,roles_ext) {
+var outStr = "INSERT INTO  `roles` (`roles_id`, `roles_name`, `roles_out`, `roles_extNo`, `roles_ext`,`roles_create_time` ,`roles_modified_time`)VALUES ("+roles_id+",'"+roles_name+"','"+roles_out+"','"+roles_extNo+"','"+roles_ext+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
+return outStr;
+}
+
+function db_query_roles_update(roles_id,roles_name,roles_out,roles_extNo,roles_ext) {
+var outStr = "UPDATE  `roles` SET  `roles_name` =  '"+roles_name+"',`roles_out` =  '"+roles_out+"',`roles_extNo` =  '"+roles_extNo+"',`roles_ext` =  '"+roles_ext+"',`roles_modified_time` = CURRENT_TIMESTAMP WHERE  `roles_id` =" + roles_id + " LIMIT 1 ;";
+return outStr;
+}
+%>

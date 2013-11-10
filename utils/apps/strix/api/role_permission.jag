@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>MadhukaTestAPI-role_permission</title>
+</head>
+<body>
+<h1>Role_permissionAPI</h1>
+<a href="api/role_permission.jag?action=settabel">SetTableRole_permission</a><br>
+<a href="api/role_permission.jag?action=addrole_permission&role_permissionOut=1&role_permissionRole=18&role_permissionPermission=18&">AddRole_permission</a><br>
+<a href="api/role_permission.jag?action=listrole_permission">ListRole_permission</a><br>
+<a href="api/role_permission.jag?action=updaterole_permission&role_permissionId=1&&role_permissionOut=1&role_permissionRole=18&role_permissionPermission=18&">UpdateRole_permission</a><br>
+<a href="api/role_permission.jag?action=getrole_permission&role_permissionId=1&">GetRole_permission</a><br>
+<a href="api/role_permission.jag?action=deletrole_permission&role_permissionId=1&">DeletRole_permission</a><br>
+<body>
+</html>

@@ -1,0 +1,15 @@
+<html>
+<head>
+<title>MadhukaTestAPI-permissions</title>
+</head>
+<body>
+<h1>PermissionsAPI</h1>
+<a href="api/permissions.jag?action=settabel">SetTablePermissions</a><br>
+<a href="api/permissions.jag?action=addpermissions&permissionsName=testString&permissionsDetails=testString&permissionsEdit=18&permissionsAdd=18&permissionsView=1&permissionsRemove=18&permissionsOut=1&permissionsGrade=testString&permissionsExtra=18&permissionsExt=testString&">AddPermissions</a><br>
+<a href="api/permissions.jag?action=listpermissions">ListPermissions</a><br>
+<a href="api/permissions.jag?action=listrolepermissions&rolename=testString">listRolePermissions</a><br>
+<a href="api/permissions.jag?action=updatepermissions&permissionsId=1&&permissionsName=testString&permissionsDetails=testString&permissionsEdit=18&permissionsAdd=18&permissionsView=1&permissionsRemove=18&permissionsOut=1&permissionsGrade=testString&permissionsExtra=18&permissionsExt=testString&">UpdatePermissions</a><br>
+<a href="api/permissions.jag?action=getpermissions&permissionsId=1&">GetPermissions</a><br>
+<a href="api/permissions.jag?action=deletpermissions&permissionsId=1&">DeletPermissions</a><br>
+<body>
+</html>

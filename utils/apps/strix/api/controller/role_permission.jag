@@ -1,0 +1,91 @@
+<%
+
+function listrole_permission() {
+	var db_qury = db_query_role_permission_view;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function settabel() {
+	var db_qury = db_query_role_permission_create;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function addrole_permission(role_permissionOut, role_permissionRole, role_permissionPermission) {
+	log.info("add role_permission");
+	if(role_permissionOut != null && role_permissionRole != null && role_permissionPermission != null ){
+	var db_qury = db_query_role_permission_add(null ,role_permissionOut, role_permissionRole, role_permissionPermission);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter role_permissionOut, role_permissionRole, role_permissionPermission");
+	}
+}
+
+function updaterole_permission(role_permissionId,role_permissionOut, role_permissionRole, role_permissionPermission) {
+	log.info("update role_permission");
+	if(role_permissionId != null  && role_permissionOut != null && role_permissionRole != null && role_permissionPermission != null ){
+	var db_qury = db_query_role_permission_update(role_permissionId ,role_permissionOut, role_permissionRole, role_permissionPermission);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter role_permissionId, role_permissionOut, role_permissionRole, role_permissionPermission");
+	}
+}
+
+function deletrole_permission(role_permissionId) {
+	log.info("delet role_permission ");
+	if(role_permissionId != null ){
+	var db_qury = db_query_role_permission_delet(role_permissionId);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter role_permissionId");
+	}
+}
+
+function getrole_permission(role_permissionId) {
+	log.info("get role_permission ");
+	if(role_permissionId != null ){
+	var db_qury = db_query_role_permission_get(role_permissionId);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter role_permissionId");
+	}
+}
+
+function invokeError(msg) {
+	log.info(msg);
+	return {
+		"error" : true,
+		"errorMsg" : msg
+	};
+}
+
+%>

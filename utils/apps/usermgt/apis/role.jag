@@ -1,5 +1,5 @@
 <%
-
+include("dbinit.jag");
 var action, data, message, exists, error = false, log = new Log(), user = require('../modules/user.js'), matcher = new URIMatcher(request.getRequestURI());
 callAPI();
 function callAPI() {
@@ -73,7 +73,10 @@ function callAPI() {
 						return;
 					}
 					var tmpuser = require('../modules/user.js');
-					tmpuser.addRole(request.getHeader('rolename'),request.getHeader('username'));
+					var rolenameReq = request.getHeader('rolename');
+					tmpuser.addRole(rolenameReq,request.getHeader('username'));
+					//adding for DB
+					addroles(rolenameReq, 1, 0, "No" );
 					message = "Role added successfully";
 				} catch (e) {
 					log.error(e);
@@ -99,7 +102,11 @@ function callAPI() {
 					return;
 				}
 				var tmpuser = require('../modules/user.js');
-				user.updateRoles(request.getHeader('username'),null,request.getHeader('rolename'));
+				var rolenameReq = request.getHeader('rolename')
+				user.updateRoles(request.getHeader('username'),null,rolenameReq);
+				//message = "Role added for user successfully";
+				//adding data base
+				//addroles((rolenameReq, 1, 0, "No") );
 				message = "Role added for user successfully";
 			} catch (e) {
 				log.error(e);
@@ -171,6 +178,8 @@ function callAPI() {
 						message = 'Rolename ' + data + ' is not existing';
 					}else{
 					user.removeRole(data);
+					//db data removed
+					deletroles(data);
 					message = "Role "+data+ " is removed."
 					}
 				} catch (e) {
@@ -233,5 +242,50 @@ function callAPI() {
 		response.sendError(404, 'API Endpoint Not Found');
 	}
 }
+
+//database calls
+
+
+function addroles(rolesName, rolesOut, rolesExtNo, rolesExt) {
+    log.info("add roles");
+    if(rolesName != null && rolesOut != null && rolesExtNo != null && rolesExt != null ){
+    var db_qury = db_query_roles_add(null ,rolesName, rolesOut, rolesExtNo, rolesExt);
+    log.info(db_qury);
+    var results = db.query(db_qury);
+    return {
+        "error" : false,
+        "results" : results
+    };
+    }else {
+        return invokeError("Please enter rolesName, rolesOut, rolesExtNo, rolesExt");
+    }
+}
+
+function deletroles(rolesId) {
+    log.info("delet roles ");
+    if(rolesId != null ){
+    var db_qury = db_query_roles_delet(rolesId);
+    log.info(db_qury);
+    var results = db.query(db_qury);
+    return {
+        "error" : false,
+        "results" : results
+    };
+    }else {
+        return invokeError("Please enter rolesId");
+    }
+}
+
+
+function db_query_roles_add(roles_id,roles_name,roles_out,roles_extNo,roles_ext) {
+var outStr = "INSERT INTO  `roles` (`roles_id`, `roles_name`, `roles_out`, `roles_extNo`, `roles_ext`,`roles_create_time` ,`roles_modified_time`)VALUES ("+roles_id+",'"+roles_name+"','"+roles_out+"','"+roles_extNo+"','"+roles_ext+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
+return outStr;
+}
+
+function db_query_roles_delet(roles_name) {
+var outStr = "DELETE FROM `roles` WHERE `roles_name` = '" + roles_name + "' LIMIT 1";
+return outStr;
+}
+
 
 %>

@@ -1,7 +1,14 @@
 <%
-var db_query_permissions_view = "SELECT * FROM  `permissions` LIMIT 0 , 30"
-var db_query_permissions_create = "CREATE TABLE  `permissions` (`permissions_id` INT NOT NULL AUTO_INCREMENT, `permissions_name` VARCHAR( 120 ) NOT NULL, `permissions_detail` VARCHAR( 120 ) NOT NULL, `permissions_edit` BOOL NOT NULL DEFAULT  '1', `permissions_view` BOOL NOT NULL DEFAULT  '1', `permissions_add` BOOL NOT NULL DEFAULT  '1', `permissions_resource` VARCHAR( 120 ) NOT NULL,`permissions_create_time` TIMESTAMP NOT NULL ,`permissions_modified_time` TIMESTAMP NOT NULL ,PRIMARY KEY (  `permissions_id` ))";
+var db_query_permissions_view = "SELECT * FROM  `permissions` where permissions_view = true LIMIT 0 , 3000";
 
+//var db_query_permissions_view = "SELECT * FROM  `permissions` LIMIT 0 , 3000"
+//above qury is used for get all 
+var db_query_permissions_create = "CREATE TABLE  `permissions` (`permissions_id` INT NOT NULL AUTO_INCREMENT, `permissions_name` VARCHAR( 120 ) NOT NULL, `permissions_details` VARCHAR( 120 ) NOT NULL, `permissions_edit` INT NOT NULL, `permissions_add` INT NOT NULL, `permissions_view` BOOL NOT NULL DEFAULT  '1', `permissions_remove` INT NOT NULL, `permissions_out` BOOL NOT NULL DEFAULT  '1', `permissions_grade` VARCHAR( 120 ) NOT NULL, `permissions_extra` INT NOT NULL, `permissions_ext` VARCHAR( 120 ) NOT NULL,`permissions_create_time` TIMESTAMP NOT NULL ,`permissions_modified_time` TIMESTAMP NOT NULL ,PRIMARY KEY (  `permissions_id` ))";
+
+function db_query_role_permissions_view(rolename) {
+var outStr = "SELECT p.permissions_name, r.roles_name FROM role_permission rp JOIN permissions p ON rp.role_permission_permission = p.permissions_id JOIN roles r ON rp.role_permission_role = r.roles_id WHERE p.permissions_view = 1 AND r.roles_name = '"+rolename+"'";
+return outStr;
+}
 function db_query_permissions_delet(permissions_id) {
 var outStr = "DELETE FROM `permissions` WHERE `permissions_id` = " + permissions_id + " LIMIT 1";
 return outStr;
@@ -12,13 +19,21 @@ var outStr = "SELECT *  FROM `permissions` WHERE `permissions_id` = " + permissi
 return outStr;
 }
 
-function db_query_permissions_add(permissions_id,permissions_name,permissions_detail,permissions_edit,permissions_view,permissions_add,permissions_resource) {
-var outStr = "INSERT INTO  `permissions` (`permissions_id`, `permissions_name`, `permissions_detail`, `permissions_edit`, `permissions_view`, `permissions_add`, `permissions_resource`,`permissions_create_time` ,`permissions_modified_time`)VALUES ("+permissions_id+",'"+permissions_name+"','"+permissions_detail+"','"+permissions_edit+"','"+permissions_view+"','"+permissions_add+"','"+permissions_resource+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
+function db_query_permissions_add(permissions_id,permissions_name,permissions_details,permissions_edit,permissions_add,permissions_view,permissions_remove,permissions_out,permissions_grade,permissions_extra,permissions_ext) {
+var outStr = "INSERT INTO  `permissions` (`permissions_id`, `permissions_name`, `permissions_details`, `permissions_edit`, `permissions_add`, `permissions_view`, `permissions_remove`, `permissions_out`, `permissions_grade`, `permissions_extra`, `permissions_ext`,`permissions_create_time` ,`permissions_modified_time`)VALUES ("+permissions_id+",'"+permissions_name+"','"+permissions_details+"','"+permissions_edit+"','"+permissions_add+"','"+permissions_view+"','"+permissions_remove+"','"+permissions_out+"','"+permissions_grade+"','"+permissions_extra+"','"+permissions_ext+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
 return outStr;
 }
 
-function db_query_permissions_update(permissions_id,permissions_name,permissions_detail,permissions_edit,permissions_view,permissions_add,permissions_resource) {
-var outStr = "UPDATE  `permissions` SET  `permissions_name` =  '"+permissions_name+"',`permissions_detail` =  '"+permissions_detail+"',`permissions_edit` =  '"+permissions_edit+"',`permissions_view` =  '"+permissions_view+"',`permissions_add` =  '"+permissions_add+"',`permissions_resource` =  '"+permissions_resource+"',`permissions_modified_time` = CURRENT_TIMESTAMP WHERE  `permissions_id` =" + permissions_id + " LIMIT 1 ;";
+function db_query_permissions_update(permissions_id,permissions_name,permissions_details,permissions_edit,permissions_add,permissions_view,permissions_remove,permissions_out,permissions_grade,permissions_extra,permissions_ext) {
+var outStr = "UPDATE  `permissions` SET  `permissions_name` =  '"+permissions_name+"',`permissions_details` =  '"+permissions_details+"',`permissions_edit` =  '"+permissions_edit+"',`permissions_add` =  '"+permissions_add+"',`permissions_view` =  '"+permissions_view+"',`permissions_remove` =  '"+permissions_remove+"',`permissions_out` =  '"+permissions_out+"',`permissions_grade` =  '"+permissions_grade+"',`permissions_extra` =  '"+permissions_extra+"',`permissions_ext` =  '"+permissions_ext+"',`permissions_modified_time` = CURRENT_TIMESTAMP WHERE  `permissions_id` =" + permissions_id + " LIMIT 1 ;";
 return outStr;
 }
+
+//adding new
+
+function db_query_permissions_get_bygrade(grade) {
+var outStr = "SELECT *  FROM `permissions` WHERE `permissions_grade` = '" + grade + "' LIMIT 1";
+return outStr;
+}
+
 %>

@@ -1,4 +1,5 @@
 <%
+/*
 print("<html><body>");
 var carbon = require('carbon');
 log = new Log(),
@@ -36,4 +37,5 @@ user.init(configs);
                 log.info(error);
                 print("</body></html>");
               //  return;
+              */
 %>

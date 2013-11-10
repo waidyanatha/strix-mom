@@ -7,33 +7,41 @@ include("../controller/permissions.jag");
  var action = request.getParameter('action');
  var permissionsId = request.getParameter('permissionsId');
  var permissionsName = request.getParameter('permissionsName');
- var permissionsDetail = request.getParameter('permissionsDetail');
+ var permissionsDetails = request.getParameter('permissionsDetails');
  var permissionsEdit = request.getParameter('permissionsEdit');
- var permissionsView = request.getParameter('permissionsView');
  var permissionsAdd = request.getParameter('permissionsAdd');
- var permissionsResource = request.getParameter('permissionsResource');
+ var permissionsView = request.getParameter('permissionsView');
+ var permissionsRemove = request.getParameter('permissionsRemove');
+ var permissionsOut = request.getParameter('permissionsOut');
+ var permissionsGrade = request.getParameter('permissionsGrade');
+ var permissionsExtra = request.getParameter('permissionsExtra');
+ var permissionsExt = request.getParameter('permissionsExt');
+ var rolename = request.getParameter('rolename');
 
 switch(action) {
-case "listpermissions":
-		print(listpermissions());
-		break;
-	case "addpermissions":
-		print(addpermissions(permissionsName, permissionsDetail, permissionsEdit, permissionsView, permissionsAdd, permissionsResource));
-		break;
-	case "updatepermissions":
-		print(updatepermissions(permissionsId,permissionsName, permissionsDetail, permissionsEdit, permissionsView, permissionsAdd, permissionsResource));
-		break;
-	case "deletpermissions":
-		print(deletpermissions(permissionsId));
-		break;
-	case "getpermissions":
-		print(getpermissions(permissionsId));
-		break;
-	case "settabel":
-		print(settabel());
-		break;
-	default:
-		print(invokeError("permissions action not define"));
+    case "listpermissions":
+        print(listpermissions());
+        break;
+    case "listrolepermissions":
+        print(listrolepermissions(rolename));
+        break;
+    case "addpermissions":
+        print(addpermissions(permissionsName, permissionsDetails, permissionsEdit, permissionsAdd, permissionsView, permissionsRemove, permissionsOut, permissionsGrade, permissionsExtra, permissionsExt));
+        break;
+    case "updatepermissions":
+        print(updatepermissions(permissionsId,permissionsName, permissionsDetails, permissionsEdit, permissionsAdd, permissionsView, permissionsRemove, permissionsOut, permissionsGrade, permissionsExtra, permissionsExt));
+        break;
+    case "deletpermissions":
+        print(deletpermissions(permissionsId));
+        break;
+    case "getpermissions":
+        print(getpermissions(permissionsId));
+        break;
+    case "settabel":
+        print(settabel());
+        break;
+    default:
+        print(invokeError("permissions action not define"));
 }
 
 %>

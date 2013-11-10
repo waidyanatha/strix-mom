@@ -9,7 +9,7 @@ console.log(data);
 console.log(status);
 console.log(xhr.status);
 });
-}
+};
 
 this.addRole = function() {
 RoleMgt.clear();
@@ -20,7 +20,7 @@ console.log(data);
 console.log(status);
 console.log(xhr.status);
 });
-}
+};
 
 this.removeRole = function() {
 RoleMgt.clear();
@@ -31,7 +31,7 @@ console.log(data);
 console.log(status);
 console.log(xhr.status);
 });
-}
+};
 
 this.remove = function() {
 RoleMgt.clear();
@@ -40,7 +40,7 @@ Util.makeJsonRequest("POST","../apis/role/remove/",null,data,function(data) {
 RoleMgt.makeout(data);
 console.log(data);
 });
-}
+};
 
 /*
 * getting select options
@@ -61,6 +61,7 @@ this.listUsers = function() {
 			var html = Mustache.to_html(template, data.data.userlist);
 			//console.log(html);
 			$('#listuser').html(html);
+			
 		}
 	});
 };
@@ -76,16 +77,17 @@ var template = "Role Name : <select id=\"listroletag\">{{#.}}<option value=\"{{.
 var html = Mustache.to_html(template, data.data.rolelist);
 console.log(html);
 $('#listrole').html(html);
+
 });
 };
 
 this.clear = function() {
 RoleMgt.makeout();
 $(".alert").hide();
-}
+};
 
 this.makeout = function(html) {
 $("#out").val(JSON.stringify(html));
-}
+};
 
-}
+};

@@ -19,6 +19,7 @@ user.init(configs);
 		<script src="./js/mustache.js"></script>
 		<script src="./js/usermgt.js"></script>
 		<script src="./js/rolemgt.js"></script>
+		<script src="./js/permission.js"></script>
 		<script src="./js/bootstrap.min.js"></script>
 		<link href="./css/bootstrap.css" rel="stylesheet">
 	</head>
@@ -93,10 +94,31 @@ user.init(configs);
 						<div class="accordion-inner">
 							<!-- Permision UI --->
 							<h4>Permissions</h4>
-							Role Name :
-							<input type="text" id="rolename" value=""/>
-							Permissions Name :
-							<input type="text" id="permissionname" value=""/>
+							
+							<div id="listuser2"><input type="text" id="username2" value=""/></div>
+                            
+						
+							
+	
+	<div class="control-group">
+    <p class="pull-left">Payment Types</p><div class="controls span2">
+        <label class="checkbox">
+            <input type="checkbox" value="option1" id="inlineCheckbox1"> Cash
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" value="option2" id="inlineCheckbox2"> Invoice
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" value="option3" id="inlineCheckbox3" checked> Discover
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" value="option3" id="inlineCheckbox3" class="icheck"> Financing
+        </label>
+    </div>
+    
+    </div>
+
+
 							<p>
 								<input type="button" id="addRole" value="Add Permission"  class="btn btn-primary" onclick="UserMgt.login();"/>
 								<input type="button" id="updateRole" value="Update Permission"  class="btn btn-primary" onclick="UserMgt.logout();"/>
@@ -119,6 +141,19 @@ user.init(configs);
 	<script language='javascript'>
 		RoleMgt.listUsers();
 		RoleMgt.listRoles();
+		PermissionMgt.listRoles();
+        PermissionMgt.listPermissions();
+        //PermissionMgt.listRolePermissions();
+        
+        
+
+
+$(".listroletag2").change(function() {
+    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+    //alert(this.value);
+});
+
+$( ".listroletag2" ).click(function() { console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx');});
 
 </script>
 </html>

@@ -3,6 +3,8 @@
 include("../model/dbinit.jag");
 include("../model/resources.jag");
 include("../controller/resources.jag");
+include("../model/permissions.jag");
+include("../controller/permissions.jag");
 
  var action = request.getParameter('action');
  var resourcesId = request.getParameter('resourcesId');
@@ -19,12 +21,32 @@ include("../controller/resources.jag");
  var resourcesContent = request.getParameter('resourcesContent');
 
 switch(action) {
-case "listresources":
+    case "listresources":
 		print(listresources());
 		break;
-	case "addresources":
-		print(addresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
-		break;
+
+
+    case "addresources":
+        print(addresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
+        var resPermissionExist = getpermissionsByGrade(resourcesGrade);
+
+        if (resPermissionExist.error == false) {
+
+            //no erro in db call for to check resource permission details
+            if (resPermissionExist.results.length == 0) {
+                //adding permission as that location is not set so far
+                //addpermissions(permissionsName, permissionsDetails, permissionsEdit, permissionsAdd, permissionsView, permissionsRemove, permissionsOut, permissionsGrade, permissionsExtra, permissionsExt) {
+                addpermissions('view_' + resourcesGrade, resourcesGrade, 0, 0, 1, 0, 1, resourcesGrade, 0, 'No')
+                addpermissions('add_' + resourcesGrade, resourcesGrade, 0, 1, 0, 0, 1, resourcesGrade, 0, 'No')
+                addpermissions('remove_' + resourcesGrade, resourcesGrade, 0, 0, 0, 1, 1, resourcesGrade, 0, 'No')
+                addpermissions('edit_' + resourcesGrade, resourcesGrade, 1, 0, 0, 0, 1, resourcesGrade, 0, 'No')
+    
+            }
+        }
+
+    break;
+
+
 	case "addminiresources":
 		print(addminiresources(resourcesName, resourcesGrade, resourcesCategory, resourcesActive, resourcesPath, resourcesFilename, resourcesAuthor, resourcesSize, resourcesExtra, resourcesDetails, resourcesContent));
 		break;

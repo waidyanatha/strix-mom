@@ -51,7 +51,7 @@ include('/includes/topnavi.jag');
                                 <div class="caption">
                                     
                                     <p>
-                                        <a href="./classroom.jag" class="btn btn-default">Visit Library</a>
+                                        <a href="./classroom.jag" class="btn btn-default">Go To Class</a>
                                     </p>
                                 </div>
                                

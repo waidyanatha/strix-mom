@@ -1,7 +1,7 @@
 <%
 //spotheadsup
 config = {}; 
-        var db = new Database("jdbc:mysql://localhost:3306/strix", "root", "spotheadsup", config); 
-       //var db = new Database("jdbc:mysql://localhost:3306/strix", "root", "", config); 
+       // var db = new Database("jdbc:mysql://202.69.197.118/:3306/strix", "root", "spotheadsup", config); 
+       var db = new Database("jdbc:mysql://202.69.197.118:3306/strix", "root", "", config); 
 
 %>

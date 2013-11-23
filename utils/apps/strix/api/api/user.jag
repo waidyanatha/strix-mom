@@ -1,0 +1,43 @@
+<%
+
+include("../model/dbinit.jag");
+include("../model/user.jag");
+include("../controller/user.jag");
+
+ var action = request.getParameter('action');
+ var userId = request.getParameter('userId');
+ var userName = request.getParameter('userName');
+ var userDisplayname = request.getParameter('userDisplayname');
+ var userSecondname = request.getParameter('userSecondname');
+ var userEmail = request.getParameter('userEmail');
+ var userPhone = request.getParameter('userPhone');
+ var userDevid = request.getParameter('userDevid');
+ var userExtra = request.getParameter('userExtra');
+ var userAge = request.getParameter('userAge');
+ var userOut = request.getParameter('userOut');
+ var userAdress = request.getParameter('userAdress');
+
+switch(action) {
+case "listuser":
+		print(listuser());
+		break;
+	case "adduser":
+		print(adduser(userName, userDisplayname, userSecondname, userEmail, userPhone, userDevid, userExtra, userAge, userOut, userAdress));
+		break;
+	case "updateuser":
+		print(updateuser(userId,userName, userDisplayname, userSecondname, userEmail, userPhone, userDevid, userExtra, userAge, userOut, userAdress));
+		break;
+	case "deletuser":
+		print(deletuser(userId));
+		break;
+	case "getuser":
+		print(getuser(userId));
+		break;
+	case "settabel":
+		print(settabel());
+		break;
+	default:
+		print(invokeError("user action not define"));
+}
+
+%>

@@ -9,6 +9,7 @@
 <a href="./permissions.jag">Permissions</a><br>
 <a href="./permission_mapping.jag">Permission Mapping</a><br>
 <a href="./roles.jag">Roles</a><br>
+<a href="./userdata.jag">UserData</a><br>
 <a href="./role_permission.jag">Role Permission</a><br>
 	</body>
 </html>

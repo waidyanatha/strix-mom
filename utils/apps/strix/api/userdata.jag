@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>MadhukaTestAPI-user</title>
+</head>
+<body>
+<h1>UserAPI</h1>
+<a href="api/user.jag?action=settabel">SetTableUser</a><br>
+<a href="api/user.jag?action=adduser&userName=testString&userDisplayname=testString&userSecondname=testString&userEmail=testString&userPhone=testString&userDevid=testString&userExtra=testString&userAge=18&userOut=1&userAdress=testString&">AddUser</a><br>
+<a href="api/user.jag?action=listuser">ListUser</a><br>
+<a href="api/user.jag?action=updateuser&userId=1&&userName=testString&userDisplayname=testString&userSecondname=testString&userEmail=testString&userPhone=testString&userDevid=testString&userExtra=testString&userAge=18&userOut=1&userAdress=testString&">UpdateUser</a><br>
+<a href="api/user.jag?action=getuser&userId=1&">GetUser</a><br>
+<a href="api/user.jag?action=deletuser&userId=1&">DeletUser</a><br>
+<body>
+</html>

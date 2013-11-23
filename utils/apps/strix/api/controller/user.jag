@@ -1,0 +1,91 @@
+<%
+
+function listuser() {
+	var db_qury = db_query_user_view;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function settabel() {
+	var db_qury = db_query_user_create;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
+function adduser(userName, userDisplayname, userSecondname, userEmail, userPhone, userDevid, userExtra, userAge, userOut, userAdress) {
+	log.info("add user");
+	if(userName != null && userDisplayname != null && userSecondname != null && userEmail != null && userPhone != null && userDevid != null && userExtra != null && userAge != null && userOut != null && userAdress != null ){
+	var db_qury = db_query_user_add(null ,userName, userDisplayname, userSecondname, userEmail, userPhone, userDevid, userExtra, userAge, userOut, userAdress);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter userName, userDisplayname, userSecondname, userEmail, userPhone, userDevid, userExtra, userAge, userOut, userAdress");
+	}
+}
+
+function updateuser(userId,userName, userDisplayname, userSecondname, userEmail, userPhone, userDevid, userExtra, userAge, userOut, userAdress) {
+	log.info("update user");
+	if(userId != null  && userName != null && userDisplayname != null && userSecondname != null && userEmail != null && userPhone != null && userDevid != null && userExtra != null && userAge != null && userOut != null && userAdress != null ){
+	var db_qury = db_query_user_update(userId ,userName, userDisplayname, userSecondname, userEmail, userPhone, userDevid, userExtra, userAge, userOut, userAdress);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter userId, userName, userDisplayname, userSecondname, userEmail, userPhone, userDevid, userExtra, userAge, userOut, userAdress");
+	}
+}
+
+function deletuser(userId) {
+	log.info("delet user ");
+	if(userId != null ){
+	var db_qury = db_query_user_delet(userId);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter userId");
+	}
+}
+
+function getuser(userId) {
+	log.info("get user ");
+	if(userId != null ){
+	var db_qury = db_query_user_get(userId);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter userId");
+	}
+}
+
+function invokeError(msg) {
+	log.info(msg);
+	return {
+		"error" : true,
+		"errorMsg" : msg
+	};
+}
+
+%>

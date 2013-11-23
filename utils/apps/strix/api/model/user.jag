@@ -1,0 +1,24 @@
+<%
+var db_query_user_view = "SELECT * FROM  `user` LIMIT 0 , 30"
+var db_query_user_create = "CREATE TABLE  `user` (`user_id` INT NOT NULL AUTO_INCREMENT, `user_name` VARCHAR( 120 ) NOT NULL, `user_displayname` VARCHAR( 120 ) NOT NULL, `user_secondname` VARCHAR( 120 ) NOT NULL, `user_email` VARCHAR( 120 ) NOT NULL, `user_phone` VARCHAR( 120 ) NOT NULL, `user_devid` VARCHAR( 120 ) NOT NULL, `user_extra` VARCHAR( 120 ) NOT NULL, `user_age` INT NOT NULL, `user_out` BOOL NOT NULL DEFAULT  '1', `user_adress` VARCHAR( 120 ) NOT NULL,`user_create_time` TIMESTAMP NOT NULL ,`user_modified_time` TIMESTAMP NOT NULL ,PRIMARY KEY (  `user_id` ))";
+
+function db_query_user_delet(user_id) {
+var outStr = "DELETE FROM `user` WHERE `user_id` = " + user_id + " LIMIT 1";
+return outStr;
+}
+
+function db_query_user_get(user_id) {
+var outStr = "SELECT *  FROM `user` WHERE `user_id` = " + user_id + " LIMIT 1";
+return outStr;
+}
+
+function db_query_user_add(user_id,user_name,user_displayname,user_secondname,user_email,user_phone,user_devid,user_extra,user_age,user_out,user_adress) {
+var outStr = "INSERT INTO  `user` (`user_id`, `user_name`, `user_displayname`, `user_secondname`, `user_email`, `user_phone`, `user_devid`, `user_extra`, `user_age`, `user_out`, `user_adress`,`user_create_time` ,`user_modified_time`)VALUES ("+user_id+",'"+user_name+"','"+user_displayname+"','"+user_secondname+"','"+user_email+"','"+user_phone+"','"+user_devid+"','"+user_extra+"','"+user_age+"','"+user_out+"','"+user_adress+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
+return outStr;
+}
+
+function db_query_user_update(user_id,user_name,user_displayname,user_secondname,user_email,user_phone,user_devid,user_extra,user_age,user_out,user_adress) {
+var outStr = "UPDATE  `user` SET  `user_name` =  '"+user_name+"',`user_displayname` =  '"+user_displayname+"',`user_secondname` =  '"+user_secondname+"',`user_email` =  '"+user_email+"',`user_phone` =  '"+user_phone+"',`user_devid` =  '"+user_devid+"',`user_extra` =  '"+user_extra+"',`user_age` =  '"+user_age+"',`user_out` =  '"+user_out+"',`user_adress` =  '"+user_adress+"',`user_modified_time` = CURRENT_TIMESTAMP WHERE  `user_id` =" + user_id + " LIMIT 1 ;";
+return outStr;
+}
+%>

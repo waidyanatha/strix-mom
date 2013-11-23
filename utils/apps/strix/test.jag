@@ -1,7 +1,0 @@
-<%
- 
-response.contentType = "application/png";  
-response.addHeader("Content-Disposition", "attachment; filename=x.png;");
-
-print('iVBORw0KGgoAAAANSUhEUgAAAAUAAAAECAIAAADJUWIXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEE0AABBNAWeMAeAAAAAMSURBVBhXY2CgDAAAAEAAAR3uu9MAAAAASUVORK5CYII=');
-%>

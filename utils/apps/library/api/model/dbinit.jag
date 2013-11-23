@@ -1,8 +1,0 @@
-<%
-var log = new Log();
-//spotheadsup
-config = {}; 
-      //  var db = new Database("jdbc:mysql://localhost:3306/strix", "root", "spotheadsup", config); 
-	  var db = new Database("jdbc:mysql://localhost:3306/strix", "root", "", config); 
-
-%>

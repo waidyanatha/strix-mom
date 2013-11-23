@@ -38,48 +38,62 @@ include('/includes/topnavi.jag');
                     %>
 
                     <div class="row" id="row">
-                    
-                            
-                         
-                         
-                           <div class="col-sm-6 col-md-6">
-                            <a href="./classroom.jag"></a>
-                            <center>
-                            <div class="thumbnail">
-                                <img alt="..." src="img\stream.png" height="200px"/>
-                               
-                                <div class="caption">
-                                    
-                                    <p>
-                                        <a href="./classroom.jag" class="btn btn-default">Go To Class</a>
-                                    </p>
-                                </div>
-                               
-                            </div>
-                             </center>
-                        </div><!--/span-->
-                        
-                         <div class="col-sm-6 col-md-6">
-                            <a href="./libIndex.jag"></a>
-                            <center>
-                            <div class="thumbnail">
-                                <img alt="..." src="img\files.png" height="200px"/>
-                               
-                                <div class="caption">
-                                    
-                                    <p>
-                                        <a href="./libIndex.jag" class="btn btn-default">Visit Library</a>
-                                    </p>
-                                </div>
-                               
-                            </div>
-                             </center>
-                        </div><!--/span-->
-                        
-                        
 
-                  
-                    </div><!--/row-->
+
+
+
+					<div class="col-sm-6 col-md-12">
+					<h4>Add New User</h4>
+						<table class="table table-hover">							
+							<tbody>
+								<tr>
+									<td>User Name :</td>
+									<td><input type="text" id="susername" value="" /></td>
+								</tr>
+								<tr>
+									<td>User Password :</td>
+									<td><input type="text" id="spassword" value="" /></td>
+								</tr>
+								<tr>
+									<td>Repeat User Password :</td>
+									<td><input type="text" id="spassword2" value="" /></td>
+								</tr>
+								<tr>
+									<td>DisplayName :</td>
+									<td><input type="text" id="disname" value=""/></td>
+								</tr>
+								<tr>
+									<td>Second Name :</td>
+									<td><input type="text" id="secname" value=""/></td>
+								</tr>
+								<tr>
+									<td>Email Adress :</td>
+									<td><input type="text" id="phone" value=""/></td>
+								</tr>
+								<tr>
+									<td>Phone Number :</td>
+									<td><input type="text" id="spassword2" value="" /></td>
+								</tr>
+								<tr>
+									<td>Dvices ID :</td>
+									<td><input type="text" id="did" value=""/></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="button" id="register" value="Register New User" class="btn btn-primary" onclick="UserMgt.register();"/></td>
+								</tr>
+							</tbody>
+						</table>
+
+							
+							
+					</div>
+					<!--/span-->
+
+
+
+
+				</div><!--/row-->
                 </div><!--/span-->
                 
                 <%

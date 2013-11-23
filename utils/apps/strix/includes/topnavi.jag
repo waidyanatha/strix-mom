@@ -49,9 +49,18 @@ user.init(configs);
                         }
                         if (userAdmin){
                             %>
-                            <a href="../../usermgt/pages/">Office</a>
+                            <a href="./office.jag">Office</a>
                         </li>
                         <%}%>
+                        <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Library <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Grade1</a></li>
+                          <li><a href="#">Grade2</a></li>
+                          <li><a href="#">Grade3</a></li>
+                          
+                        </ul>
+                      </li>
 						<li>
 							<a href="#help">Help</a>
 						</li>	

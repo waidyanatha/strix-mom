@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="js/assets/ico/favicon.png">
+
+<title>Strix Main Page</title>
+<% 
+include('/includes/loginCheck.jag');
+%>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/offcanvas.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+        <script src="../../assets/js/html5shiv.js"></script>
+        <script src="../../assets/js/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+	<%
+	include('/includes/topnavi.jag');
+	%>
+	<div class="container">
+		<div class="row row-offcanvas row-offcanvas-right">
+			<div class="col-xs-12 col-sm-9">
+				<p class="pull-right visible-xs">
+					<button type="button" class="btn btn-primary btn-xs"
+						data-toggle="offcanvas">Toggle nav</button>
+				</p>
+
+				<%
+				include('/includes/banner.jag');
+				%>
+
+				<div class="row" id="row">
+
+
+
+
+					<div class="col-sm-6 col-md-12">
+						<h4>User</h4>
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<td>User Name :</td>
+									<td><input type="text" id="susername" value="jhon" disabled />
+									</td>
+								</tr>
+								<tr>
+									<td>DisplayName :</td>
+									<td><input type="text" id="disname" value="jhon" disabled /></td>
+								</tr>
+								<tr>
+									<td>Second Name :</td>
+									<td><input type="text" id="secname" value="james" disabled /></td>
+								</tr>
+								<tr>
+									<td>Email Adress :</td>
+									<td><input type="text" id="phone" value="testuser@gmail.com"
+										disabled /></td>
+								</tr>
+								<tr>
+									<td>Phone Number :</td>
+									<td><input type="text" id="spassword2" value="+94772347765"
+										disabled /></td>
+								</tr>
+								<tr>
+									<td>Dvices ID :</td>
+									<td><input type="text" id="did" value="21332min1223m" disabled />
+									</td>
+								</tr>
+								<tr>
+									<td><h5>Roles List</h5></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Gade1</td>
+									<td><input type="button" id="register" value="Remove Role"
+										class="btn btn-info" onclick="UserMgt.removeRole();" /></td>
+								</tr>
+								<tr>
+									<td>Gade2</td>
+									<td><input type="button" id="register" value="Remove Role"
+										class="btn btn-info" onclick="UserMgt.removeRole();" /></td>
+								</tr>
+								<tr>
+									<td><select>
+											<option value="g3">Grade3</option>
+											<option value="g4">Grade4</option>
+									</select></td>
+									<td><input type="button" id="register" value="Add Role"
+										class="btn btn-primary" onclick="UserMgt.addRole();" /></td>
+								</tr>
+								<tr>
+									<td><input type="button" id="register" value="Remove User"
+										class="btn btn-danger" onclick="UserMgt.removeUser();" /></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+
+
+
+					</div>
+					<!--/span-->
+
+
+
+
+				</div>
+				<!--/row-->
+			</div>
+			<!--/span-->
+
+			<%
+			include('/includes/sidebar.jag');
+			%>
+
+		</div>
+		<!--/row-->
+		<hr>
+		<footer>
+			<p>Powered by Spoton - STRIX</p>
+		</footer>
+	</div>
+	<!--/.container-->
+	<!-- Bootstrap core JavaScript
+        ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/assets/js/jquery.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/offcanvas.js"></script>
+	<script src="js/mustache.js"></script>
+	<script src="./js/util.js"></script>
+	<script src="./js/usermgt.js"></script>
+
+
+
+</body>
+</html>

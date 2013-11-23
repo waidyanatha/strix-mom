@@ -9,9 +9,7 @@
     <link rel="shortcut icon" href="js/assets/ico/favicon.png">
 
     <title>Strix Main Page</title>
-<% 
-include('/includes/loginCheck.jag');
-%>
+
    <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/offcanvas.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -19,6 +17,35 @@ include('/includes/loginCheck.jag');
         <script src="../../assets/js/html5shiv.js"></script>
         <script src="../../assets/js/respond.min.js"></script>
         <![endif]-->
+        <style type="text/css">
+     
+
+      .form-signin {
+        
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+
+    </style>
     </head>
     <body>
 <%
@@ -39,52 +66,29 @@ include('/includes/topnavi.jag');
 
                     <div class="row" id="row">
                     
-                            
-                         
-                         
-                           <div class="col-sm-6 col-md-6">
-                            <a href="./classroom.jag"></a>
-                            <center>
-                            <div class="thumbnail">
-                                <img alt="..." src="img\stream.png" height="200px"/>
-                               
-                                <div class="caption">
-                                    
-                                    <p>
-                                        <a href="./classroom.jag" class="btn btn-default">Go To Class</a>
-                                    </p>
-                                </div>
-                               
-                            </div>
-                             </center>
-                        </div><!--/span-->
-                        
-                         <div class="col-sm-6 col-md-6">
-                            <a href="./libIndex.jag"></a>
-                            <center>
-                            <div class="thumbnail">
-                                <img alt="..." src="img\files.png" height="200px"/>
-                               
-                                <div class="caption">
-                                    
-                                    <p>
-                                        <a href="./libIndex.jag" class="btn btn-default">Visit Library</a>
-                                    </p>
-                                </div>
-                               
-                            </div>
-                             </center>
-                        </div><!--/span-->
-                        
-                        
-
+                            <div class="col-sm-4 col-md-12">
+                            <div class="form-signin">
+        <h2 class="form-signin-heading">Login to Strix</h2>
+        <input type="text" class="input-block-level" placeholder="Username" id="username"><br>
+        <input type="password" class="input-block-level" placeholder="Password" id="password">
+        <!--label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember me
+        </label-->
+        <button class="btn btn-large btn-primary" onclick="UserMgt.login();">Login</button>
+      
+<div class="alert" id="message">
+  
+ 
+</div>
+        </div>            
+                        </div>
                   
                     </div><!--/row-->
                 </div><!--/span-->
                 
                 <%
-                    include('/includes/sidebar.jag');
-                %>
+include('/includes/sidebar.jag');
+%>
 
             </div><!--/row-->
             <hr>

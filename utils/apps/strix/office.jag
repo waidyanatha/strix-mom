@@ -38,48 +38,67 @@ include('/includes/topnavi.jag');
                     %>
 
                     <div class="row" id="row">
-                    
-                            
-                         
-                         
-                           <div class="col-sm-6 col-md-6">
-                            <a href="./classroom.jag"></a>
-                            <center>
-                            <div class="thumbnail">
-                                <img alt="..." src="img\stream.png" height="200px"/>
-                               
-                                <div class="caption">
-                                    
-                                    <p>
-                                        <a href="./classroom.jag" class="btn btn-default">Go To Class</a>
-                                    </p>
-                                </div>
-                               
-                            </div>
-                             </center>
-                        </div><!--/span-->
-                        
-                         <div class="col-sm-6 col-md-6">
-                            <a href="./libIndex.jag"></a>
-                            <center>
-                            <div class="thumbnail">
-                                <img alt="..." src="img\files.png" height="200px"/>
-                               
-                                <div class="caption">
-                                    
-                                    <p>
-                                        <a href="./libIndex.jag" class="btn btn-default">Visit Library</a>
-                                    </p>
-                                </div>
-                               
-                            </div>
-                             </center>
-                        </div><!--/span-->
-                        
-                        
 
-                  
-                    </div><!--/row-->
+
+
+
+					<div class="col-sm-6 col-md-12">
+						<a href=”#a”>A</a>  |  <a href=”#b”>B</a>  |  <a href=”#c”>C</a>  |  <a
+							href=”#d”>D</a>  |  <a href=”#e”>E</a>  |  <a href=”#f”>F</a>  |  <a
+							href=”#g”>G</a>  |  <a href=”#h”>H</a>  |  <a href=”#i”>I</a>  |  <a
+							href=”#j”>J</a>  |  <a href=”#k”>K</a>  |  <a href=”#l”>L</a>  |  <a
+							href=”#m”>M</a>  |  <a href=”#n”>N</a>  |  <a href=”#o”>O</a>  |  <a
+							href=”#p”>P</a>  |  <a href=”#q”>Q</a>  |  <a href=”#r”>R</a>  |  <a
+							href=”#s”>S</a>  |  <a href=”#t”>T</a>  |  <a href=”#u”>U</a>  |  <a
+							href=”#v”>V</a>  |  <a href=”#w”>W</a>  |  <a href=”#x”>X</a>  |  <a
+							href=”#y”>Y</a>  |  <a href=”#z”>Z</a>
+							
+						<p><br>
+							UserName : <input type="text" id="username" value="" /> <input
+								type="button" id="userSearch" value="Search"
+								class="btn btn-primary" onclick="UserMgt.search();" />  |  
+								<input type="button" id="register" value="Add New User" class="btn btn-primary" onclick="location.href='./addNewuser.jag'"/>
+						</p>
+						<p>
+						<table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User Name</th>
+            <th>Display Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td><input type="button" id="register" value="View" class="btn btn-success" onclick="location.href='./user.jag'"/></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td><input type="button" id="register" value="View" class="btn btn-success" onclick="location.href='./user.jag'"/></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td><input type="button" id="register" value="View" class="btn btn-success" onclick="location.href='./user.jag'"/></td>
+          </tr>
+        </tbody>
+      </table>
+						</p>
+						
+					</div>
+					<!--/span-->
+
+
+
+
+				</div><!--/row-->
                 </div><!--/span-->
                 
                 <%

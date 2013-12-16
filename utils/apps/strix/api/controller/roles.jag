@@ -10,6 +10,17 @@ function listroles() {
 	};
 }
 
+//LDAP function 
+function listrolesLDAP() {
+	var db_qury = db_query_roles_view;
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+
 function settabel() {
 	var db_qury = db_query_roles_create;
 	log.info(db_qury);

@@ -21,4 +21,16 @@ function db_query_user_update(user_id,user_name,user_displayname,user_secondname
 var outStr = "UPDATE  `user` SET  `user_name` =  '"+user_name+"',`user_displayname` =  '"+user_displayname+"',`user_secondname` =  '"+user_secondname+"',`user_email` =  '"+user_email+"',`user_phone` =  '"+user_phone+"',`user_devid` =  '"+user_devid+"',`user_extra` =  '"+user_extra+"',`user_age` =  '"+user_age+"',`user_out` =  '"+user_out+"',`user_adress` =  '"+user_adress+"',`user_modified_time` = CURRENT_TIMESTAMP WHERE  `user_id` =" + user_id + " LIMIT 1 ;";
 return outStr;
 }
+
+//new srch for user and letter serch
+
+function db_query_user_search(search) {
+var outStr = "SELECT *  FROM `user` WHERE `user_name` like '%" + search+ "%' LIMIT 30";
+return outStr;
+}
+
+function db_query_users_by_letter(letter) {
+var outStr = "SELECT *  FROM `user` WHERE `user_name` like '" + letter + "%' LIMIT 30";
+return outStr;
+}
 %>

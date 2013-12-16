@@ -1,7 +1,8 @@
 <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
 <div class="well sidebar-nav"> <center><strong><h3>NOTICE BOARD </h3></strong></center>
+<!-- iframe out for temp  
 <iframe src="http://202.69.197.118:9763/strix/jwebsoc/filestreams.htm" width="100%" height="200" scrolling="no"></iframe>
-			
+	-->		
 						<ul class="nav">
 						
 							<li>

@@ -12,7 +12,7 @@
 <% 
 include('/includes/loginCheck.jag');
 %>
-   <link href="css/bootstrap.min.css" rel="stylesheet">
+   <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/offcanvas.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -44,6 +44,11 @@ include('/includes/topnavi.jag');
 
 					<div class="col-sm-6 col-md-12">
 					<h4>Add New User</h4>
+					<div class="alertz alert-error">
+					
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong></strong><div id='outz'> Alert Area for user adding.</div>
+</div>
 						<table class="table table-hover">							
 							<tbody>
 								<tr>
@@ -52,11 +57,11 @@ include('/includes/topnavi.jag');
 								</tr>
 								<tr>
 									<td>User Password :</td>
-									<td><input type="text" id="spassword" value="" /></td>
+									<td><input type="password" id="spassword" value="" /></td>
 								</tr>
 								<tr>
 									<td>Repeat User Password :</td>
-									<td><input type="text" id="spassword2" value="" /></td>
+									<td><input type="password" id="spassword2" value="" /></td>
 								</tr>
 								<tr>
 									<td>DisplayName :</td>
@@ -68,11 +73,11 @@ include('/includes/topnavi.jag');
 								</tr>
 								<tr>
 									<td>Email Adress :</td>
-									<td><input type="text" id="phone" value=""/></td>
+									<td><input type="text" id="email" value=""/></td>
 								</tr>
 								<tr>
 									<td>Phone Number :</td>
-									<td><input type="text" id="spassword2" value="" /></td>
+									<td><input type="text" id="pno" value="" /></td>
 								</tr>
 								<tr>
 									<td>Dvices ID :</td>
@@ -117,8 +122,14 @@ include('/includes/topnavi.jag');
         <script src="js/mustache.js"></script>
         <script src="./js/util.js"></script>
         <script src="./js/usermgt.js"></script>
-      
+        	<script> 
+				
 
+				$(function() {
+					console.log('xxxxx');
+      UserMgt.clear();
+				});
+				</script> 
         
     </body>
 </html>

@@ -43,20 +43,20 @@ include('/includes/topnavi.jag');
 
 
 					<div class="col-sm-6 col-md-12">
-						<a href=”#a”>A</a>  |  <a href=”#b”>B</a>  |  <a href=”#c”>C</a>  |  <a
-							href=”#d”>D</a>  |  <a href=”#e”>E</a>  |  <a href=”#f”>F</a>  |  <a
-							href=”#g”>G</a>  |  <a href=”#h”>H</a>  |  <a href=”#i”>I</a>  |  <a
-							href=”#j”>J</a>  |  <a href=”#k”>K</a>  |  <a href=”#l”>L</a>  |  <a
-							href=”#m”>M</a>  |  <a href=”#n”>N</a>  |  <a href=”#o”>O</a>  |  <a
-							href=”#p”>P</a>  |  <a href=”#q”>Q</a>  |  <a href=”#r”>R</a>  |  <a
-							href=”#s”>S</a>  |  <a href=”#t”>T</a>  |  <a href=”#u”>U</a>  |  <a
-							href=”#v”>V</a>  |  <a href=”#w”>W</a>  |  <a href=”#x”>X</a>  |  <a
-							href=”#y”>Y</a>  |  <a href=”#z”>Z</a>
+						<a href=?l=a>A</a>  |  <a href=?l=b>B</a>  |  <a href=?l=c>C</a>  |  <a
+							href=?l=d>D</a>  |  <a href=?l=e>E</a>  |  <a href=?l=f>F</a>  |  <a
+							href=?l=g>G</a>  |  <a href=?l=h>H</a>  |  <a href=?l=i>I</a>  |  <a
+							href=?l=j>J</a>  |  <a href=?l=k>K</a>  |  <a href=?l=l>L</a>  |  <a
+							href=?l=m>M</a>  |  <a href=?l=n>N</a>  |  <a href=?l=o>O</a>  |  <a
+							href=?l=p>P</a>  |  <a href=?l=q>Q</a>  |  <a href=?l=r>R</a>  |  <a
+							href=?l=s>S</a>  |  <a href=?l=t>T</a>  |  <a href=?l=u>U</a>  |  <a
+							href=?l=v>V</a>  |  <a href=?l=w>W</a>  |  <a href=?l=x>X</a>  |  <a
+							href=?l=y>Y</a>  |  <a href=?l=z>Z</a>
 							
 						<p><br>
 							UserName : <input type="text" id="username" value="" /> <input
 								type="button" id="userSearch" value="Search"
-								class="btn btn-primary" onclick="UserMgt.search();" />  |  
+								class="btn btn-primary" onclick="UserMgt.serchUser();" />  |  
 								<input type="button" id="register" value="Add New User" class="btn btn-primary" onclick="location.href='./addNewuser.jag'"/>
 						</p>
 						<p>
@@ -69,7 +69,7 @@ include('/includes/topnavi.jag');
             <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="tbody">
           <tr>
             <td>1</td>
             <td>Mark</td>
@@ -122,8 +122,47 @@ include('/includes/topnavi.jag');
         <script src="js/mustache.js"></script>
         <script src="./js/util.js"></script>
         <script src="./js/usermgt.js"></script>
-      
 
-        
-    </body>
+	<!-- Rendering dynamic user name lis  -->
+
+	<script id="myTemplate" type="text/template"> 
+
+ {{#.}} <tr>
+            <td>{{user_id}}</td>
+            <td>{{user_name}}</td>
+            <td>{{user_displayname}}</td>
+            <td><input type="button" id="register" value="View" class="btn btn-success" onclick="location.href='./user.jag?uid={{user_id}}'"/></td>
+          </tr>
+{{/.}}
+</script>
+	<script> 
+	  var query = window.location.search.substring(1),
+	  vars = query.split("="),
+	  turl = "../strix/api/api/user.jag?action=listuser";
+	  
+	  if(vars[0]=='l'){
+		  turl =  "../strix/api/api/user.jag?action=listuserletter&l="+vars[1]}
+	  
+	  console.log(query);
+				$(function() {
+      $.ajax({
+        type: "GET",
+        url: turl,
+        dataType: "json",
+        success: parseXml
+      });
+       });
+
+       function parseXml(xml) {
+       	var data = xml.results;
+    var template = $('#myTemplate').html(); 
+    var html = Mustache.to_html(template, data); 
+    $('#tbody').html(html); 
+    }
+ 
+</script>
+
+	<!-- End Rendering dynamic user name lis  -->
+
+</body>
 </html>

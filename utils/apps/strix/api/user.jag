@@ -73,7 +73,9 @@ function callAPI() {
 				//    return;
 				break;
 			case 'register':
+				log.info('user api calling for register-user');
 				try {
+					
 					user = require('../modules/user.js').current();
 					if(!user) {
 						error = true;
@@ -165,6 +167,8 @@ function callAPI() {
 			case 'getRoles':
 			try {
 				username = request.getHeader('username')
+				user = require('../modules/user.js').current();
+				log.info(username);
 				data = user.getRoles(username);
 				message = "list of Rolse of current Users";
 			} catch(e) {
@@ -177,7 +181,7 @@ function callAPI() {
 				exists : exists,
 				message : message,
 				data : {
-					userlist : data
+					rolelist : data
 				}
 			});
 

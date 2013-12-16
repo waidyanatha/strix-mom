@@ -80,6 +80,35 @@ function getuser(userId) {
 	}
 }
 
+function searchuser(search) {
+	log.info("get user ");
+	if(search != null ){
+	var db_qury = db_query_user_search(search);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter search param");
+	}
+}
+
+function listuserletter(letter) {
+	log.info("get user ");
+	if(letter != null ){
+	var db_qury = db_query_users_by_letter(letter);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter letter to list");
+	}
+}
 function invokeError(msg) {
 	log.info(msg);
 	return {

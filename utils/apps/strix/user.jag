@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,8 +42,8 @@ include('/includes/loginCheck.jag');
 
 					<div class="col-sm-6 col-md-12">
 						<h4>User</h4>
-						<table class="table table-hover">
-							<tbody>
+						<table class="table table-hover" id="userTable">
+							<tbody id='tbodyuser'>
 								<tr>
 									<td>User Name :</td>
 									<td><input type="text" id="susername" value="jhon" disabled />
@@ -60,12 +59,12 @@ include('/includes/loginCheck.jag');
 								</tr>
 								<tr>
 									<td>Email Adress :</td>
-									<td><input type="text" id="phone" value="testuser@gmail.com"
+									<td><input type="text" id="email" value="testuser@gmail.com"
 										disabled /></td>
 								</tr>
 								<tr>
 									<td>Phone Number :</td>
-									<td><input type="text" id="spassword2" value="+94772347765"
+									<td><input type="text" id="pno" value="+94772347765"
 										disabled /></td>
 								</tr>
 								<tr>
@@ -74,26 +73,22 @@ include('/includes/loginCheck.jag');
 									</td>
 								</tr>
 								<tr>
-									<td><h5>Roles List</h5></td>
+									<td><h5><b>Roles List</b></h5></td>
 									<td></td>
 								</tr>
-								<tr>
+								<!--  tr>
 									<td>Gade1</td>
 									<td><input type="button" id="register" value="Remove Role"
 										class="btn btn-info" onclick="UserMgt.removeRole();" /></td>
-								</tr>
+								</tr-->
+								
 								<tr>
-									<td>Gade2</td>
-									<td><input type="button" id="register" value="Remove Role"
-										class="btn btn-info" onclick="UserMgt.removeRole();" /></td>
-								</tr>
-								<tr>
-									<td><select>
+									<td><div id="listrole"><select>
 											<option value="g3">Grade3</option>
 											<option value="g4">Grade4</option>
-									</select></td>
+									</select></div></td>
 									<td><input type="button" id="register" value="Add Role"
-										class="btn btn-primary" onclick="UserMgt.addRole();" /></td>
+										class="btn btn-primary" onclick="RoleMgt.addRoleForUser();" /><div id="msgStatus"></div></td>
 								</tr>
 								<tr>
 									<td><input type="button" id="register" value="Remove User"
@@ -137,7 +132,23 @@ include('/includes/loginCheck.jag');
 	<script src="js/mustache.js"></script>
 	<script src="./js/util.js"></script>
 	<script src="./js/usermgt.js"></script>
+	<script src="./js/rolemgt.js"></script>
+<!-- adding data -->
+	
 
+				<script> 
+
+
+				$(function() {
+					
+				    UserMgt.listdata();
+    
+
+       });
+
+   
+ 
+</script>
 
 
 </body>

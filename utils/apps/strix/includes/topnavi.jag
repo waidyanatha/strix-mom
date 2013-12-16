@@ -30,6 +30,15 @@ user.init(configs);
                         <li>
                             <a href="./libIndex.jag">Library</a>
                         </li>
+                         <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Library <b class="caret"></b></a>
+                        <ul class="dropdown-menu" id="libul">
+                          <li><a href="#">Grade1</a></li>
+                          <li><a href="#">Grade2</a></li>
+                          <li><a href="#">Grade3</a></li>
+                          
+                        </ul>
+                      </li>
                         <li>
                         <% var userRolesList = session.get('LoggedInUserRoles'), userAdmin=false;
                         if(userRolesList != null){
@@ -39,9 +48,10 @@ user.init(configs);
                                 userAdmin=true;
                             }else if(userRolesList[i] != 'Internal/everyone' && userRolesList[i] != 'schoolMember')
                             {
-                                log.info("student role for UI.. adding");%>
+                                log.info(i+"student role for UI.. adding");%>
                                  <a href="#<% print(userRolesList[i]); %>">
                                  <% print(userRolesList[i]); %>
+                                 
                                  </a>
                                  <%
                             }
@@ -52,15 +62,7 @@ user.init(configs);
                             <a href="./office.jag">Office</a>
                         </li>
                         <%}%>
-                        <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Library <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                          <li><a href="#">Grade1</a></li>
-                          <li><a href="#">Grade2</a></li>
-                          <li><a href="#">Grade3</a></li>
-                          
-                        </ul>
-                      </li>
+                       
 						<li>
 							<a href="#help">Help</a>
 						</li>	

@@ -15,6 +15,9 @@ switch(action) {
 case "listroles":
 		print(listroles());
 		break;
+		case "listrolesLDAP":
+				print(listrolesLDAP());
+				break;
 	case "addroles":
 		print(addroles(rolesName, rolesOut, rolesExtNo, rolesExt));
 		break;

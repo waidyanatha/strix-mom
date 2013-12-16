@@ -108,6 +108,7 @@ var listUsers = function() {
 };
 var listRoles = function() {
 	var server = require('/modules/server.js');
+	log.info(server.userManager());
 	return server.userManager().allRoles();
 };
 var removeUser = function(username) {

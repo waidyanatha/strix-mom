@@ -140,7 +140,7 @@
 				<version>2.2.2</version>
 				<configuration>
 					<finalName>strix-dll</finalName>
-					<outputDirectory>Release</outputDirectory>
+					<outputDirectory>ReleaseFinal</outputDirectory>
 					<descriptors>
 						<descriptor>src/main/assembly/assembly.xml</descriptor>
 					</descriptors>
@@ -230,7 +230,7 @@
 		<profile>
 			<id>dev</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
 				<resourcePath>src/main/resources</resourcePath>
@@ -240,7 +240,7 @@
 		<profile>
 			<id>prod</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
 				<resourcePath>.</resourcePath>

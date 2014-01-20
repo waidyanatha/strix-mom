@@ -202,7 +202,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     public void packetReceived(UdpServer.Event evt) {
         DatagramPacket packet = evt.getUdpServer().getPacket(); // Not actually using this here.
         final String message = evt.getPacketAsString();
-        System.out.println(evt.getUdpServer().getType() + "UdpServer.Event " + message);
+        System.out.println(evt.getUdpServer().getType() + "UdpServer.Event ");
 
         switch (evt.getUdpServer().getType()){
             case FILE:
@@ -249,7 +249,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	}
     
 	public void streamRecevied(String type,String filename,byte[] messageData) {
-    	System.out.println("STREAM RECEIVED"+messageData);
+    	System.out.println("STREAM RECEIVED"+type);
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
 		
 		if(type.equalsIgnoreCase("streamReceived")){
@@ -257,12 +257,12 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 			message.setNs("org.jwebsocket.plugins.system");
             message.setAction("streamReceived");
             message.setType("broadcast");
-            String stringToStore = Base64.encode(messageData).toString();
-            byte[] restoredBytes = Base64.decode(stringToStore.getBytes());
+            //String stringToStore = Base64.encode(messageData).toString();
+            //byte[] restoredBytes = Base64.decode(stringToStore.getBytes());
             //message.setDataStream(messageData);
             message.setDataStream(messageData);
-            message.setData(stringToStore);
-            System.out.println("STREAM ENCODED"+stringToStore);
+            //message.setData(stringToStore);
+            System.out.println("STREAM ENCODED"+messageData);
             sendPacket(messageProcessor.getMessageHandler().getMessage(message));
         }
 		

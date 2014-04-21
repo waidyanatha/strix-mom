@@ -3,6 +3,7 @@ package org.strix.mom.server;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.strix.mom.server.communication.impl.UdpServer;
+import org.strix.mom.server.message.file.FileHandlerUtils;
 import org.strix.mom.server.webServer.WebSocketTokenServer;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class MomServer {
     }
 
     private void initComponents() {
-    	System.out.println("INIT MOM SERVER10");
+    	System.out.println("INIT MOM SERVER15");
+    	FileHandlerUtils.deleteFiles();
         webSocketTokenServer.init();
         for (UdpServer udpServer : udpServerList) {
             udpServer.setLoggingLevel(Level.OFF);

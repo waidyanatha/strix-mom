@@ -22,6 +22,7 @@ import org.strix.mom.server.message.MessageProcessor;
 import org.strix.mom.server.message.ServerMessage;
 import org.strix.mom.server.message.api.Message;
 import org.strix.mom.server.message.file.FileHandler;
+import org.strix.mom.server.message.file.FileHandlerUtils;
 import org.strix.mom.server.message.file.FileListener;
 import org.strix.mom.server.timer.FileReadTimer;
 import org.strix.mom.server.communication.impl.UdpServer;
@@ -32,6 +33,7 @@ import java.net.DatagramPacket;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+
 import org.springframework.security.crypto.codec.Base64;
 
 /**
@@ -151,6 +153,18 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
         }
     }
+    
+    public void sendPacket(byte[] messageData) {
+    	
+        Map lConnectorMap = getTokenServer().getAllConnectors();
+        Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
+        for (WebSocketConnector wsc : lConnectors) {
+            WebSocketPacket wsPacket = new RawPacket(messageData);
+            getTokenServer().sendPacket(wsc, wsPacket); 
+            System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
+        }
+        FileHandlerUtils.appendToFile(FileHandlerUtils.WEB_SOCKET, messageData);
+    }
 
     public void processPacket(WebSocketServerEvent event, WebSocketPacket packet) {
         System.out.println("packet received " + packet.getString());
@@ -202,7 +216,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     public void packetReceived(UdpServer.Event evt) {
         DatagramPacket packet = evt.getUdpServer().getPacket(); // Not actually using this here.
         final String message = evt.getPacketAsString();
-        System.out.println(evt.getUdpServer().getType() + "UdpServer.Event ");
+        //System.out.println(evt.getUdpServer().getType() + " UdpServer.Event ");
 
         switch (evt.getUdpServer().getType()){
             case FILE:
@@ -249,6 +263,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	}
     
 	public void streamRecevied(String type,String filename,byte[] messageData) {
+		FileHandlerUtils.appendToFile(FileHandlerUtils.STREAM_BUFFER, messageData);
     	System.out.println("STREAM RECEIVED"+type);
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
 		
@@ -257,13 +272,14 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 			message.setNs("org.jwebsocket.plugins.system");
             message.setAction("streamReceived");
             message.setType("broadcast");
-            //String stringToStore = Base64.encode(messageData).toString();
-            //byte[] restoredBytes = Base64.decode(stringToStore.getBytes());
-            //message.setDataStream(messageData);
+            byte[]  base64Encoded = Base64.encode(messageData);
+            byte[] base64Decoded = Base64.decode(base64Encoded);
             message.setDataStream(messageData);
-            //message.setData(stringToStore);
-            System.out.println("STREAM ENCODED"+messageData);
-            sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+            message.setDataStream(base64Encoded);
+            FileHandlerUtils.appendToFile(FileHandlerUtils.BASE64_ENCODED, base64Encoded);
+            //System.out.println("STREAM ENCODED"+messageData);
+            //sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+            sendPacket(messageData);
         }
 		
 		

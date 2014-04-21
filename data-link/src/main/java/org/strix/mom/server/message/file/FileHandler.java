@@ -17,12 +17,14 @@ public class FileHandler {
 	private String outputLocation;
 	private String inputLocation;
 	private String mode;
+	private String filemode;
 
 	public byte[] processFrame(UdpServer.Event evt) {
 		DatagramPacket packet = evt.getUdpServer().getPacket();
 		byte[] data = evt.getPacketAsBytes();
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
-		if (mode.equals("dev")) {
+		if (filemode.equals("dev")) {
+			//System.out.println("filemode "+filemode);
 			ObjectInputStream is = null;
 			try {
 				is = new ObjectInputStream(in);
@@ -77,7 +79,7 @@ public class FileHandler {
 	private void createAndWriteFile(FileEvent fileEvent) {
 		String outputFile = outputLocation + File.separator
 				+ fileEvent.getFilename();
-		System.out.println("outputFile" + outputFile);
+		//System.out.println("outputFile" + outputFile);
 		if (!new File(outputLocation).exists()) {
 			new File(outputLocation).mkdirs();
 		}
@@ -120,6 +122,7 @@ public class FileHandler {
 				fileOuputStream.close();
 				fileEventHashMap.remove(outputFile);
 			}
+			//System.out.println("dstFile" +dstFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -208,5 +211,15 @@ public class FileHandler {
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
+
+	public String getFilemode() {
+		return filemode;
+	}
+
+	public void setFilemode(String filemode) {
+		this.filemode = filemode;
+	}
+	
+	
 
 }

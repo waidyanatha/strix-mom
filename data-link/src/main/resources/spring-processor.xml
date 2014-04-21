@@ -49,6 +49,7 @@
 	<bean id="fileHandler" class="org.strix.mom.server.message.file.FileHandler">
 		<property name="outputLocation" value="${outputLocation}"/>
 		<property name="mode" value="${mode}"></property>
+		<property name="filemode" value="${filemode}"></property>
 		<property name="inputLocation" value="${inputLocation}"/>
 	</bean>
 	
@@ -56,6 +57,24 @@
 		<property name="frequency" value="1000"/>
 		<property name="fileHandler" ref="fileHandler"/>
 	</bean>
+	
+	<bean id="fileSender" class="temp.FileSender">
+        <property name="sourceFilePath" value="/tmp/in/2.png"/>
+        <property name="destinationPath" value="/tmp/out/"/>
+        <!--  property name="hostName" value="192.168.100.182"/-->
+        <property name="hostName" value="localhost"/>
+        <property name="port" value="8003"/>
+    </bean>
+    
+	<bean id="udpStreamSender" class="temp.UDPStreamSender">
+        <property name="sourceFilePath" value="/tmp/in/2.png"/>
+        <property name="destinationPath" value="/tmp/out/"/>
+        <!--  property name="hostName" value="192.168.100.182"/-->
+        <property name="hostName" value="localhost"/>
+        <property name="port" value="5000"/>
+    </bean>
+    
+	
 	
 
 </beans>

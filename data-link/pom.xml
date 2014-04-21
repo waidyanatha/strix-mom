@@ -140,7 +140,7 @@
 				<version>2.2.2</version>
 				<configuration>
 					<finalName>strix-dll</finalName>
-					<outputDirectory>ReleaseFinal</outputDirectory>
+					<outputDirectory>ReleaseFileNew</outputDirectory>
 					<descriptors>
 						<descriptor>src/main/assembly/assembly.xml</descriptor>
 					</descriptors>
@@ -235,6 +235,7 @@
 			<properties>
 				<resourcePath>src/main/resources</resourcePath>
 				<mode>dev</mode>
+				<filemode>dev</filemode>
 			</properties>
 		</profile>
 		<profile>
@@ -245,6 +246,7 @@
 			<properties>
 				<resourcePath>.</resourcePath>
 				<mode>prod</mode>
+				<filemode>dev</filemode>
 			</properties>
 		</profile>
 	</profiles>

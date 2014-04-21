@@ -14,6 +14,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.strix.mom.server.message.file.FileHandlerUtils;
+
 /**
  * Author: Tharindu Jayasuriya
  */
@@ -283,8 +285,9 @@ public class UdpServer {
                     ////////  B L O C K I N G
 
                     if (LOGGER.isLoggable(Level.FINE)) {
-                        LOGGER.fine("UDP Server received datagram: " + packet);
+                        //LOGGER.fine("UDP Server received datagram: " + packet);
                     }
+                    FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, packet.getData());
                     fireUdpServerPacketReceived();
 
                 }   //end if: not closed

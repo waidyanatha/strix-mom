@@ -101,6 +101,7 @@
 					
 					// OnMessage callback
 					OnToken: function( aToken ) {
+						//logList("ALL DATA"+aToken.data);
 						if( aToken.action == "getDirectoryListing") {
 							logList(aToken.data);
 						}else if( aToken.action == "fileReceived") {

@@ -46,11 +46,8 @@ public class UDPStreamSender {
                 i=i+buffer.length;
                 event.setFileData(buffer);
                 
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ObjectOutputStream os = new ObjectOutputStream(outputStream);
                 System.out.println(event.getFileData().length+"$$$$$$$$$$$$$$$$$"+new String(event.getFileData()));
-                os.writeObject(event.getFileData());
-                byte[] data = outputStream.toByteArray();
+                byte[] data = event.getFileData();//new String(event.getFileData()).getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(sendPacket);
                 noPacketsSend++;

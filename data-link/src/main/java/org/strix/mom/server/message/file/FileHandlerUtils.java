@@ -13,7 +13,7 @@ public class FileHandlerUtils {
 	
 	
 	public static void appendToFile(String fileName,byte[] data){
-		boolean writeToFiles = false;
+		boolean writeToFiles = true;
 		if(writeToFiles){
 			System.out.println(fileName+":"+new String(data));
 			FileOutputStream output=null;

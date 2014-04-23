@@ -791,6 +791,7 @@ public class UdpServer {
                 System.arraycopy(
                         packet.getData(), packet.getOffset(),
                         data, 0, data.length);
+                System.out.println(data.length+"packet.getOffset()"+packet.getOffset());
                 return data;
             }   // end else
         }   // end getPacketAsBytes

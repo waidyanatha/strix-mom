@@ -23,13 +23,13 @@ public class UDPStreamSender {
         try {
             socket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName(hostName);
-            byte[] incomingData = new byte[64 * 1024];
+            byte[] incomingData = new byte[1 * 1024];
             event = getFileEvent();
             byte[] fileData = event.getFileData();
             event.setFileData(null);
             int noPacketsSend = 0;
             for (int i = 0; i < event.getFileSize(); ) {
-                byte[] buffer = new byte[1024*62];
+                byte[] buffer = new byte[1024*1];
                 event.setStart(i);
                 event.setBufferSize(buffer.length);
                 if(i+buffer.length>event.getFileSize()){
@@ -48,20 +48,23 @@ public class UDPStreamSender {
                 
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 ObjectOutputStream os = new ObjectOutputStream(outputStream);
+                System.out.println(event.getFileData().length+"$$$$$$$$$$$$$$$$$"+new String(event.getFileData()));
                 os.writeObject(event.getFileData());
                 byte[] data = outputStream.toByteArray();
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(sendPacket);
                 noPacketsSend++;
                 System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" Packets"+noPacketsSend);
+                System.out.println("sendPacket.getOffset()"+sendPacket.getOffset()+" sendPacket.getLength()"+sendPacket.getLength());
+                System.out.println("sendPacket.getData()"+new String(sendPacket.getData()));
                 Thread.sleep(1000);
             }
+            Thread.sleep(50000);
             System.out.println("File sent from client with "+noPacketsSend);
-            //Thread.sleep(50000);
-            DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-            socket.receive(incomingPacket);
-            String response = new String(incomingPacket.getData());
-            System.out.println("Response from server:" + response);
+            //DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+            //socket.receive(incomingPacket);
+            //String response = new String(incomingPacket.getData());
+            //System.out.println("Response from server:" + response);
 
             System.exit(0);
 

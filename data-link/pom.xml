@@ -234,7 +234,7 @@
 			</activation>
 			<properties>
 				<resourcePath>src/main/resources</resourcePath>
-				<mode>dev</mode>
+				<mode>prod</mode>
 				<filemode>dev</filemode>
 			</properties>
 		</profile>

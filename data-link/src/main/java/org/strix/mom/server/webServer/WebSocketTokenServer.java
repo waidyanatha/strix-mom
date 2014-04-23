@@ -263,7 +263,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	}
     
 	public void streamRecevied(String type,String filename,byte[] messageData) {
-		FileHandlerUtils.appendToFile(FileHandlerUtils.STREAM_BUFFER, messageData);
+		//FileHandlerUtils.appendToFile(FileHandlerUtils.STREAM_BUFFER, messageData);
     	System.out.println("STREAM RECEIVED"+type);
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
 		
@@ -276,7 +276,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             byte[] base64Decoded = Base64.decode(base64Encoded);
             message.setDataStream(messageData);
             message.setDataStream(base64Encoded);
-            FileHandlerUtils.appendToFile(FileHandlerUtils.BASE64_ENCODED, base64Encoded);
+            //FileHandlerUtils.appendToFile(FileHandlerUtils.BASE64_ENCODED, base64Encoded);
             //System.out.println("STREAM ENCODED"+messageData);
             //sendPacket(messageProcessor.getMessageHandler().getMessage(message));
             sendPacket(messageData);

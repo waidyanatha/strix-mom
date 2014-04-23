@@ -287,7 +287,7 @@ public class UdpServer {
                     if (LOGGER.isLoggable(Level.FINE)) {
                         //LOGGER.fine("UDP Server received datagram: " + packet);
                     }
-                    FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, packet.getData());
+                    FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, getPacketAsBytes(packet));
                     fireUdpServerPacketReceived();
 
                 }   //end if: not closed
@@ -313,6 +313,33 @@ public class UdpServer {
             this.mSocket = null;
         }
     }
+    
+    public byte[] getPacketAsBytes(DatagramPacket packet) {
+        if (packet == null) {
+            return null;
+        } else {
+            byte[] data = new byte[packet.getLength()];
+            System.arraycopy(
+                    packet.getData(), packet.getOffset(),
+                    data, 0, data.length);
+            int dataCount = 0;
+            char[] annoyingchar = new char[1];
+            for(int i=0;i<=data.length;i++){
+            	if(data[i]==annoyingchar[0]){
+            		dataCount = i;
+                    break;
+                }
+            }
+            System.out.println("dataCount"+dataCount);
+            System.out.println("data.length"+data.length);
+            byte[] filteredData = new byte[dataCount];
+            System.arraycopy(
+                    packet.getData(), packet.getOffset(),
+                    filteredData, 0, filteredData.length);
+            
+            return filteredData;
+        }   // end else
+    } 
 
 /* ********  P A C K E T  ******** */
 
@@ -791,12 +818,25 @@ public class UdpServer {
                 System.arraycopy(
                         packet.getData(), packet.getOffset(),
                         data, 0, data.length);
-                System.out.println(data.length+"packet.getOffset()"+packet.getOffset());
-                return data;
+                int dataCount = 0;
+                char[] annoyingchar = new char[1];
+                for(int i=0;i<=data.length;i++){
+                	if(data[i]==annoyingchar[0]){
+                		dataCount = i;
+                        break;
+                    }
+                }
+                System.out.println("dataCount"+dataCount);
+                System.out.println("data.length"+data.length);
+                byte[] filteredData = new byte[dataCount];
+                System.arraycopy(
+                        packet.getData(), packet.getOffset(),
+                        filteredData, 0, filteredData.length);
+                
+                return filteredData;
             }   // end else
         }   // end getPacketAsBytes
-
-
+        
         /**
          * Returns the data in the most recently-received
          * packet as if it were a String

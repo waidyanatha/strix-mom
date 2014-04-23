@@ -23,13 +23,13 @@ public class UDPStreamSender {
         try {
             socket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName(hostName);
-            byte[] incomingData = new byte[1 * 1024];
+            byte[] incomingData = new byte[64 * 1024];
             event = getFileEvent();
             byte[] fileData = event.getFileData();
             event.setFileData(null);
             int noPacketsSend = 0;
             for (int i = 0; i < event.getFileSize(); ) {
-                byte[] buffer = new byte[1024*1];
+                byte[] buffer = new byte[1024*62];
                 event.setStart(i);
                 event.setBufferSize(buffer.length);
                 if(i+buffer.length>event.getFileSize()){

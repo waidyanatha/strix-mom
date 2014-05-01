@@ -31,7 +31,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.scriptSourceDirectory}</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>bin</outputDirectory>
 			<filtered>true</filtered>
 			<fileMode>0744</fileMode>
 			<includes>

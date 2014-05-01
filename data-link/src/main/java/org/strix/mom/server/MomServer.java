@@ -24,7 +24,7 @@ public class MomServer {
     }
 
     private void initComponents() {
-    	System.out.println("INIT MOM SERVER15");
+    	System.out.println("INIT MOM SERVER16");
     	FileHandlerUtils.deleteFiles();
         webSocketTokenServer.init();
         for (UdpServer udpServer : udpServerList) {

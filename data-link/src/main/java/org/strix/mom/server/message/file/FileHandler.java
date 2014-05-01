@@ -23,8 +23,9 @@ public class FileHandler {
 		DatagramPacket packet = evt.getUdpServer().getPacket();
 		byte[] data = evt.getPacketAsBytes();
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
+		System.out.println("filemode "+filemode);
 		if (filemode.equals("dev")) {
-			//System.out.println("filemode "+filemode);
+			
 			ObjectInputStream is = null;
 			try {
 				is = new ObjectInputStream(in);
@@ -79,7 +80,7 @@ public class FileHandler {
 	private void createAndWriteFile(FileEvent fileEvent) {
 		String outputFile = outputLocation + File.separator
 				+ fileEvent.getFilename();
-		//System.out.println("outputFile" + outputFile);
+		System.out.println("outputFile" + outputFile);
 		if (!new File(outputLocation).exists()) {
 			new File(outputLocation).mkdirs();
 		}

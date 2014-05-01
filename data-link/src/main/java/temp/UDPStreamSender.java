@@ -23,6 +23,7 @@ public class UDPStreamSender {
         try {
             socket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName(hostName);
+            
             byte[] incomingData = new byte[64 * 1024];
             event = getFileEvent();
             byte[] fileData = event.getFileData();
@@ -46,18 +47,19 @@ public class UDPStreamSender {
                 i=i+buffer.length;
                 event.setFileData(buffer);
                 
-                System.out.println(event.getFileData().length+"$$$$$$$$$$$$$$$$$"+new String(event.getFileData()));
+                //System.out.println(IPAddress+"$$$$$"+event.getFileData().length+"$$$$$$$$$$$$$$$$$"+new String(event.getFileData()));
                 byte[] data = event.getFileData();//new String(event.getFileData()).getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(sendPacket);
                 noPacketsSend++;
                 System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" Packets"+noPacketsSend);
                 System.out.println("sendPacket.getOffset()"+sendPacket.getOffset()+" sendPacket.getLength()"+sendPacket.getLength());
-                System.out.println("sendPacket.getData()"+new String(sendPacket.getData()));
+                //System.out.println("sendPacket.getData()"+new String(sendPacket.getData()));
+                System.out.println(IPAddress.toString()+"$$$$$");
                 Thread.sleep(1000);
             }
             Thread.sleep(50000);
-            System.out.println("File sent from client with "+noPacketsSend);
+			System.out.println("File sent from client with "+noPacketsSend);
             //DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
             //socket.receive(incomingPacket);
             //String response = new String(incomingPacket.getData());

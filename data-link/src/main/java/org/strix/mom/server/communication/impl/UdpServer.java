@@ -90,6 +90,8 @@ public class UdpServer {
         STREAM, FILE, COMMANDS, TEXT
     };
     private Type type = Type.TEXT;
+    private boolean filterBlank = false;
+    private boolean writeToFiles = false;
 
 /* ********  C O N S T R U C T O R S  ******** */
 
@@ -287,7 +289,7 @@ public class UdpServer {
                     if (LOGGER.isLoggable(Level.FINE)) {
                         //LOGGER.fine("UDP Server received datagram: " + packet);
                     }
-                    FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, getPacketAsBytes(packet));
+                    FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, getPacketAsBytes(packet),writeToFiles);
                     fireUdpServerPacketReceived();
 
                 }   //end if: not closed
@@ -322,10 +324,12 @@ public class UdpServer {
             System.arraycopy(
                     packet.getData(), packet.getOffset(),
                     data, 0, data.length);
+            if(isFilterBlank()){
             int dataCount = 0;
             char[] annoyingchar = new char[1];
             for(int i=0;i<=data.length;i++){
-            	if(data[i]==annoyingchar[0]){
+            	//System.out.println(data[i]+"%%%%%%"+annoyingchar[0]);
+           	if(data[i]==annoyingchar[0]){
             		dataCount = i;
                     break;
                 }
@@ -338,6 +342,9 @@ public class UdpServer {
                     filteredData, 0, filteredData.length);
             
             return filteredData;
+            }else{
+            	return data;
+            }
         }   // end else
     } 
 
@@ -648,6 +655,8 @@ public class UdpServer {
     public void setType(Type type) {
         this.type = type;
     }
+    
+    
 
     /* ********                                                          ******** */
 /* ********                                                          ******** */
@@ -656,7 +665,26 @@ public class UdpServer {
 /* ********                                                          ******** */
 
 
-    /**
+    public boolean isFilterBlank() {
+		return filterBlank;
+	}
+
+	public void setFilterBlank(boolean filterBlank) {
+		this.filterBlank = filterBlank;
+	}
+
+	public boolean isWriteToFiles() {
+		return writeToFiles;
+	}
+
+	public void setWriteToFiles(boolean writeToFiles) {
+		this.writeToFiles = writeToFiles;
+	}
+
+
+
+
+	/**
      * An interface for listening to events from a {@link UdpServer}.
      * A single {@link Event} is shared for all invocations
      * of these methods.
@@ -818,22 +846,27 @@ public class UdpServer {
                 System.arraycopy(
                         packet.getData(), packet.getOffset(),
                         data, 0, data.length);
-                int dataCount = 0;
-                char[] annoyingchar = new char[1];
-                for(int i=0;i<=data.length;i++){
-                	if(data[i]==annoyingchar[0]){
-                		dataCount = i;
-                        break;
-                    }
-                }
-                System.out.println("dataCount"+dataCount);
-                System.out.println("data.length"+data.length);
-                byte[] filteredData = new byte[dataCount];
-                System.arraycopy(
-                        packet.getData(), packet.getOffset(),
-                        filteredData, 0, filteredData.length);
+                if(getUdpServer().isFilterBlank()){
+                	int dataCount = 0;
+	                char[] annoyingchar = new char[1];
+	                for(int i=0;i<=data.length;i++){
+	                	if(data[i]==annoyingchar[0]){
+	                		dataCount = i;
+	                        break;
+	                    }
+	                }
+	                System.out.println("dataCount"+dataCount);
+	                System.out.println("data.length"+data.length);
+	                byte[] filteredData = new byte[dataCount];
+	                System.arraycopy(
+	                        packet.getData(), packet.getOffset(),
+	                        filteredData, 0, filteredData.length);
+	                
+	                return filteredData;
+	             }else{
+	            	 return data;
+	             }
                 
-                return filteredData;
             }   // end else
         }   // end getPacketAsBytes
         

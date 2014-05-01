@@ -12,10 +12,10 @@ public class FileHandlerUtils {
 	public static String WEB_SOCKET = "websocket.ts";
 	
 	
-	public static void appendToFile(String fileName,byte[] data){
-		boolean writeToFiles = true;
+	public static void appendToFile(String fileName,byte[] data,boolean writeToFiles){
+		System.out.println(fileName+":"+writeToFiles);
 		if(writeToFiles){
-			System.out.println(fileName+":"+new String(data));
+			
 			FileOutputStream output=null;
 			try {
 				output = new FileOutputStream(fileName, true);

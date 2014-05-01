@@ -48,7 +48,7 @@ public class MessageProcessor {
             }else{
             	replyToSenderOnly = false;
             }
-            System.out.println("message"+message);
+            //System.out.println("message"+message);
             String jsonResponse = messageHandler.getMessage(message);
             serverMessage.setSentReply(replyMessage);
             serverMessage.setResponseData(jsonResponse);

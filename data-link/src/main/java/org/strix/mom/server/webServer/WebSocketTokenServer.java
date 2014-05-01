@@ -81,7 +81,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     }
 
     public void processToken(WebSocketServerTokenEvent aEvent, Token aToken) {
-        System.out.println("WebSocketTokenServer.processToken"+aToken);
+        //System.out.println("WebSocketTokenServer.processToken"+aToken);
         String lNS = aToken.getNS();
 	    String lType = aToken.getType();
 
@@ -107,14 +107,14 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	        for (WebSocketConnector wsc : lConnectors) {
 //	            WebSocketPacket wsPacket = new RawPacket(messageData);
 //	            getTokenServer().sendPacket(wsc, wsPacket); 
-	            System.out.println("SENDING INFO TO CLIENT RECEIVED"+aToken);
+	            //System.out.println("SENDING INFO TO CLIENT RECEIVED"+aToken);
 	            if(wsc==aEvent.getConnector()){
-	            	System.out.println("SENDING INFO ONLY TO CLIENT RECEIVED"+aToken);
+	            	//System.out.println("SENDING INFO ONLY TO CLIENT RECEIVED"+aToken);
 	            	getTokenServer().sendToken(wsc, aToken);
 		        }
 	        }
 	      }else{
-	    	  System.out.println("SENDING INFO ONLY TO LOGIN CLIENT RECEIVED"+aToken);
+	    	  //System.out.println("SENDING INFO ONLY TO LOGIN CLIENT RECEIVED"+aToken);
 	    	  getTokenServer().sendToken(aEvent.getConnector(), aToken);
 	      }
     }
@@ -150,24 +150,24 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         for (WebSocketConnector wsc : lConnectors) {
             WebSocketPacket wsPacket = new RawPacket(messageData);
             getTokenServer().sendPacket(wsc, wsPacket); 
-            System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
+            //System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
         }
     }
     
-    public void sendPacket(byte[] messageData) {
+    public void sendPacket(byte[] messageData,boolean writeToFiles) {
     	
         Map lConnectorMap = getTokenServer().getAllConnectors();
         Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
         for (WebSocketConnector wsc : lConnectors) {
             WebSocketPacket wsPacket = new RawPacket(messageData);
             getTokenServer().sendPacket(wsc, wsPacket); 
-            System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
+            //System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
         }
-        FileHandlerUtils.appendToFile(FileHandlerUtils.WEB_SOCKET, messageData);
+        FileHandlerUtils.appendToFile(FileHandlerUtils.WEB_SOCKET, messageData,writeToFiles);
     }
 
     public void processPacket(WebSocketServerEvent event, WebSocketPacket packet) {
-        System.out.println("packet received " + packet.getString());
+        //System.out.println("packet received " + packet.getString());
         ApplicationClient client = applicationClientManager.getApplicationClient(event.getConnector().getId());
 //        System.out.println("Connected clients"+applicationClientManager.getApplicationClients().size());
         client.setLastMessageReceived(new Date(System.currentTimeMillis()));
@@ -216,14 +216,14 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     public void packetReceived(UdpServer.Event evt) {
         DatagramPacket packet = evt.getUdpServer().getPacket(); // Not actually using this here.
         final String message = evt.getPacketAsString();
-        //System.out.println(evt.getUdpServer().getType() + " UdpServer.Event ");
+        System.out.println(evt.getUdpServer().getType() + " UdpServer.Event ");
 
         switch (evt.getUdpServer().getType()){
             case FILE:
                 fileHandler.processFrame(evt);
                 break;
             case STREAM:
-            	streamRecevied("streamReceived","stream",evt.getPacketAsBytes());
+            	streamRecevied("streamReceived","stream",evt.getPacketAsBytes(),evt.getUdpServer().isWriteToFiles());
                 break;
             case TEXT:
                 break;
@@ -236,7 +236,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     
     @Override
 	public void fileRecevied(String type,String filename,String messageData) {
-    	System.out.println("FILE RECEIVED"+messageData);
+    	System.out.println("FILE RECEIVED");
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
 		AddResourceMessage resourceMessage = (AddResourceMessage)messageProcessor.getMessageHandler().getResourceMessage(ResourceMessage.TYPE_ADDMINI_RESOURCE);
 		if(type.equalsIgnoreCase("fileReceived")){
@@ -262,9 +262,9 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         }		
 	}
     
-	public void streamRecevied(String type,String filename,byte[] messageData) {
+	public void streamRecevied(String type,String filename,byte[] messageData,boolean writeToFiles) {
 		//FileHandlerUtils.appendToFile(FileHandlerUtils.STREAM_BUFFER, messageData);
-    	System.out.println("STREAM RECEIVED"+type);
+    	//System.out.println("STREAM RECEIVED"+type);
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
 		
 		if(type.equalsIgnoreCase("streamReceived")){
@@ -279,7 +279,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             //FileHandlerUtils.appendToFile(FileHandlerUtils.BASE64_ENCODED, base64Encoded);
             //System.out.println("STREAM ENCODED"+messageData);
             //sendPacket(messageProcessor.getMessageHandler().getMessage(message));
-            sendPacket(messageData);
+            sendPacket(messageData,writeToFiles);
         }
 		
 		
@@ -399,6 +399,5 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	public void setFileReadTimer(FileReadTimer fileReadTimer) {
 		this.fileReadTimer = fileReadTimer;
 	}
-
-    
+	
 }

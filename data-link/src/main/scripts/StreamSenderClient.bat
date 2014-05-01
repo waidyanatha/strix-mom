@@ -1,4 +1,4 @@
-title = UDPFileSendClient
+title = UDPStreamSendClient
 
 echo OFF
 

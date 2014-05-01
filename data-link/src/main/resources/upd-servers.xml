@@ -16,17 +16,25 @@
     <bean id="udpServer1" class="org.strix.mom.server.communication.impl.UdpServer">
         <constructor-arg value="8000"/>
         <property name="type" value="TEXT"/>
+        <property name="filterBlank" value="false"/>
+        <property name="writeToFiles" value="false"/>
     </bean>
     <bean id="udpServer2" class="org.strix.mom.server.communication.impl.UdpServer">
         <constructor-arg value="8001"/>
         <property name="type" value="COMMANDS"/>
+        <property name="filterBlank" value="false"/>
+        <property name="writeToFiles" value="false"/>
     </bean>
     <bean id="udpServer3" class="org.strix.mom.server.communication.impl.UdpServer">
         <constructor-arg value="5000"/>
         <property name="type" value="STREAM"/>
+        <property name="filterBlank" value="false"/>
+        <property name="writeToFiles" value="true"/>
     </bean>
     <bean id="udpServer4" class="org.strix.mom.server.communication.impl.UdpServer">
         <constructor-arg value="8003"/>
         <property name="type" value="FILE"/>
+        <property name="filterBlank" value="false"/>
+        <property name="writeToFiles" value="false"/>
     </bean>
 </beans>

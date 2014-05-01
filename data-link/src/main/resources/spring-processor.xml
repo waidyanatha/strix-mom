@@ -59,18 +59,18 @@
 	</bean>
 	
 	<bean id="fileSender" class="temp.FileSender">
-        <property name="sourceFilePath" value="/tmp/in/2.txt"/>
-        <property name="destinationPath" value="/tmp/out/"/>
+        <property name="sourceFilePath" value="../in"/>
+        <property name="destinationPath" value="../out"/>
         <!--  property name="hostName" value="192.168.100.182"/-->
-        <property name="hostName" value="localhost"/>
+        <property name="hostName" value="192.168.1.22"/>
         <property name="port" value="8003"/>
     </bean>
     
 	<bean id="udpStreamSender" class="temp.UDPStreamSender">
-        <property name="sourceFilePath" value="/tmp/in/2.txt"/>
-        <property name="destinationPath" value="/tmp/out/"/>
+        <property name="sourceFilePath" value="../in/hello.png"/>
+        <property name="destinationPath" value="../out"/>
         <!--  property name="hostName" value="192.168.100.182"/-->
-        <property name="hostName" value="localhost"/>
+        <property name="hostName" value="192.168.1.22"/>
         <property name="port" value="5000"/>
     </bean>
     

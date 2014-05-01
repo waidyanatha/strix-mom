@@ -6,6 +6,7 @@ import org.strix.mom.server.message.file.FileEvent;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class FileSender {
     private DatagramSocket socket = null;
@@ -19,12 +20,12 @@ public class FileSender {
 
     }
 
-    public void createConnection() {
+    public void createConnection(String fileName) {
         try {
             socket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName(hostName);
             byte[] incomingData = new byte[1024*64];
-            event = getFileEvent();
+            event = getFileEvent(fileName);
             byte[] fileData = event.getFileData();
             System.out.println("FileSender.createConnection"+fileData.length);
             event.setFileData(null);
@@ -46,24 +47,26 @@ public class FileSender {
                 }
                 i=i+buffer.length;
                 event.setFileData(buffer);
-                System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd());
+               
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 ObjectOutputStream os = new ObjectOutputStream(outputStream);
                 os.writeObject(event);
                 byte[] data = outputStream.toByteArray();
+                //byte[] data = event.getFileData();
+                System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd());
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(sendPacket);
                 noPacketsSend++;
                 Thread.sleep(1000);
             }
             System.out.println("File sent from client with "+noPacketsSend);
-            //Thread.sleep(50000);
+            Thread.sleep(80000);
             DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
             socket.receive(incomingPacket);
             String response = new String(incomingPacket.getData());
             System.out.println("Response from server:" + response);
 
-            System.exit(0);
+            //System.exit(0);
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -76,15 +79,15 @@ public class FileSender {
         }
     }
 
-    public FileEvent getFileEvent() {
+    public FileEvent getFileEvent(String sourceFileName) {
         FileEvent fileEvent = new FileEvent();
-        String fileName = sourceFilePath.substring(sourceFilePath.lastIndexOf("/") + 1, sourceFilePath.length());
-        String path = sourceFilePath.substring(0, sourceFilePath.lastIndexOf("/") + 1);
+        String fileName = sourceFileName.substring(sourceFileName.lastIndexOf("/") + 1, sourceFileName.length());
+        String path = sourceFileName.substring(0, sourceFileName.lastIndexOf("/") + 1);
         fileEvent.setDestinationDirectory(destinationPath);
         fileEvent.setFilename(fileName);
-        fileEvent.setSourceDirectory(sourceFilePath);
-        File file = new File(sourceFilePath);
-        System.out.println("sourceFilePath"+sourceFilePath);
+        fileEvent.setSourceDirectory(sourceFileName);
+        File file = new File(sourceFileName);
+        System.out.println("sourceFileName"+sourceFileName);
         System.out.println("destinationPath"+destinationPath);
         if (file.isFile()) {
             try {
@@ -111,12 +114,33 @@ public class FileSender {
         }
         return fileEvent;
     }
+    
+    public static ArrayList<String> listFilesForFolder(final File folder) {
+    	ArrayList<String> filePaths = new ArrayList<String>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else {
+            	filePaths.add(fileEntry.getAbsolutePath());
+                System.out.println("fileEntry"+fileEntry.getAbsolutePath());
+            }
+        }
+        return filePaths;
+    }
+
+    
 
 
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring-processor.xml"});
         FileSender fileSender = (FileSender) context.getBean("fileSender");
-        fileSender.createConnection();
+        System.out.println("fileSender.getSourceFilePath()"+fileSender.getSourceFilePath());
+        final File folder = new File(fileSender.getSourceFilePath());
+        ArrayList<String> filePaths = listFilesForFolder(folder);
+        for(String filePath:filePaths){
+        	fileSender.createConnection(filePath);
+        }
+        
     }
 
     public void setSourceFilePath(String sourceFilePath) {

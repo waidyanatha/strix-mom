@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<import resource="upd-servers.xml" />
+	<import resource="users-auth.xml" />
+	<import resource="config-files.xml"/>
+
+	<bean id="momServer" class="org.strix.mom.server.MomServer">
+		<property name="webSocketTokenServer" ref="webSocketTokenServer" />
+		<property name="udpServerList" ref="udpServerList" />
+	</bean>
+
+	<bean id="webSocketTokenServer" class="org.strix.mom.server.webServer.WebSocketTokenServer">
+		<!--<property name="resourcePath" value="src/main/resources"/> -->
+		<property name="resourcePath" value=".." />
+		<property name="fileHandler" ref="fileHandler" />
+		<property name="applicationClientManager" ref="applicationClientManager" />
+		<property name="messageProcessor" ref="messageProcessor" />
+		<property name="fileReadTimer" ref="fileReadTimer"/>
+	</bean>
+
+
+	<bean id="applicationClientManager" class="org.strix.mom.server.webServer.ApplicationClientManager"
+		factory-method="getInstance" />
+
+	<bean id="messageProcessor" class="org.strix.mom.server.message.MessageProcessor">
+		<property name="fileHandler" ref="fileHandler" />
+		<property name="messageHandler" ref="messageHandler" />
+		<property name="userHandler" ref="userHandler" />
+	</bean>
+
+	<bean id="userHandler" class="org.strix.mom.server.client.UserHandler">
+		<property name="users" ref="userList" />
+	</bean>
+
+	<bean id="messageHandler" class="org.strix.mom.server.message.json.JsonMessageHandler">
+	    <property name="restClient" ref="restClient"></property>
+	</bean> 
+	
+	<bean id="restClient" class="org.strix.mom.server.message.json.RestClient">
+	    <property name="resUrl" value="${resUrl}"/>
+	</bean>
+
+
+	<bean id="fileHandler" class="org.strix.mom.server.message.file.FileHandler">
+		<property name="outputLocation" value="${outputLocation}"/>
+		<property name="mode" value="prod"></property>
+		<property name="filemode" value="dev"></property>
+		<property name="inputLocation" value="${inputLocation}"/>
+	</bean>
+	
+	<bean id="fileReadTimer" class="org.strix.mom.server.timer.FileReadTimer">
+		<property name="frequency" value="1000"/>
+		<property name="fileHandler" ref="fileHandler"/>
+	</bean>
+	
+	<bean id="fileSender" class="temp.FileSender">
+        <property name="sourceFilePath" value="../in"/>
+        <property name="destinationPath" value="../out"/>
+        <!--  property name="hostName" value="192.168.100.182"/-->
+        <property name="hostName" value="192.168.1.22"/>
+        <property name="port" value="8003"/>
+    </bean>
+    
+	<bean id="udpStreamSender" class="temp.UDPStreamSender">
+        <property name="sourceFilePath" value="../in/hello.png"/>
+        <property name="destinationPath" value="../out"/>
+        <!--  property name="hostName" value="192.168.100.182"/-->
+        <property name="hostName" value="192.168.1.22"/>
+        <property name="port" value="5000"/>
+    </bean>
+    
+	
+	
+
+</beans>

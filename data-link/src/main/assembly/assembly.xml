@@ -61,5 +61,13 @@
 				<include>**/*</include>
 			</includes>
 		</fileSet>
+		
+		<fileSet>
+			<directory>target</directory>
+			<outputDirectory>lib</outputDirectory>
+			<includes>
+				<include>server-1.0-SNAPSHOT-client.jar</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 </assembly>

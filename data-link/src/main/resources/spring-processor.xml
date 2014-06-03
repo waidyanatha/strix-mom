@@ -62,7 +62,7 @@
         <property name="sourceFilePath" value="../in"/>
         <property name="destinationPath" value="../out"/>
         <!--  property name="hostName" value="192.168.100.182"/-->
-        <property name="hostName" value="192.168.1.22"/>
+        <property name="hostName" value="127.0.0.1"/>
         <property name="port" value="8003"/>
     </bean>
     
@@ -70,7 +70,7 @@
         <property name="sourceFilePath" value="../in/hello.png"/>
         <property name="destinationPath" value="../out"/>
         <!--  property name="hostName" value="192.168.100.182"/-->
-        <property name="hostName" value="192.168.1.22"/>
+        <property name="hostName" value="127.0.0.1"/>
         <property name="port" value="5000"/>
     </bean>
     

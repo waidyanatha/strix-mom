@@ -21,9 +21,10 @@ public class UDPStreamSender {
 
     public void createConnection() {
         try {
+        	
             socket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName(hostName);
-            
+            System.out.println(IPAddress.toString()+"$$$$$"+hostName + "$$$$$"+sourceFilePath);
             byte[] incomingData = new byte[64 * 1024];
             event = getFileEvent();
             byte[] fileData = event.getFileData();

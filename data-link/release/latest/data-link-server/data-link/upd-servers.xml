@@ -28,7 +28,7 @@
     <bean id="udpServer3" class="org.strix.mom.server.communication.impl.UdpServer">
         <constructor-arg value="5000"/>
         <property name="type" value="STREAM"/>
-        <property name="filterBlank" value="true"/>
+        <property name="filterBlank" value="false"/>
         <property name="writeToFiles" value="true"/>
     </bean>
     <bean id="udpServer4" class="org.strix.mom.server.communication.impl.UdpServer">

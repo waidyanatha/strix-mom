@@ -30,11 +30,16 @@ public class UDPStreamSender {
             byte[] fileData = event.getFileData();
             event.setFileData(null);
             int noPacketsSend = 0;
+            int currentData = 0;
+            int dataLimit = 1024*62;
             for (int i = 0; i < event.getFileSize(); ) {
-                byte[] buffer = new byte[1024*62];
+                byte[] buffer = new byte[dataLimit];
                 event.setStart(i);
-                event.setBufferSize(buffer.length);
-                if(i+buffer.length>event.getFileSize()){
+                event.setBufferSize(dataLimit);
+                if(i+dataLimit>event.getFileSize()){
+                	currentData = (int)(fileData.length-i);
+                	buffer = new byte[currentData];
+                	System.out.println("currentData"+currentData);
                     System.arraycopy(fileData,i,buffer,0,fileData.length-i);
                     event.setLast(true);
                     event.setEnd(fileData.length);
@@ -45,16 +50,16 @@ public class UDPStreamSender {
                         event.setLast(true);
                     }
                 }
-                i=i+buffer.length;
+                i=i+dataLimit;
                 event.setFileData(buffer);
                 
-                //System.out.println(IPAddress+"$$$$$"+event.getFileData().length+"$$$$$$$$$$$$$$$$$"+new String(event.getFileData()));
+                System.out.println("^^^^^^^^^^^"+buffer.length+":"+"$$$$$"+event.getFileData().length+"$$$$$$$$$$$$$$$$$");
                 byte[] data = event.getFileData();//new String(event.getFileData()).getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(sendPacket);
                 noPacketsSend++;
                 System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" Packets"+noPacketsSend);
-                System.out.println("sendPacket.getOffset()"+sendPacket.getOffset()+" sendPacket.getLength()"+sendPacket.getLength());
+                //System.out.println("sendPacket.getOffset()"+sendPacket.getOffset()+" sendPacket.getLength()"+sendPacket.getLength());
                 //System.out.println("sendPacket.getData()"+new String(sendPacket.getData()));
                 System.out.println(IPAddress.toString()+"$$$$$");
                 Thread.sleep(1000);

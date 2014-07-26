@@ -278,8 +278,8 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             message.setDataStream(base64Encoded);
             //FileHandlerUtils.appendToFile(FileHandlerUtils.BASE64_ENCODED, base64Encoded);
             //System.out.println("STREAM ENCODED"+messageData);
-            //sendPacket(messageProcessor.getMessageHandler().getMessage(message));
-            sendPacket(messageData,writeToFiles);
+            sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+            //sendPacket(messageData,writeToFiles);
         }
 		
 		

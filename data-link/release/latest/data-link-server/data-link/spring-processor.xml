@@ -67,7 +67,7 @@
     </bean>
     
 	<bean id="udpStreamSender" class="temp.UDPStreamSender">
-        <property name="sourceFilePath" value="../in/hello.png"/>
+        <property name="sourceFilePath" value="../in/1.mp4"/>
         <property name="destinationPath" value="../out"/>
         <!--  property name="hostName" value="192.168.100.182"/-->
         <property name="hostName" value="127.0.0.1"/>

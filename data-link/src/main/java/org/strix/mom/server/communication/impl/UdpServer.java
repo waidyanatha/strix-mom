@@ -327,21 +327,26 @@ public class UdpServer {
             if(isFilterBlank()){
             int dataCount = 0;
             char[] annoyingchar = new char[1];
-            for(int i=0;i<=data.length;i++){
+            for(int i=data.length;i<=0;i--){
             	//System.out.println(data[i]+"%%%%%%"+annoyingchar[0]);
-           	if(data[i]==annoyingchar[0]){
+            	if(data[i]!=annoyingchar[0]){
             		dataCount = i;
                     break;
                 }
             }
-            System.out.println("dataCount"+dataCount);
-            System.out.println("data.length"+data.length);
+            System.out.println("dataCount:"+dataCount+ " packet.getLength():"+packet.getLength()+" data.length:"+data.length) ;
             byte[] filteredData = new byte[dataCount];
             System.arraycopy(
                     packet.getData(), packet.getOffset(),
                     filteredData, 0, filteredData.length);
             
-            return filteredData;
+            
+            
+            
+            String s = new String(data, 0, packet.getLength());
+            byte[] filteredSData = s.trim().getBytes();
+            System.out.println("dataCount:"+filteredSData.length+ " packet.getLength():"+packet.getLength()+" data.length:"+data.length) ;
+            return filteredSData;
             }else{
             	return data;
             }
@@ -839,36 +844,41 @@ public class UdpServer {
          */
         public byte[] getPacketAsBytes() {
             DatagramPacket packet = getPacket();
-            if (packet == null) {
-                return null;
-            } else {
-                byte[] data = new byte[packet.getLength()];
-                System.arraycopy(
-                        packet.getData(), packet.getOffset(),
-                        data, 0, data.length);
-                if(getUdpServer().isFilterBlank()){
-                	int dataCount = 0;
-	                char[] annoyingchar = new char[1];
-	                for(int i=0;i<=data.length;i++){
-	                	if(data[i]==annoyingchar[0]){
-	                		dataCount = i;
-	                        break;
-	                    }
-	                }
-	                System.out.println("dataCount"+dataCount);
-	                System.out.println("data.length"+data.length);
-	                byte[] filteredData = new byte[dataCount];
-	                System.arraycopy(
-	                        packet.getData(), packet.getOffset(),
-	                        filteredData, 0, filteredData.length);
-	                
-	                return filteredData;
-	             }else{
-	            	 return data;
-	             }
-                
-            }   // end else
-        }   // end getPacketAsBytes
+        if (packet == null) {
+            return null;
+        } else {
+            byte[] data = new byte[packet.getLength()];
+            System.arraycopy(
+                    packet.getData(), packet.getOffset(),
+                    data, 0, data.length);
+            if(getUdpServer().isFilterBlank()){
+            int dataCount = 0;
+            char[] annoyingchar = new char[1];
+            for(int i=data.length;i<=0;i--){
+            	//System.out.println(data[i]+"%%%%%%"+annoyingchar[0]);
+            	if(data[i]!=annoyingchar[0]){
+            		dataCount = i;
+                    break;
+                }
+            }
+            System.out.println("dataCount1:"+dataCount+ " packet.getLength():"+packet.getLength()+" data.length:"+data.length) ;
+            byte[] filteredData = new byte[dataCount];
+            System.arraycopy(
+                    packet.getData(), packet.getOffset(),
+                    filteredData, 0, filteredData.length);
+            
+            
+            
+            
+            String s = new String(data, 0, packet.getLength());
+            byte[] filteredSData = s.trim().getBytes();
+            System.out.println("dataCount2:"+filteredSData.length+ " packet.getLength():"+packet.getLength()+" data.length:"+data.length) ;
+            return filteredSData;
+            }else{
+            	return data;
+            }
+        }
+        }
         
         /**
          * Returns the data in the most recently-received

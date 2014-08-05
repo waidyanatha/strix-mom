@@ -1,0 +1,23 @@
+README
+---------
+
+1. Copy jaggery app 'Strix'
+2. jaggery module 'carbon'
+3. Then copy jdbc driver to jaggery server 'jaggeryServer\carbon\repository\components\lib'
+
+[NOTE feature installing jaggery servr optional in dev not for Production]
+repo url :: http://dist.wso2.org/p2/carbon/releases/4.2.0/
+Install 'User Management Feature' if you need UI
+
+4. Then Create DB called 'strix'
+
+5. Create Table and Data from API
+http://localhost:9763/strix/api/
+
+6. Give permission for login 
+
+Thanks
+
+
+
+

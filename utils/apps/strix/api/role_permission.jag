@@ -9,6 +9,6 @@
 <a href="api/role_permission.jag?action=listrole_permission">ListRole_permission</a><br>
 <a href="api/role_permission.jag?action=updaterole_permission&role_permissionId=1&&role_permissionOut=1&role_permissionRole=18&role_permissionPermission=18&">UpdateRole_permission</a><br>
 <a href="api/role_permission.jag?action=getrole_permission&role_permissionId=1&">GetRole_permission</a><br>
-<a href="api/role_permission.jag?action=deletrole_permission&role_permissionId=1&">DeletRole_permission</a><br>
+<a href="api/role_permission.jag?action=deletrole_permission&role_permissionRole=18&role_permissionPermission=18">DeletRole_permission</a><br>
 <body>
 </html>

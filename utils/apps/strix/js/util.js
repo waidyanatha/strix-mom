@@ -62,7 +62,7 @@ statusCode: {
 		    contentType : 'application/json',
 		    beforeSend : function(request) {
 			for ( var key in rdata) {
-			    //console.log('key name: ' + key + ' value: ' + rdata[key]);
+			    console.log('key name: ' + key + ' value: ' + rdata[key]);
 			    request.setRequestHeader(key, rdata[key]);
 			}
 		    },

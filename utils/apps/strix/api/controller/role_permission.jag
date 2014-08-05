@@ -23,6 +23,10 @@ function settabel() {
 function addrole_permission(role_permissionOut, role_permissionRole, role_permissionPermission) {
 	log.info("add role_permission");
 	if(role_permissionOut != null && role_permissionRole != null && role_permissionPermission != null ){
+	var x = 	getrole_permissionexsit(role_permissionRole, role_permissionPermission);
+	//log.info('xxxxxxxxxxxx'+x.results[0].count);
+	//log.info(x.results[0].count == 0);
+	if(x.results[0].count == 0){//check is role permission exsinting 
 	var db_qury = db_query_role_permission_add(null ,role_permissionOut, role_permissionRole, role_permissionPermission);
 	log.info(db_qury);
 	var results = db.query(db_qury);
@@ -30,6 +34,13 @@ function addrole_permission(role_permissionOut, role_permissionRole, role_permis
 		"error" : false,
 		"results" : results
 	};
+	}else{
+		return {
+		"error" : false,
+		"results" : 0,
+		"resultsmsg" : "role_permissionRole, role_permissionPermission is existing"
+	};
+	}
 	}else {
 		return invokeError("Please enter role_permissionOut, role_permissionRole, role_permissionPermission");
 	}
@@ -50,10 +61,10 @@ function updaterole_permission(role_permissionId,role_permissionOut, role_permis
 	}
 }
 
-function deletrole_permission(role_permissionId) {
-	log.info("delet role_permission ");
-	if(role_permissionId != null ){
-	var db_qury = db_query_role_permission_delet(role_permissionId);
+function deletrole_permission(role_permissionRole, role_permissionPermission)  {
+	log.info("delet role_permission "+role_permissionRole+', '+role_permissionPermission);
+	if(role_permissionRole != null && role_permissionPermission != null){
+	var db_qury = db_query_role_permission_delet(role_permissionRole, role_permissionPermission);
 	log.info(db_qury);
 	var results = db.query(db_qury);
 	return {
@@ -61,7 +72,7 @@ function deletrole_permission(role_permissionId) {
 		"results" : results
 	};
 	}else {
-		return invokeError("Please enter role_permissionId");
+		return invokeError("Please enter role_permissionRole and role_permissionPermission");
 	}
 }
 
@@ -77,6 +88,21 @@ function getrole_permission(role_permissionId) {
 	};
 	}else {
 		return invokeError("Please enter role_permissionId");
+	}
+}
+
+function getrole_permissionexsit(role_permissionRole, role_permissionPermission) {
+	log.info("get getrole_permissionexsit ");
+	if(role_permissionRole != null && role_permissionPermission != null  ){
+	var db_qury = db_query_role_permission_getexsiting(role_permissionRole, role_permissionPermission);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter role_permissionPermission,role_permissionRole ");
 	}
 }
 

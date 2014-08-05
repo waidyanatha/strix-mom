@@ -21,7 +21,7 @@ case "listrole_permission":
 		print(updaterole_permission(role_permissionId,role_permissionOut, role_permissionRole, role_permissionPermission));
 		break;
 	case "deletrole_permission":
-		print(deletrole_permission(role_permissionId));
+		print(deletrole_permission(role_permissionRole, role_permissionPermission));
 		break;
 	case "getrole_permission":
 		print(getrole_permission(role_permissionId));

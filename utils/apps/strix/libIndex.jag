@@ -118,7 +118,7 @@ include('/includes/sidebar.jag');
 {{#.}} 
 <div class="col-sm-4 col-md-4">
 							<div class="thumbnail">
-								<img alt="..." src="resources\1.png">
+								<img id="avatar" alt="{{resources_name}}" src="resources\common\{{resources_name}} - Thumbnail.png" onerror="this.src='./resources/icon_book.png';" />
 								<div class="caption">
 									<h4>Book {{resources_id}}</h4>
 									<p>
@@ -138,6 +138,23 @@ include('/includes/sidebar.jag');
       });
        });
 
+	   $(window).load(function() {
+	   console.log("xxxxxxxxxxxxxxxxxxxxxxx");
+  var $img = $('#avatar');
+  $.ajax({
+    url: $img.attr('src'),
+    type: 'get',
+    statusCode: {
+      404: function() {
+      $img.attr('src', '/images2/no-avatar2.png');
+      }
+    },
+    error:
+      function() {
+        // do something?
+      }
+  });
+});
        function parseXml(xml) {
        	var data = xml.results;
     var template = $('#myTemplate').html(); 

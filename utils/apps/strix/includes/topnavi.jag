@@ -25,7 +25,7 @@ user.init(configs);
 							<a href=".">Home</a>
 						</li>
 						<li>
-                            <a href="./classroom.jag">Class</a>
+                            <a href="./myclassroom.jag">Class</a>
                         </li>
                         <li>
                             <a href="./libIndex.jag">Library</a>

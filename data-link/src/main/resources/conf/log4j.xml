@@ -100,14 +100,14 @@
 	<!-- special treatment for all logging activities of the jWebSocket framework -->
 	<logger name="org.jwebsocket" additivity="false">
 		<!-- TRACE, DEBUG, INFO, WARN, ERROR or FATAL --> 
-		<level value="FATAL"/>
+		<level value="DEBUG"/>
 		<!--  select one of the above declared appenders -->
 		<appender-ref ref="developmentLog"/>
 	</logger>
 
 	<root>
 		<!-- default level: TRACE, DEBUG, INFO, WARN, ERROR or FATAL --> 
-		<priority value="FATAL" />
+		<priority value="DEBUG" />
 		<!-- select one of the above declared appenders -->
 
 		<!-- for automated tests: -->
@@ -115,6 +115,7 @@
 
 		<!-- during the development -->
 		<appender-ref ref="developmentLog"/>
+		<appender-ref ref="productionLog"/>
 
 		<!-- during debug cycles  -->
 		<!-- <appender-ref ref="debugLog"/> -->

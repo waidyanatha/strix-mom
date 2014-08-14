@@ -3,6 +3,7 @@ package org.strix.mom.server.webServer;/*
  * and open the template in the editor.
  */
 
+import org.apache.log4j.Logger;
 import org.jwebsocket.api.WebSocketConnector;
 import org.jwebsocket.api.WebSocketPacket;
 import org.jwebsocket.config.JWebSocketConfig;
@@ -36,11 +37,13 @@ import java.util.Map;
 
 import org.springframework.security.crypto.codec.Base64;
 
+
 /**
  * Author: Tharindu Jayasuriya
  */
 public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpServer.Listener, PropertyChangeListener,FileListener {
-    private String resourcePath;
+	Logger log;
+	private String resourcePath;
     private TokenServer tokenServer;
     private FileHandler fileHandler;
     private FileReadTimer fileReadTimer;
@@ -48,7 +51,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     private MessageProcessor messageProcessor;
 
     public TokenServer getTokenServer() {
-
+    	
         return tokenServer;
     }
 
@@ -60,6 +63,8 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             System.setProperty(JWebSocketServerConstants.JWEBSOCKET_HOME,
                     resourcePath);
             System.out.println("Reosurce Path"+resourcePath);
+            
+            log = org.apache.log4j.Logger.getLogger(WebSocketTokenServer.class);
 
             //JWebSocketFactory.printCopyrightToConsole();
             // the following line must not be removed due to GNU LGPL 3.0 license!
@@ -81,7 +86,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     }
 
     public void processToken(WebSocketServerTokenEvent aEvent, Token aToken) {
-        //System.out.println("WebSocketTokenServer.processToken"+aToken);
+    	log.debug("WebSocketTokenServer.processToken"+aToken);
         String lNS = aToken.getNS();
 	    String lType = aToken.getType();
 
@@ -107,27 +112,27 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	        for (WebSocketConnector wsc : lConnectors) {
 //	            WebSocketPacket wsPacket = new RawPacket(messageData);
 //	            getTokenServer().sendPacket(wsc, wsPacket); 
-	            //System.out.println("SENDING INFO TO CLIENT RECEIVED"+aToken);
+	        	log.debug("SENDING INFO TO CLIENT RECEIVED"+aToken);
 	            if(wsc==aEvent.getConnector()){
-	            	//System.out.println("SENDING INFO ONLY TO CLIENT RECEIVED"+aToken);
+	            	log.debug("SENDING INFO ONLY TO CLIENT RECEIVED"+aToken);
 	            	getTokenServer().sendToken(wsc, aToken);
 		        }
 	        }
 	      }else{
-	    	  //System.out.println("SENDING INFO ONLY TO LOGIN CLIENT RECEIVED"+aToken);
+	    	  log.debug("ELSE SENDING INFO ONLY TO LOGIN CLIENT RECEIVED"+aToken);
 	    	  getTokenServer().sendToken(aEvent.getConnector(), aToken);
 	      }
     }
 
     public void processClosed(WebSocketServerEvent event) {
-        System.out.println("SockServer.processClosed" + event);
+    	log.debug("SockServer.processClosed" + event);
         ApplicationClient applicationClient = new ApplicationClient();
         applicationClient.setId(event.getConnector().getId());
         applicationClientManager.removeApplicationClient(applicationClient.getId());
     }
 
     public void processOpened(WebSocketServerEvent event) {
-        System.out.println("***********org.strix.mom.server.client.ApplicationClient '" + event.getSessionId()
+    	log.debug("***********org.strix.mom.server.client.ApplicationClient '" + event.getSessionId()
                 + "' connected.*********");
         String engineId = event.getConnector().getEngine().getId();
         ApplicationClient applicationClient = new ApplicationClient();
@@ -150,7 +155,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         for (WebSocketConnector wsc : lConnectors) {
             WebSocketPacket wsPacket = new RawPacket(messageData);
             getTokenServer().sendPacket(wsc, wsPacket); 
-            //System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
+            log.debug("SENDING INFO TO CLIENT RECEIVED"+messageData);
         }
     }
     
@@ -161,7 +166,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         for (WebSocketConnector wsc : lConnectors) {
             WebSocketPacket wsPacket = new RawPacket(messageData);
             getTokenServer().sendPacket(wsc, wsPacket); 
-            //System.out.println("SENDING INFO TO CLIENT RECEIVED"+messageData);
+            log.debug("SENDING INFO TO CLIENT RECEIVED"+messageData);
         }
         FileHandlerUtils.appendToFile(FileHandlerUtils.WEB_SOCKET, messageData,writeToFiles);
     }
@@ -175,12 +180,12 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         ServerMessage replyMessage = messageProcessor.processMessage(packet.getString());
         if (replyMessage.isSendToSenderOnly() && replyMessage.isSentReply()) {
             WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
-            System.out.println("WebSocketTokenServer.isSendToSenderOnly" + replyMessage.getResponseData());
+            log.debug("WebSocketTokenServer.isSendToSenderOnly" + replyMessage.getResponseData());
 //            getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
             //event.sendPacket(wsPacket);
         }else if (replyMessage.isSentReply()) {
             WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
-            System.out.println("WebSocketTokenServer.sendpacket" + replyMessage.getResponseData());
+            log.debug("WebSocketTokenServer.sendpacket" + replyMessage.getResponseData());
             //getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
 //            event.sendPacket(wsPacket);
         }
@@ -216,7 +221,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     public void packetReceived(UdpServer.Event evt) {
         DatagramPacket packet = evt.getUdpServer().getPacket(); // Not actually using this here.
         final String message = evt.getPacketAsString();
-        System.out.println(evt.getUdpServer().getType() + " UdpServer.Event ");
+        log.info(evt.getUdpServer().getType() + " UdpServer.Event ");
 
         switch (evt.getUdpServer().getType()){
             case FILE:
@@ -236,7 +241,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     
     @Override
 	public void fileRecevied(String type,String filename,String messageData) {
-    	System.out.println("FILE RECEIVED");
+    	log.info("FILE RECEIVED"+filename);
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
 		AddResourceMessage resourceMessage = (AddResourceMessage)messageProcessor.getMessageHandler().getResourceMessage(ResourceMessage.TYPE_ADDMINI_RESOURCE);
 		if(type.equalsIgnoreCase("fileReceived")){
@@ -255,8 +260,12 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             resourceMessage.setResourcesFilename(filename);
             resourceMessage.setResourcesPath(messageData);
             
-            messageProcessor.getMessageHandler().sendRestMessage(resourceMessage,ResourceMessage.TYPE_ADDMINI_RESOURCE);
-            sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+            if(filename.endsWith("meta")){
+            	String fileNameWithoutExtention = filename.substring(0,filename.length()-5);
+            	message.setData("b--"+fileNameWithoutExtention);
+            	//messageProcessor.getMessageHandler().sendRestMessage(resourceMessage,ResourceMessage.TYPE_ADDMINI_RESOURCE);
+            	sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+            }
             
             
         }		
@@ -264,7 +273,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     
 	public void streamRecevied(String type,String filename,byte[] messageData,boolean writeToFiles) {
 		//FileHandlerUtils.appendToFile(FileHandlerUtils.STREAM_BUFFER, messageData);
-    	//System.out.println("STREAM RECEIVED"+type);
+		log.debug("STREAM RECEIVED"+type);
 		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
 		
 		if(type.equalsIgnoreCase("streamReceived")){

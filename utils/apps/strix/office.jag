@@ -58,7 +58,8 @@ include('/includes/topnavi.jag');
 								type="button" id="userSearch" value="Search"
 								class="btn btn-primary" onclick="UserMgt.serchUser();" />  |  
 								<input type="button" id="register" value="Add New User" class="btn btn-primary" onclick="location.href='./addNewuser.jag'"/>
-						</p>
+						 |  
+								<input type="button" id="permission" value="Permissions" class="btn btn-primary" onclick="location.href='./permissions.jag'"/></p>
 						<p>
 						<table class="table table-striped">
         <thead>

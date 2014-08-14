@@ -22,7 +22,7 @@ include("../controller/permissions.jag");
 
 switch(action) {
     case "listresources":
-		print(listresources());
+    	print(listMyresources());
 		break;
 
 
@@ -59,8 +59,11 @@ switch(action) {
 	case "getresources":
 		print(getresources(resourcesId));
 		break;
+	case "addresourcesbymatafile":
+		print(addresourcesbymatafile(resourcesName));
+		break;
 	case "settabel":
-		print(settabel());
+		print(settabelres());
 		break;
 	case "deltabel":
 		print(deltabel());

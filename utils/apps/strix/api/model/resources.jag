@@ -8,11 +8,39 @@ var outStr = "DELETE FROM `resources` WHERE `resources_id` = " + resources_id + 
 return outStr;
 }
 
-function db_query_resources_get(resources_id) {
-var outStr = "SELECT *  FROM `resources` WHERE `resources_id` = " + resources_id + " LIMIT 1";
+function db_query_resources_delet_by_name(resources_name) {
+var outStr = "DELETE FROM `resources` WHERE `resources_name` = '" + resources_name + "' LIMIT 1";
 return outStr;
 }
 
+function db_query_myresources(grade_id) {
+	var testFirst = true;
+	var str = '';
+	for (var i=0; i<grade_id.length;i++){
+		log.info(grade_id[i]);
+			if(grade_id[i] != 'Internal/everyone' && grade_id[i] != 'schoolMember')
+			{
+				if(testFirst){
+				str += "`resources_grade` = '" + grade_id[i]+"' ";
+				testFirst = false;
+				}else{
+					str += "or `resources_grade` = '" + grade_id[i]+"' ";
+				}
+				//results[]
+			}
+	}
+var outStr = "SELECT *  FROM `resources` WHERE "+str;
+return outStr;
+}
+function db_query_resources_get(resource_id) {
+var outStr = "SELECT *  FROM `resources` WHERE `resources_id` = " + resource_id + " LIMIT 1";
+return outStr;
+}
+
+function db_query_resources_get_byname(resource_name) {
+var outStr = "SELECT *  FROM `resources` WHERE `resources_name` = '" + resource_name + "' LIMIT 1";
+return outStr;
+}
 function db_query_resources_add(resources_id,resources_name,resources_grade,resources_category,resources_active,resources_path,resources_filename,resources_author,resources_size,resources_extra,resources_details,resources_content) {
 var outStr = "INSERT INTO  `resources` (`resources_id`, `resources_name`, `resources_grade`, `resources_category`, `resources_active`, `resources_path`, `resources_filename`, `resources_author`, `resources_size`, `resources_extra`, `resources_details`, `resources_content`,`resources_create_time` ,`resources_modified_time`)VALUES ("+resources_id+",'"+resources_name+"','"+resources_grade+"','"+resources_category+"','"+resources_active+"','"+resources_path+"','"+resources_filename+"','"+resources_author+"','"+resources_size+"','"+resources_extra+"','"+resources_details+"','"+resources_content+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
 return outStr;

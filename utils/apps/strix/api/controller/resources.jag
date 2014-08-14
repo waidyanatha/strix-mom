@@ -1,4 +1,6 @@
 <%
+var COMMON_FILE_PATH = "../../resources/common/";
+var FILE_EXTENSTION = ".meta";
 
 function listresources() {
 	var db_qury = db_query_resources_view;
@@ -10,7 +12,25 @@ function listresources() {
 	};
 }
 
-function settabel() {
+function listMyresources() {
+	var rolex  = session.get('LoggedInUserRoles');
+	if(!rolex){return invokeError('No role for user or session expired try to login');
+	}
+	var db_qury = db_query_myresources(rolex);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	var results;
+	//checing user role 
+	
+	log.info(rolex);
+	
+	
+	return {
+		"error" : false,
+		"results" : results
+	};
+}
+function settabelres() {
 	var db_qury = db_query_resources_create;
 	log.info(db_qury);
 	var results = db.query(db_qury);
@@ -100,6 +120,21 @@ function deletresources(resourcesId) {
 	}
 }
 
+function deletresourcesbyName(resourcesName) {
+	log.info("delet resources by name");
+	if(resourcesName != null ){
+	var db_qury = db_query_resources_delet_by_name(resourcesName);
+	log.info(db_qury);
+	var results = db.query(db_qury);
+	return {
+		"error" : false,
+		"results" : results
+	};
+	}else {
+		return invokeError("Please enter resources name");
+	}
+}
+
 function getresources(resourcesId) {
 	log.info("get resources ");
 	if(resourcesId != null ){
@@ -115,6 +150,30 @@ function getresources(resourcesId) {
 	}
 }
 
+//adding resource from meta data file 
+function addresourcesbymatafile(resourcesName) {
+	log.info("add resources by mata file");
+	if(resourcesName != null ){
+		var db_qury = db_query_resources_get_byname(resourcesName);
+		log.info(db_qury);
+		var results = db.query(db_qury);
+		log.info(results.length);
+		if(!results.length == 1){
+			if(isFileExists(resourcesName)){
+			readFile(resourcesName);
+			return {
+				"error" : false,
+				"results" : 'added '+resourcesName+ ' to strix libaray' 
+			};
+			}else{return invokeError("Resource file is not exisiting called "+resourcesName);}
+		}else{
+			return invokeError("Resources is already added to system");
+		}
+
+	}else {
+		return invokeError("Please enter resources Name");
+	}
+}
 function invokeError(msg) {
 	log.info(msg);
 	return {
@@ -122,5 +181,50 @@ function invokeError(msg) {
 		"errorMsg" : msg
 	};
 }
+function isFileExists(filename){
+	log.info('is Meta File Exists for : '+filename+'.meta');
+	var path = COMMON_FILE_PATH+filename+FILE_EXTENSTION;
+    var file = new File(path);    
+    var out = file.isExists()
+    return out;
+}
 
+
+function readFile(filename){
+	log.info('readFile for meta data'+filename+'.meta');
+	var path = COMMON_FILE_PATH+filename+FILE_EXTENSTION;
+    var file = new File(path);
+    file.open("r");
+    var message = "";
+    message = file.readAll(); 
+    var fileMetaData = parse(message);
+    if(fileMetaData.action == "addresources")
+    {
+		addingMetaData(fileMetaData);
+    }else if (fileMetaData.action == "removeresources")
+    {
+    	deletresourcesbyName(fileMetaData.resourcesName);
+    }
+    log.info(fileMetaData);    
+    file.close();
+}
+
+function addingMetaData(fileMetaData){
+	addresources(fileMetaData.resourcesName, fileMetaData.resourcesGrade, fileMetaData.resourcesCategory, fileMetaData.resourcesActive, fileMetaData.resourcesPath, fileMetaData.resourcesFilename, fileMetaData.resourcesAuthor, fileMetaData.resourcesSize, fileMetaData.resourcesExtra, fileMetaData.resourcesDetails, fileMetaData.resourcesContent);
+        var resPermissionExist = getpermissionsByGrade(fileMetaData.resourcesGrade);
+
+        if (resPermissionExist.error == false) {
+
+            //no erro in db call for to check resource permission details
+            if (resPermissionExist.results.length == 0) {
+                //adding permission as that location is not set so far
+                //addpermissions(permissionsName, permissionsDetails, permissionsEdit, permissionsAdd, permissionsView, permissionsRemove, permissionsOut, permissionsGrade, permissionsExtra, permissionsExt) {
+                addpermissions('view_' + fileMetaData.resourcesGrade, fileMetaData.resourcesGrade, 0, 0, 1, 0, 1, fileMetaData.resourcesGrade, 0, 'No')
+                addpermissions('add_' + fileMetaData.resourcesGrade, fileMetaData.resourcesGrade, 0, 1, 0, 0, 1, fileMetaData.resourcesGrade, 0, 'No')
+                addpermissions('remove_' + fileMetaData.resourcesGrade, fileMetaData.resourcesGrade, 0, 0, 0, 1, 1, fileMetaData.resourcesGrade, 0, 'No')
+                addpermissions('edit_' + fileMetaData.resourcesGrade, fileMetaData.resourcesGrade, 1, 0, 0, 0, 1, fileMetaData.resourcesGrade, 0, 'No')
+    
+            }
+        }
+}
 %>

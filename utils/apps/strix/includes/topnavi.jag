@@ -25,7 +25,7 @@ user.init(configs);
 							<a href=".">Home</a>
 						</li>
 						<li>
-                            <a href="./classroom.jag">Class</a>
+                            <a href="./myclassroom.jag">Class</a>
                         </li>
                         <li>
                             <a href="./libIndex.jag">Library</a>
@@ -33,10 +33,26 @@ user.init(configs);
                          <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Library <b class="caret"></b></a>
                         <ul class="dropdown-menu" id="libul">
-                          <li><a href="#">Grade1</a></li>
+                          <!-- li><a href="#">Grade1</a></li>
                           <li><a href="#">Grade2</a></li>
-                          <li><a href="#">Grade3</a></li>
-                          
+                          <li><a href="#">Grade3</a></li-->
+                           <% var userRolesList = session.get('LoggedInUserRoles'), userAdmin=false;
+                        if(userRolesList != null){
+                        for (var i=0; i<userRolesList.length;i++){
+                            if (userRolesList[i]=='admin' ||userRolesList[i] == 'teachers' )
+                            {
+                                userAdmin=true;
+                            }else if(userRolesList[i] != 'Internal/everyone' && userRolesList[i] != 'schoolMember')
+                            {
+                                log.info(i+"student role for UI.. adding");%>
+                                 <li><a href="#<% print(userRolesList[i]); %>">
+                                 <% print(userRolesList[i]); %>
+                                 
+                                 </a></li>
+                                 <%
+                            }
+                        }
+                        }%>
                         </ul>
                       </li>
                         <li>
@@ -46,14 +62,6 @@ user.init(configs);
                             if (userRolesList[i]=='admin' ||userRolesList[i] == 'teachers' )
                             {
                                 userAdmin=true;
-                            }else if(userRolesList[i] != 'Internal/everyone' && userRolesList[i] != 'schoolMember')
-                            {
-                                log.info(i+"student role for UI.. adding");%>
-                                 <a href="#<% print(userRolesList[i]); %>">
-                                 <% print(userRolesList[i]); %>
-                                 
-                                 </a>
-                                 <%
                             }
                         }
                         }

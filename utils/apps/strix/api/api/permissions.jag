@@ -17,6 +17,7 @@ include("../controller/permissions.jag");
  var permissionsExtra = request.getParameter('permissionsExtra');
  var permissionsExt = request.getParameter('permissionsExt');
  var rolename = request.getParameter('rolename');
+ var roleId = request.getParameter('roleId');
 
 switch(action) {
     case "listpermissions":
@@ -38,8 +39,8 @@ switch(action) {
         print(getpermissions(permissionsId));
         break;
     case "settabel":
-        print(settabel());
-        break;
+    	print(settabel());
+    	break;
     default:
         print(invokeError("permissions action not define"));
 }

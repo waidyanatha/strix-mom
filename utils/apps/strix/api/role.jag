@@ -1,0 +1,363 @@
+<%
+include("model/dbinit.jag");
+var rolenameReq = request.getHeader('rolename');
+var usernameReq =request.getHeader('username')
+var action, data, message, exists, error = false, log = new Log(), user = require('../modules/user.js'), matcher = new URIMatcher(request.getRequestURI()), skipRoleList=new Array("admin","Internal/everyone","schoolMember");
+callAPI();
+function callAPI() {
+	if(matcher.match('/{context}/api/role/{action}')) {
+		action = matcher.elements().action;
+		log.info(action);
+		switch (action) {
+			case 'addxx':
+				try {
+					log.info("action - Login");
+					log.info(request.getMethod());
+					log.info(request.getQueryString());
+					error = !user.login(request.getHeader('username'), request.getHeader('password'));
+					log.info(error);
+					if(error) {
+						message = 'Invalid username or password.';
+					} else {
+						message = 'Login success';
+					}
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					message : message
+				});
+				break;
+			//  return;
+			case 'logout':
+				try {
+					user.logout();
+					message = "Logout success"
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					message : message
+				});
+				//  return;
+				break;
+			case 'signup':
+				try {
+					log.info(request.getHeader('username') + request.getHeader('password'));
+					user.register(request.getHeader('username'), request.getHeader('password'));
+					message = "Signup was success";
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					message : message
+				});
+				//    return;
+				break;
+			case 'add':
+			log.info('adding role for carbon...');
+				try {
+					user = require('../modules/user.js').current();
+					if(!user) {
+						error = true;
+						response.sendError(401, 'Unauthorized');
+						message = "Unauthorized";
+
+						return;
+					}
+					var tmpuser = require('../modules/user.js');
+					var rolenameReq = request.getHeader('rolename');
+					var rolenameReqx  = request.getParameter('rolesName');
+					log.info(rolenameReq);
+					tmpuser.addRole(rolenameReq,usernameReq);
+					//adding for DB
+					addroles(rolenameReq, 1, 0, "No" );
+					message = "Role added successfully";
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					message : message
+				});
+				//    return;
+				break;
+
+			case 'addRole':
+			try {
+				log.info('addRole for User');
+				user = require('../modules/user.js').current();
+				if(!user) {
+					error = true;
+					response.sendError(401, 'Unauthorized');
+					message = "Unauthorized";
+
+					return;
+				}
+				var tmpuser = require('../modules/user.js');
+				var rolenameReq = request.getHeader('rolename')
+				user.updateRoles(request.getHeader('username'),null,rolenameReq);
+				//message = "Role added for user successfully";
+				//adding data base
+				//addroles((rolenameReq, 1, 0, "No") );
+				message = "Role added for user successfully";
+			} catch (e) {
+				log.error(e);
+				error = true;
+				message = e.message;
+			}
+			print({
+				error : error,
+				message : message
+			});
+			break;
+		
+			case 'removeRole':
+			try {
+				log.info('removedUser');
+				user = require('../modules/user.js').current();
+				if(!user) {
+					error = true;
+					response.sendError(401, 'Unauthorized');
+					message = "Unauthorized";
+
+					return;
+				}
+				var tmpuser = require('../modules/user.js');
+				user.updateRoles(request.getHeader('username'), request.getHeader('rolename'), null);
+				message = "Role Removed for user successfully";
+			} catch (e) {
+				log.error(e);
+				error = true;
+				message = e.message;
+			}
+			print({
+				error : error,
+				message : message
+			});
+			break;
+
+
+
+
+			case 'exists':
+				try {
+					data = parse(request.getContent());
+					exists = user.userExists(data.username);
+					if(!exists) {
+						message = 'Username ' + data + ' has already taken.';
+						
+					}
+					 
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					exists : exists,
+					message : message
+				});
+
+				break;
+			case 'remove':
+				try {
+					data = request.getHeader('rolename')
+					exists = user.roleExists(data);
+					log.info('xxxxxxxxxxxx');
+					log.info(data+" Role is "+exists)
+					if(!exists) {
+						message = 'Rolename ' + data + ' is not existing';
+					}else{
+					user.removeRole(data);
+					//db data removed
+					deletroles(data);
+					message = "Role "+data+ " is removed."
+					}
+				} catch (e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					exists : exists,
+					message : message
+				});
+
+				break;
+				
+			case 'all':
+				try {
+					log.info('all in LDAP');
+					data = user.listRoles();
+					message = "list of Roles";
+				} catch(e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					exists : exists,
+					message : message,
+					data : {
+						rolelist : data
+					}
+				});
+
+				break;
+				
+			case 'allOfUser':
+				try {
+					log.info('all in allOfUser');
+					username = request.getHeader('username');
+					log.info('call role not for User'+username);
+					data1 = user.getRoleListOfUser(username);
+					data2 = user.listRoles();
+					data = getUniqe(data2,data1);
+					message = "list of Roles per user";
+				} catch(e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					exists : exists,
+					message : message,
+					data : {
+						rolelist : data
+					}
+				});
+
+					break;
+
+
+				case 'getRoleListOfUser':
+				try {
+					username = request.getHeader('username')
+					data1 = user.getRoleListOfUser(username);
+					var data = skipRole(data1,skipRoleList);
+					message = "get RoleList Of User";
+				} catch(e) {
+					log.error(e);
+					error = true;
+					message = e.message;
+				}
+				print({
+					error : error,
+					exists : exists,
+					message : message,
+					data : {
+						rolelist : data
+					}
+				});
+
+				break;
+
+		}
+		
+		//  return;
+	} else {
+		response.sendError(404, 'API Endpoint Not Found');
+	}
+}
+
+//database calls
+
+
+function addroles(rolesName, rolesOut, rolesExtNo, rolesExt) {
+    log.info("add roles");
+    if(rolesName != null && rolesOut != null && rolesExtNo != null && rolesExt != null ){
+    var db_qury = db_query_roles_add(null ,rolesName, rolesOut, rolesExtNo, rolesExt);
+    log.info(db_qury);
+    var results = db.query(db_qury);
+    return {
+        "error" : false,
+        "results" : results
+    };
+    }else {
+        return invokeError("Please enter rolesName, rolesOut, rolesExtNo, rolesExt");
+    }
+}
+
+function deletroles(rolesId) {
+    log.info("delet roles ");
+    if(rolesId != null ){
+    var db_qury = db_query_roles_delet(rolesId);
+    log.info(db_qury);
+    var results = db.query(db_qury);
+    return {
+        "error" : false,
+        "results" : results
+    };
+    }else {
+        return invokeError("Please enter rolesId");
+    }
+}
+
+
+function db_query_roles_add(roles_id,roles_name,roles_out,roles_extNo,roles_ext) {
+var outStr = "INSERT INTO  `roles` (`roles_id`, `roles_name`, `roles_out`, `roles_extNo`, `roles_ext`,`roles_create_time` ,`roles_modified_time`)VALUES ("+roles_id+",'"+roles_name+"','"+roles_out+"','"+roles_extNo+"','"+roles_ext+"',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
+return outStr;
+}
+
+function db_query_roles_delet(roles_name) {
+var outStr = "DELETE FROM `roles` WHERE `roles_name` = '" + roles_name + "' LIMIT 1";
+return outStr;
+}
+
+//js function
+function getUniqe (array1, array2) {	
+        var unique = [];
+        for (var i = 0; i < array1.length; i++) {        	
+            var found = false;
+            for (var j = 0; j<array2.length; j++) {            	
+                if (array1[i] == array2[j]) {                
+                    found = true;
+                    break;
+                }
+            }
+            if ((found == false)) {
+            	unique.push(array1[i]);                
+            }
+        }
+        log.info(unique);
+      
+        var ourarray = skipRole(unique,skipRoleList);
+        return ourarray;
+    };
+    
+    function skipRole (array1, array2) {
+            var unique = [];
+            for (var i = 0; i < array1.length; i++) {        	
+                var found = false;
+                for (var j = 0; j<array2.length; j++) {            	
+                    if (array1[i] == array2[j]) {                
+                        found = true;
+                        break;
+                    }
+                }
+                if ((found == false)) {
+                	unique.push(array1[i]);                
+                }
+            }
+            log.info(unique);
+            return unique;
+        };
+    
+
+%>

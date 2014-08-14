@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="js/assets/ico/favicon.png">
+
+    <title>Strix Main Page</title>
+<% 
+include('/includes/loginCheck.jag');
+%>
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/offcanvas.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="../../assets/js/html5shiv.js"></script>
+        <script src="../../assets/js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+<%
+include('/includes/topnavi.jag');
+%>
+        <div class="container">
+            <div class="row row-offcanvas row-offcanvas-right">
+                <div class="col-xs-12 col-sm-9">
+                    <p class="pull-right visible-xs">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                            Toggle nav
+                        </button>
+                    </p>
+
+                    <%
+                        include('/includes/banner.jag');
+                    %>
+
+                    <div class="row" id="row">
+
+
+
+
+					<div class="col-sm-6 col-md-12">
+							<div id="listrole">role list</div>
+						<table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Permission Name</th>
+            <th>Details</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td><input type="button" id="register" value="View" class="btn btn-success" onclick="location.href='./user.jag'"/></td>
+          </tr>         
+        </tbody>
+      </table>
+						</p>
+						<input
+								type="button" id="updatePer" value="Update"
+								class="btn btn-primary" onclick="PermmsionMgt.updatePermissionRole();" /> <div id="msgStatus" class="alertz alert-error">
+								<br>
+							Role : <input type="text" id="rolename" value="" /> <input
+								type="button" id="addNewRole" value="addNewRole"
+							class="btn btn-primary" onclick="RoleMgt.addRoleForSystem();" />  | 
+					
+					</div>
+					</div>
+					<!--/span-->
+
+
+
+
+				</div><!--/row-->
+                </div><!--/span-->
+                
+                
+                <%
+                    include('/includes/sidebar.jag');
+                %>
+
+            </div><!--/row-->
+            <hr>
+            <footer>
+                <p>
+                   Powered by Spoton - STRIX
+                </p>
+            </footer>
+        </div><!--/.container-->
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="js/assets/js/jquery.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/offcanvas.js"></script>
+        <script src="js/mustache.js"></script>
+        <script src="./js/util.js"></script>
+        	<script src="./js/usermgt.js"></script>
+        <script src="./js/premmionmgt.js"></script>
+        <script src="./js/rolemgt.js"></script>
+
+	<!-- Rendering dynamic user name lis  -->
+
+	<script id="myTemplate" type="text/template"> 
+
+ {{#.}} <tr>
+            <td><label class="checkbox">
+            <input type="checkbox" value="{{permissions_id}}" id="{{permissions_name}}">
+       		</label></td>
+            <td>{{permissions_name}}</td>
+            <td>{{permissions_details}}</td>
+            <td>{{permissions_grade}}</td>
+          </tr>
+{{/.}}
+</script>
+
+
+	<script> 
+	//  var query = window.location.search.substring(1),
+	 // vars = query.split("="),
+	 PermmsionMgt.listDBRoles();
+	 var turl = "../strix/api/api/permissions.jag?action=listpermissions";
+
+				$(function() {
+      $.ajax({
+        type: "GET",
+        url: turl,
+        dataType: "json",
+        success: parseXml
+      });
+       });
+
+       function parseXml(xml) {
+       	var data = xml.results;
+        PermmsionMgt.allPermList = data;
+    var template = $('#myTemplate').html(); 
+    var html = Mustache.to_html(template, data); 
+    $('#tbody').html(html); 
+    }
+      
+      
+    	    
+    	  
+
+    	    
+    
+
+    
+
+     //  $('#view_grade1').prop('checked', true);
+ 
+</script>
+
+	<!-- End Rendering dynamic user name lis  -->
+
+</body>
+</html>

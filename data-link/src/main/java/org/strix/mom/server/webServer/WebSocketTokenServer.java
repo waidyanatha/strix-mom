@@ -260,12 +260,12 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             resourceMessage.setResourcesFilename(filename);
             resourceMessage.setResourcesPath(messageData);
             
-            if(filename.endsWith("meta")){
+            //if(filename.endsWith("meta")){
             	String fileNameWithoutExtention = filename.substring(0,filename.length()-5);
             	message.setData("b--"+fileNameWithoutExtention);
             	//messageProcessor.getMessageHandler().sendRestMessage(resourceMessage,ResourceMessage.TYPE_ADDMINI_RESOURCE);
             	sendPacket(messageProcessor.getMessageHandler().getMessage(message));
-            }
+            //}
             
             
         }		

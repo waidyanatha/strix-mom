@@ -6,6 +6,8 @@ import org.strix.mom.server.message.file.FileEvent;
 
 import java.io.*;
 import java.net.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 
 public class UDPStreamSender {
     private DatagramSocket socket = null;
@@ -20,58 +22,62 @@ public class UDPStreamSender {
     }
 
     public void createConnection() {
+        createConnection(sourceFilePath);
+    }
+
+    public void createConnection(String fileName) {
         try {
-        	
             socket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName(hostName);
-            System.out.println(IPAddress.toString()+"$$$$$"+hostName + "$$$$$"+sourceFilePath);
-            byte[] incomingData = new byte[64 * 1024];
-            event = getFileEvent();
+            byte[] incomingData = new byte[1024*64];
+            event = getFileEvent(fileName);
             byte[] fileData = event.getFileData();
+            System.out.println("FileSender.createConnection"+event.getFileSize());
             event.setFileData(null);
             int noPacketsSend = 0;
-            int currentData = 0;
-            int dataLimit = 1024*62;
             for (int i = 0; i < event.getFileSize(); ) {
-                byte[] buffer = new byte[dataLimit];
+                byte[] buffer = new byte[60000];//new byte[1024*60];
                 event.setStart(i);
-                event.setBufferSize(dataLimit);
-                if(i+dataLimit>event.getFileSize()){
-                	currentData = (int)(fileData.length-i);
-                	buffer = new byte[currentData];
-                	System.out.println("currentData"+currentData);
-                    System.arraycopy(fileData,i,buffer,0,fileData.length-i);
+                event.setBufferSize(buffer.length);
+                if(i+buffer.length>event.getFileSize()){
+                	int length = (int)(event.getFileSize()-i);
+                	FileEvent chunkFileData = getFileChunk(fileName,i,length);
+                	System.arraycopy(chunkFileData.getData(),0,buffer,0,length);
+                    //System.arraycopy(fileData,i,buffer,0,fileData.length-i);
                     event.setLast(true);
-                    event.setEnd(fileData.length);
+                    event.setEnd(event.getFileSize());
                 }else{
-                    System.arraycopy(fileData,i,buffer,0,buffer.length);
+                	int length = buffer.length;
+                	FileEvent chunkFileData = getFileChunk(fileName,i,length);
+                	System.arraycopy(chunkFileData.getData(),0,buffer,0,length);
+                    //System.arraycopy(fileData,i,buffer,0,buffer.length);
                     event.setEnd(i+buffer.length);
                     if(i+buffer.length==event.getFileSize()){
                         event.setLast(true);
                     }
                 }
-                i=i+dataLimit;
+                i=i+buffer.length;
                 event.setFileData(buffer);
-                
-                System.out.println("^^^^^^^^^^^"+buffer.length+":"+"$$$$$"+event.getFileData().length+"$$$$$$$$$$$$$$$$$");
-                byte[] data = event.getFileData();//new String(event.getFileData()).getBytes();
+               
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                ObjectOutputStream os = new ObjectOutputStream(outputStream);
+                os.writeObject(buffer);
+                byte[] data = outputStream.toByteArray();
+                //byte[] data = event.getFileData();
+                noPacketsSend++;
+                System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" noPacketsSend++"+noPacketsSend);
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(sendPacket);
-                noPacketsSend++;
-                System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" Packets"+noPacketsSend);
-                //System.out.println("sendPacket.getOffset()"+sendPacket.getOffset()+" sendPacket.getLength()"+sendPacket.getLength());
-                //System.out.println("sendPacket.getData()"+new String(sendPacket.getData()));
-                System.out.println(IPAddress.toString()+"$$$$$");
                 Thread.sleep(1000);
             }
-            Thread.sleep(50000);
-			System.out.println("File sent from client with "+noPacketsSend);
+            System.out.println("File sent from client with "+noPacketsSend);
+            Thread.sleep(1000);
             //DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
             //socket.receive(incomingPacket);
             //String response = new String(incomingPacket.getData());
             //System.out.println("Response from server:" + response);
 
-            System.exit(0);
+            //System.exit(0);
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -84,30 +90,22 @@ public class UDPStreamSender {
         }
     }
 
-    public FileEvent getFileEvent() {
+    public FileEvent getFileEvent(String sourceFileName) {
         FileEvent fileEvent = new FileEvent();
-        String fileName = sourceFilePath.substring(sourceFilePath.lastIndexOf("/") + 1, sourceFilePath.length());
-        String path = sourceFilePath.substring(0, sourceFilePath.lastIndexOf("/") + 1);
+        String fileName = sourceFileName.substring(sourceFileName.lastIndexOf("/") + 1, sourceFileName.length());
+        String path = sourceFileName.substring(0, sourceFileName.lastIndexOf("/") + 1);
         fileEvent.setDestinationDirectory(destinationPath);
         fileEvent.setFilename(fileName);
-        fileEvent.setSourceDirectory(sourceFilePath);
-        File file = new File(sourceFilePath);
-        System.out.println("sourceFilePath"+sourceFilePath);
+        fileEvent.setSourceDirectory(sourceFileName);
+        File file = new File(sourceFileName); 
+        
+        System.out.println("sourceFileName"+sourceFileName);
         System.out.println("destinationPath"+destinationPath);
         if (file.isFile()) {
             try {
                 fileEvent.setFilename(file.getName());
-                DataInputStream diStream = new DataInputStream(new FileInputStream(file));
                 long len = (int) file.length();
-                byte[] fileBytes = new byte[(int) len];
-                int read = 0;
-                int numRead = 0;
-                while (read < fileBytes.length && (numRead = diStream.read(fileBytes, read,
-                        fileBytes.length - read)) >= 0) {
-                    read = read + numRead;
-                }
                 fileEvent.setFileSize(len);
-                fileEvent.setFileData(fileBytes);
                 fileEvent.setStatus("Success");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -118,6 +116,57 @@ public class UDPStreamSender {
             fileEvent.setStatus("Error");
         }
         return fileEvent;
+    }
+    
+    public FileEvent getFileChunk(String sourceFileName,int srcPosition,int length) {
+        FileEvent fileEvent = new FileEvent();
+        String fileName = sourceFileName.substring(sourceFileName.lastIndexOf("/") + 1, sourceFileName.length());
+        String path = sourceFileName.substring(0, sourceFileName.lastIndexOf("/") + 1);
+        fileEvent.setDestinationDirectory(destinationPath);
+        fileEvent.setFilename(fileName);
+        fileEvent.setSourceDirectory(sourceFileName);
+        File file = new File(sourceFileName); 
+        
+        System.out.println("sourceFileName"+sourceFileName);
+        System.out.println("destinationPath"+destinationPath);
+        if (file.isFile()) {
+            try {
+                fileEvent.setFilename(file.getName());
+                long len = (int) file.length();
+                fileEvent.setFileSize(len);
+                fileEvent.setStatus("Success");
+                
+                // get an input stream for this file.
+                FileInputStream in = new FileInputStream(file);
+                // get the fileChannel for this input stream
+                FileChannel fileChannel = in.getChannel();
+                fileChannel.position(srcPosition);
+                // get the position
+                System.out.println(fileChannel.position());//print 0
+                 
+                // create a char buffer
+                ByteBuffer buffer = ByteBuffer.allocate(length);
+                // read the fist line - 10 characters into the byte buffer
+                fileChannel.read(buffer);
+                // get the position of the file
+                //System.out.println(fileChannel.position());// prints 11
+                // we have read the first 10 chars into the buffer now. find out the
+                //buffer.flip();
+                //System.out.print(Charset.defaultCharset().decode(buffer)); // prints "Second Line"
+                fileEvent.setData(buffer.array());
+                fileChannel.close();
+                in.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                fileEvent.setStatus("Error");
+            }
+        } else {
+            System.out.println("path specified is not pointing to a file");
+            fileEvent.setStatus("Error");
+        }
+        return fileEvent;
+        
+        
     }
 
 

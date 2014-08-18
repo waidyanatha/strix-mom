@@ -22,11 +22,22 @@ public class JsonMessageHandler implements MessageHandler {
     @Override
     public Message parseMessage(String string) {
         JsonMessage request = null;
+        boolean plainMessage = false;
         try {
             request = gson.fromJson(string, JsonMessage.class);
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	plainMessage = true;
         }
+        
+        if(plainMessage){
+        	request = new JsonMessage();
+        	if(string.startsWith("d--")){
+        		request.setType("d--");
+        		request.setData(string);
+        	}
+        }
+        
         return request;
     }
 

@@ -106,7 +106,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	      }
 	      //aEvent.sendToken(lResponse);
 	      
-	      if (!"login".equals(lType)) {
+	      if (!"login".equals(lType) && lType!=null) {
 	      Map lConnectorMap = getTokenServer().getAllConnectors();
 	        Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
 	        for (WebSocketConnector wsc : lConnectors) {
@@ -118,9 +118,9 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	            	getTokenServer().sendToken(wsc, aToken);
 		        }
 	        }
-	      }else{
-	    	  log.debug("ELSE SENDING INFO ONLY TO LOGIN CLIENT RECEIVED"+aToken);
-	    	  getTokenServer().sendToken(aEvent.getConnector(), aToken);
+	      }else if(lType!=null){
+	    		  log.debug("ELSE SENDING INFO ONLY TO LOGIN CLIENT RECEIVED"+aToken);
+	    		  getTokenServer().sendToken(aEvent.getConnector(), aToken);
 	      }
     }
 
@@ -172,7 +172,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     }
 
     public void processPacket(WebSocketServerEvent event, WebSocketPacket packet) {
-        //System.out.println("packet received " + packet.getString());
+        System.out.println("packet received " + packet.getString());
         ApplicationClient client = applicationClientManager.getApplicationClient(event.getConnector().getId());
 //        System.out.println("Connected clients"+applicationClientManager.getApplicationClients().size());
         client.setLastMessageReceived(new Date(System.currentTimeMillis()));
@@ -181,13 +181,20 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         if (replyMessage.isSendToSenderOnly() && replyMessage.isSentReply()) {
             WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
             log.debug("WebSocketTokenServer.isSendToSenderOnly" + replyMessage.getResponseData());
-//            getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
-            //event.sendPacket(wsPacket);
+            //getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
+            event.sendPacket(wsPacket);
         }else if (replyMessage.isSentReply()) {
             WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
             log.debug("WebSocketTokenServer.sendpacket" + replyMessage.getResponseData());
             //getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
-//            event.sendPacket(wsPacket);
+            //event.sendPacket(wsPacket);
+            
+            Map lConnectorMap = getTokenServer().getAllConnectors();
+            Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
+            for (WebSocketConnector wsc : lConnectors) {
+                getTokenServer().sendPacket(wsc, wsPacket); 
+                log.debug("SENDING INFO TO CLIENTS CONNECTED"+replyMessage.getResponseData());
+            }
         }
     }
     
@@ -262,9 +269,9 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             
             //if(filename.endsWith("meta")){
             	String fileNameWithoutExtention = filename.substring(0,filename.length()-5);
-            	message.setData("b--"+fileNameWithoutExtention);
+            	message.setData("b--"+filename);
             	//messageProcessor.getMessageHandler().sendRestMessage(resourceMessage,ResourceMessage.TYPE_ADDMINI_RESOURCE);
-            	sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+            	sendPacket("b--"+filename);
             //}
             
             

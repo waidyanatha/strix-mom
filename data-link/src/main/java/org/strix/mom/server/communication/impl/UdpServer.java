@@ -289,7 +289,9 @@ public class UdpServer {
                     if (LOGGER.isLoggable(Level.FINE)) {
                         //LOGGER.fine("UDP Server received datagram: " + packet);
                     }
-                    FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, getPacketAsBytes(packet),writeToFiles);
+                    synchronized (FileHandlerUtils.class) {
+                    	FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, getPacketAsBytes(packet),writeToFiles);
+        			}
                     fireUdpServerPacketReceived();
 
                 }   //end if: not closed

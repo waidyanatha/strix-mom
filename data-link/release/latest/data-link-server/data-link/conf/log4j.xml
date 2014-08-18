@@ -115,6 +115,7 @@
 
 		<!-- during the development -->
 		<appender-ref ref="developmentLog"/>
+		<appender-ref ref="productionLog"/>
 
 		<!-- during debug cycles  -->
 		<!-- <appender-ref ref="debugLog"/> -->

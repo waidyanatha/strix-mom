@@ -45,10 +45,12 @@ public class MessageProcessor {
             		message.setData("-1");
             		message.setAction("login");
             	}
+            }else if(message.getType().equalsIgnoreCase("d--")){
+            	replyToSenderOnly = false;
             }else{
             	replyToSenderOnly = false;
             }
-            //System.out.println("message"+message);
+            System.out.println("message"+message.getData());
             String jsonResponse = messageHandler.getMessage(message);
             serverMessage.setSentReply(replyMessage);
             serverMessage.setResponseData(jsonResponse);

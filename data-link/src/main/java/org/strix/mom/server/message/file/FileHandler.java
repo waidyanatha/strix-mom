@@ -5,6 +5,7 @@ import org.strix.mom.server.communication.impl.UdpServer;
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class FileHandler {
 	private HashMap<String, FileEvent> fileEventHashMap = new HashMap<String, FileEvent>();
 	private String outputLocation;
+	private String tmpLocation = "../tmp";
 	private String inputLocation;
 	private String mode;
 	private String filemode;
@@ -76,8 +78,78 @@ public class FileHandler {
 		}
 		return data;
 	}
-
+	
 	private void createAndWriteFile(FileEvent fileEvent) {
+		String outputFile = outputLocation + File.separator
+				+ fileEvent.getFilename();
+		String tmpOutputFile = tmpLocation + File.separator
+				+ fileEvent.getFilename();
+		System.out.println("outputFile" + outputFile +" tmpOutputFile"+tmpOutputFile);
+		
+		
+		if (fileEvent.getStart() == 0) {
+			fileEventHashMap.put(outputFile, fileEvent);
+			if (!new File(tmpLocation).exists()) {
+				new File(tmpLocation).mkdirs();
+			}
+			if (!new File(outputLocation).exists()) {
+				new File(outputLocation).mkdirs();
+			}
+		}
+		try {
+			/*
+			 * if (!dstFile.exists()) { dstFile.createNewFile(); }
+			 */
+			FileEvent cachedFileEvent = fileEventHashMap.get(outputFile);
+			cachedFileEvent
+					.setMessageCount(cachedFileEvent.getMessageCount() + 1);
+			System.out.println("+++++++++++" + fileEvent.getStart()
+					+ ":::::::::::::::" + fileEvent.getEnd()
+					+ "cachedFileEvent.getMessageCount():::::::"
+					+ cachedFileEvent.getMessageCount());
+			synchronized (FileHandlerUtils.class) {
+				FileHandlerUtils.appendToFile(tmpOutputFile,fileEvent.getFileData(),true);
+			}
+			if (fileEvent.isLast()) {
+				fileEventHashMap.remove(outputFile);
+				File dstFile = new File(outputFile);
+				File srcFile = new File(tmpOutputFile);
+				copyFile(srcFile,dstFile);
+				
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public  void copyFile(File sourceFile, File destFile) throws IOException {
+		if (destFile.exists()) {
+			destFile.delete();
+		}
+		if(!destFile.exists()) {
+	        destFile.createNewFile();
+	    }
+
+	    FileChannel source = null;
+	    FileChannel destination = null;
+
+	    try {
+	        source = new FileInputStream(sourceFile).getChannel();
+	        destination = new FileOutputStream(destFile).getChannel();
+	        destination.transferFrom(source, 0, source.size());
+	    }
+	    finally {
+	        if(source != null) {
+	            source.close();
+	        }
+	        if(destination != null) {
+	            destination.close();
+	        }
+	    }
+	}
+
+	private void createAndWriteFile1(FileEvent fileEvent) {
 		String outputFile = outputLocation + File.separator
 				+ fileEvent.getFilename();
 		System.out.println("outputFile" + outputFile);

@@ -87,41 +87,6 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 
     public void processToken(WebSocketServerTokenEvent aEvent, Token aToken) {
     	log.debug("WebSocketTokenServer.processToken"+aToken);
-        String lNS = aToken.getNS();
-	    String lType = aToken.getType();
-
-	    // check if token has a type and a matching namespace
-	      // create a response token
-	      Token lResponse = aEvent.createResponse(aToken);
-	      if ("getInfo".equals(lType)) {
-	        // if type is "getInfo" return some server information
-//	        lResponse.put("vendor", JWebSocketConstants.VENDOR);
-//	        lResponse.put("version", JWebSocketConstants.VERSION_STR);
-//	        lResponse.put("copyright", JWebSocketConstants.COPYRIGHT);
-//	        lResponse.put("license", JWebSocketConstants.LICENSE);
-	      } else {
-	        // if unknown type in this namespace, return corresponding error message
-//	        lResponse.put("code", -1);
-//	        lResponse.put("msg", "Token type '" + lType + "' not supported in namespace '" + lNS + "'.");
-	      }
-	      //aEvent.sendToken(lResponse);
-	      
-	      if (!"login".equals(lType) && lType!=null) {
-	      Map lConnectorMap = getTokenServer().getAllConnectors();
-	        Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
-	        for (WebSocketConnector wsc : lConnectors) {
-//	            WebSocketPacket wsPacket = new RawPacket(messageData);
-//	            getTokenServer().sendPacket(wsc, wsPacket); 
-	        	log.debug("SENDING INFO TO CLIENT RECEIVED"+aToken);
-	            if(wsc==aEvent.getConnector()){
-	            	log.debug("SENDING INFO ONLY TO CLIENT RECEIVED"+aToken);
-	            	getTokenServer().sendToken(wsc, aToken);
-		        }
-	        }
-	      }else if(lType!=null){
-	    		  log.debug("ELSE SENDING INFO ONLY TO LOGIN CLIENT RECEIVED"+aToken);
-	    		  getTokenServer().sendToken(aEvent.getConnector(), aToken);
-	      }
     }
 
     public void processClosed(WebSocketServerEvent event) {
@@ -149,6 +114,32 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         applicationClientManager.addApplicationClient(applicationClient);
     }
 
+    public void processPacket(WebSocketServerEvent event, WebSocketPacket packet) {
+        System.out.println("packet received " + packet.getString());
+        ApplicationClient client = applicationClientManager.getApplicationClient(event.getConnector().getId());
+        client.setLastMessageReceived(new Date(System.currentTimeMillis()));
+        ServerMessage replyMessage = messageProcessor.processMessage(packet.getString());
+        if (replyMessage.isSendToSenderOnly() && replyMessage.isSentReply()) {
+            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
+            log.debug("WebSocketTokenServer.isSendToSenderOnly" + replyMessage.getResponseData());
+            log.debug("SENDING PACKET ONLY TO LOGIN CLIENT CONNECTED"+replyMessage.getResponseData());
+            if(event.getServer().getId().equals(EngineType.ALL)||event.getServer().getId().equals(EngineType.BROADCAST)){
+            	event.sendPacket(wsPacket);
+            }
+        }else if (replyMessage.isSentReply()) {
+            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
+            Map lConnectorMap = getTokenServer().getAllConnectors();
+            Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
+            for (WebSocketConnector wsc : lConnectors) {
+            	if(wsc.getEngine().getId().equals(EngineType.ALL.toString())||wsc.getEngine().getId().equals(EngineType.BROADCAST.toString())){
+            		getTokenServer().sendPacket(wsc, wsPacket); 
+                    log.debug("SENDING PACKET TO ALL CLIENTS CONNECTED"+replyMessage.getResponseData());
+                }
+                
+            }
+        }
+    }
+    
     public void sendPacket(String messageData) {
         Map lConnectorMap = getTokenServer().getAllConnectors();
         Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
@@ -170,58 +161,6 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         }
         FileHandlerUtils.appendToFile(FileHandlerUtils.WEB_SOCKET, messageData,writeToFiles);
     }
-
-    public void processPacket(WebSocketServerEvent event, WebSocketPacket packet) {
-        System.out.println("packet received " + packet.getString());
-        ApplicationClient client = applicationClientManager.getApplicationClient(event.getConnector().getId());
-//        System.out.println("Connected clients"+applicationClientManager.getApplicationClients().size());
-        client.setLastMessageReceived(new Date(System.currentTimeMillis()));
-//        System.out.println("Message From " + client);
-        ServerMessage replyMessage = messageProcessor.processMessage(packet.getString());
-        if (replyMessage.isSendToSenderOnly() && replyMessage.isSentReply()) {
-            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
-            log.debug("WebSocketTokenServer.isSendToSenderOnly" + replyMessage.getResponseData());
-            //getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
-            event.sendPacket(wsPacket);
-        }else if (replyMessage.isSentReply()) {
-            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
-            log.debug("WebSocketTokenServer.sendpacket" + replyMessage.getResponseData());
-            //getTokenServer().sendPacket(client.getWebSocketConnector(), wsPacket);
-            //event.sendPacket(wsPacket);
-            
-            Map lConnectorMap = getTokenServer().getAllConnectors();
-            Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
-            for (WebSocketConnector wsc : lConnectors) {
-                getTokenServer().sendPacket(wsc, wsPacket); 
-                log.debug("SENDING INFO TO CLIENTS CONNECTED"+replyMessage.getResponseData());
-            }
-        }
-    }
-    
-    /*public void processToken(WebSocketTokenEvent aEvent, Token aToken) {
-	    log.info("Client '" + aEvent.getSessionId() + "' sent Token: '" + aToken.toString() + "'.");
-	    // here you can interpret the token type sent from the client according to your needs.
-	    String lNS = aToken.getNS();
-	    String lType = aToken.getType();
-
-	    // check if token has a type and a matching namespace
-	    if (lType != null && "my.namespace".equals(lNS)) {
-	      // create a response token
-	      Token lResponse = aEvent.createResponse(aToken);
-	      if ("getInfo".equals(lType)) {
-	        // if type is "getInfo" return some server information
-	        lResponse.put("vendor", JWebSocketConstants.VENDOR);
-	        lResponse.put("version", JWebSocketConstants.VERSION_STR);
-	        lResponse.put("copyright", JWebSocketConstants.COPYRIGHT);
-	        lResponse.put("license", JWebSocketConstants.LICENSE);
-	      } else {
-	        // if unknown type in this namespace, return corresponding error message
-	        lResponse.put("code", -1);
-	        lResponse.put("msg", "Token type '" + lType + "' not supported in namespace '" + lNS + "'.");
-	      }
-	      aEvent.sendToken(lResponse);
-	    }
-	  }*/
 
 
     @Override
@@ -267,14 +206,20 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             resourceMessage.setResourcesFilename(filename);
             resourceMessage.setResourcesPath(messageData);
             
-            //if(filename.endsWith("meta")){
+            if(filename.endsWith("meta")){
             	String fileNameWithoutExtention = filename.substring(0,filename.length()-5);
-            	message.setData("b--"+filename);
-            	//messageProcessor.getMessageHandler().sendRestMessage(resourceMessage,ResourceMessage.TYPE_ADDMINI_RESOURCE);
-            	sendPacket("b--"+filename);
-            //}
-            
-            
+            	message.setData("b--"+fileNameWithoutExtention);
+            	
+            	Map lConnectorMap = getTokenServer().getAllConnectors();
+                Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
+                for (WebSocketConnector wsc : lConnectors) {
+                	if(wsc.getEngine().getId().equals(EngineType.ALL.toString())||wsc.getEngine().getId().equals(EngineType.BROADCAST.toString())){
+                		 WebSocketPacket wsPacket = new RawPacket(message.getData());
+                         getTokenServer().sendPacket(wsc, wsPacket); 
+                         log.debug("SENDING FILE INFO TO CLIENT RECEIVED"+message.getData());
+                    }
+                }
+            }
         }		
 	}
     

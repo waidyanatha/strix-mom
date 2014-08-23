@@ -53,7 +53,7 @@ public class MessageProcessor {
             System.out.println("message"+message.getData());
             String jsonResponse = messageHandler.getMessage(message);
             serverMessage.setSentReply(replyMessage);
-            serverMessage.setResponseData(jsonResponse);
+            serverMessage.setResponseData(message.getData());
             serverMessage.setSendToSenderOnly(replyToSenderOnly);
         }
         return serverMessage;

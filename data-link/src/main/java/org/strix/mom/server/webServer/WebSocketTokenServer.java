@@ -188,35 +188,35 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
     @Override
 	public void fileRecevied(String type,String filename,String messageData) {
     	log.info("FILE RECEIVED"+filename);
-		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
-		AddResourceMessage resourceMessage = (AddResourceMessage)messageProcessor.getMessageHandler().getResourceMessage(ResourceMessage.TYPE_ADDMINI_RESOURCE);
+		//Message message = messageProcessor.getMessageHandler().getEmptyMessage();
+		//AddResourceMessage resourceMessage = (AddResourceMessage)messageProcessor.getMessageHandler().getResourceMessage(ResourceMessage.TYPE_ADDMINI_RESOURCE);
 		if(type.equalsIgnoreCase("fileReceived")){
 			//"ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"3","pool":"","data":"Your Message"
-			message.setNs("org.jwebsocket.plugins.system");
-            message.setAction("fileReceived");
-            message.setType("broadcast");
-            message.setData(filename);
-            message.setResourcesActive("1");
-            message.setResourcesName(filename);
-            message.setResourcesFilename(filename);
-            message.setResourcesPath(messageData);
+			//message.setNs("org.jwebsocket.plugins.system");
+            //message.setAction("fileReceived");
+            //message.setType("broadcast");
+            //message.setData(filename);
+            //message.setResourcesActive("1");
+            //message.setResourcesName(filename);
+            //message.setResourcesFilename(filename);
+            //message.setResourcesPath(messageData);
             
-            resourceMessage.setResourcesActive("1");
-            resourceMessage.setResourcesName(filename);
-            resourceMessage.setResourcesFilename(filename);
-            resourceMessage.setResourcesPath(messageData);
+            //resourceMessage.setResourcesActive("1");
+            //resourceMessage.setResourcesName(filename);
+            //resourceMessage.setResourcesFilename(filename);
+            //resourceMessage.setResourcesPath(messageData);
             
             if(filename.endsWith("meta")){
             	String fileNameWithoutExtention = filename.substring(0,filename.length()-5);
-            	message.setData("b--"+fileNameWithoutExtention);
+            	String data = "b--"+fileNameWithoutExtention;
             	
             	Map lConnectorMap = getTokenServer().getAllConnectors();
                 Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
                 for (WebSocketConnector wsc : lConnectors) {
                 	if(wsc.getEngine().getId().equals(EngineType.ALL.toString())||wsc.getEngine().getId().equals(EngineType.BROADCAST.toString())){
-                		 WebSocketPacket wsPacket = new RawPacket(message.getData());
+                		 WebSocketPacket wsPacket = new RawPacket(data);
                          getTokenServer().sendPacket(wsc, wsPacket); 
-                         log.debug("SENDING FILE INFO TO CLIENT RECEIVED"+message.getData());
+                         log.debug("SENDING FILE INFO TO CLIENT RECEIVED"+data);
                     }
                 }
             }
@@ -226,25 +226,32 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	public void streamRecevied(String type,String filename,byte[] messageData,boolean writeToFiles) {
 		//FileHandlerUtils.appendToFile(FileHandlerUtils.STREAM_BUFFER, messageData);
 		log.debug("STREAM RECEIVED"+type);
-		Message message = messageProcessor.getMessageHandler().getEmptyMessage();
+		//Message message = messageProcessor.getMessageHandler().getEmptyMessage();
 		
 		if(type.equalsIgnoreCase("streamReceived")){
 			//"ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"3","pool":"","data":"Your Message"
-			message.setNs("org.jwebsocket.plugins.system");
-            message.setAction("streamReceived");
-            message.setType("broadcast");
+			//message.setNs("org.jwebsocket.plugins.system");
+            //message.setAction("streamReceived");
+            //message.setType("broadcast");
             byte[]  base64Encoded = Base64.encode(messageData);
-            byte[] base64Decoded = Base64.decode(base64Encoded);
-            message.setDataStream(messageData);
-            message.setDataStream(base64Encoded);
+            //byte[] base64Decoded = Base64.decode(base64Encoded);
+            //message.setDataStream(messageData);
+            //message.setDataStream(base64Encoded);
             //FileHandlerUtils.appendToFile(FileHandlerUtils.BASE64_ENCODED, base64Encoded);
             //System.out.println("STREAM ENCODED"+messageData);
-            sendPacket(messageProcessor.getMessageHandler().getMessage(message));
+            //sendPacket(messageProcessor.getMessageHandler().getMessage(message));
             //sendPacket(messageData,writeToFiles);
+            
+            Map lConnectorMap = getTokenServer().getAllConnectors();
+            Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
+            for (WebSocketConnector wsc : lConnectors) {
+            	if(wsc.getEngine().getId().equals(EngineType.ALL.toString())||wsc.getEngine().getId().equals(EngineType.VIDEO.toString())){
+           		 WebSocketPacket wsPacket = new RawPacket(base64Encoded);
+                    getTokenServer().sendPacket(wsc, wsPacket); 
+                    log.debug("SENDING STREAM INFO TO CLIENT RECEIVED"+messageData);
+            	}
+            }
         }
-		
-		
-		
 	}
 
     @Override

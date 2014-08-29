@@ -26,13 +26,13 @@
         <property name="writeToFiles" value="false"/>
     </bean>
     <bean id="udpServer3" class="org.strix.mom.server.communication.impl.UdpServer">
-        <constructor-arg value="5000"/>
+        <constructor-arg value="8006"/>
         <property name="type" value="STREAM"/>
         <property name="filterBlank" value="false"/>
         <property name="writeToFiles" value="true"/>
     </bean>
     <bean id="udpServer4" class="org.strix.mom.server.communication.impl.UdpServer">
-        <constructor-arg value="8003"/>
+        <constructor-arg value="8005"/>
         <property name="type" value="FILE"/>
         <property name="filterBlank" value="false"/>
         <property name="writeToFiles" value="false"/>

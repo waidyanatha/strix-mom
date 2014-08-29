@@ -189,14 +189,20 @@ public class FileSender {
     
     public static ArrayList<String> listFilesForFolder(final File folder) {
     	ArrayList<String> filePaths = new ArrayList<String>();
+    	ArrayList<String> matafilePaths = new ArrayList<String>();
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isDirectory()) {
                 listFilesForFolder(fileEntry);
             } else {
-            	filePaths.add(fileEntry.getAbsolutePath());
+            	if(fileEntry.getName().endsWith(".meta")){
+            		matafilePaths.add(fileEntry.getAbsolutePath());
+            	}else{
+            		filePaths.add(fileEntry.getAbsolutePath());
+            	}
                 System.out.println("fileEntry"+fileEntry.getAbsolutePath());
             }
         }
+        filePaths.addAll(matafilePaths);
         return filePaths;
     }
 

@@ -13,12 +13,34 @@ public class FileHandlerUtils {
 	
 	
 	public static void appendToFile(String fileName,byte[] data,boolean writeToFiles){
-		System.out.println(fileName+":"+writeToFiles);
+		System.out.println(fileName+":"+writeToFiles+"data"+data.length);
 		if(writeToFiles){
 			
 			FileOutputStream output=null;
 			try {
-				output = new FileOutputStream(fileName, true);
+				output = new FileOutputStream(fileName, writeToFiles);
+				output.write(data);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally {
+			   try {
+				output.close();
+			   } catch (IOException e) {
+				e.printStackTrace();
+			   }
+			}
+		}
+	}
+	
+	public static void writeToFile(String fileName,byte[] data,boolean writeToFiles){
+		System.out.println(fileName+":"+writeToFiles+"data"+data.length);
+		if(writeToFiles){
+			
+			FileOutputStream output=null;
+			try {
+				output = new FileOutputStream(fileName, false);
 				output.write(data);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

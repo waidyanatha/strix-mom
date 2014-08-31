@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<import resource="upd-servers.xml" />
+	<import resource="udp-servers.xml" />
 	<import resource="users-auth.xml" />
 	<import resource="config-files.xml"/>
 
@@ -63,7 +63,7 @@
         <property name="destinationPath" value="../out"/>
         <!--  property name="hostName" value="192.168.100.182"/-->
         <property name="hostName" value="127.0.0.1"/>
-        <property name="port" value="8003"/>
+        <property name="port" value="8005"/>
     </bean>
     
 	<bean id="udpStreamSender" class="temp.UDPStreamSender">
@@ -71,7 +71,7 @@
         <property name="destinationPath" value="../out"/>
         <!--  property name="hostName" value="192.168.100.182"/-->
         <property name="hostName" value="127.0.0.1"/>
-        <property name="port" value="5000"/>
+        <property name="port" value="8006"/>
     </bean>
     
 	

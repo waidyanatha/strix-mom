@@ -137,6 +137,7 @@ public class FileSender {
             try {
                 fileEvent.setFilename(file.getName());
                 int len = (int) file.length();
+                System.out.println("sourceFileName len"+len);
                 fileEvent.setFileSize(len);
                 fileEvent.setStatus("Success");
                 

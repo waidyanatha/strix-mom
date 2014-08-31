@@ -92,9 +92,12 @@ public class FileHandler {
 			if (!new File(tmpLocation).exists()) {
 				new File(tmpLocation).mkdirs();
 			}
+			
+			//new File(tmpLocation);
 			if (!new File(outputLocation).exists()) {
 				new File(outputLocation).mkdirs();
 			}
+			new File(outputLocation);
 		}
 		try {
 			/*
@@ -103,12 +106,21 @@ public class FileHandler {
 			FileEvent cachedFileEvent = fileEventHashMap.get(outputFile);
 			cachedFileEvent
 					.setMessageCount(cachedFileEvent.getMessageCount() + 1);
-			System.out.println("+++++++++++" + fileEvent.getStart()
+			System.out.println(fileEvent.getFileData().length+"+++++++++++" + fileEvent.getStart()
 					+ ":::::::::::::::" + fileEvent.getEnd()
 					+ "cachedFileEvent.getMessageCount():::::::"
 					+ cachedFileEvent.getMessageCount());
 			synchronized (FileHandlerUtils.class) {
-				FileHandlerUtils.appendToFile(tmpOutputFile,fileEvent.getFileData(),true);
+				byte[] totalFileData = new byte[(int) (fileEvent.getEnd() - fileEvent.getStart())];
+				System.arraycopy(fileEvent.getFileData(), 0, totalFileData,
+						0,
+						(int) (fileEvent.getEnd() - fileEvent.getStart()));
+				//System.out.println("totalFileData"+new String(totalFileData));
+				if (fileEvent.getStart() == 0) {
+					FileHandlerUtils.writeToFile(tmpOutputFile,totalFileData,true);
+				}else{
+					FileHandlerUtils.appendToFile(tmpOutputFile,totalFileData,true);
+				}
 			}
 			if (fileEvent.isLast()) {
 				fileEventHashMap.remove(outputFile);

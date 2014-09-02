@@ -1,5 +1,7 @@
 package org.strix.mom.server.message;
 
+import org.strix.mom.server.message.api.Message;
+
 /**
  * Author: Tharindu Jayasuriya
  */
@@ -9,6 +11,7 @@ public class ServerMessage {
     private String channel;
     private String responseData;
     private boolean sendToSenderOnly;
+    private Message message;
 
     public String getRequestData() {
         return requestData;
@@ -49,5 +52,13 @@ public class ServerMessage {
 	public void setSendToSenderOnly(boolean sendToSenderOnly) {
 		this.sendToSenderOnly = sendToSenderOnly;
 	}
-    
+
+	public Message getMessage() {
+		return message;
+	}
+
+	public void setMessage(Message message) {
+		this.message = message;
+	}
+	
 }

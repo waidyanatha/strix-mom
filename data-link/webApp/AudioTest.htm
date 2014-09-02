@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+var lWebSocketClient = new WebSocket("ws://localhost:8789/jWebSocket/jWebSocket");
+lWebSocketClient.onopen = function(aEvent) {console.log("onOpen");}
+lWebSocketClient.onmessage = function (aEvent) {console.log(aEvent);}
+lWebSocketClient.onclose = function (aEvent) {console.log("onclose");}
+
+function myFunction() {
+    document.getElementById("demo").innerHTML = "Paragraph changed.";
+    lWebSocketClient.send("d--Testing");
+}
+</script>
+</head>
+
+<body>
+
+<h1>My Web Page</h1>
+
+<p id="demo">A Paragraph</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+</body>
+</html>

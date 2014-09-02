@@ -47,6 +47,9 @@ public class MessageProcessor {
             	}
             }else if(message.getType().equalsIgnoreCase("d--")){
             	replyToSenderOnly = false;
+            }else if(message.getType().equalsIgnoreCase("API--")){
+            	message.setAction(UdpServer.Type.COMMANDS.toString());
+            	replyToSenderOnly = true;
             }else{
             	replyToSenderOnly = false;
             }
@@ -55,6 +58,7 @@ public class MessageProcessor {
             serverMessage.setSentReply(replyMessage);
             serverMessage.setResponseData(message.getData());
             serverMessage.setSendToSenderOnly(replyToSenderOnly);
+            serverMessage.setMessage(message);
         }
         return serverMessage;
     }

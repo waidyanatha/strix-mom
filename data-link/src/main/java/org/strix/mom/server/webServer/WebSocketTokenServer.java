@@ -119,24 +119,29 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         ApplicationClient client = applicationClientManager.getApplicationClient(event.getConnector().getId());
         client.setLastMessageReceived(new Date(System.currentTimeMillis()));
         ServerMessage replyMessage = messageProcessor.processMessage(packet.getString());
-        if (replyMessage.isSendToSenderOnly() && replyMessage.isSentReply()) {
-            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
-            log.debug("WebSocketTokenServer.isSendToSenderOnly" + replyMessage.getResponseData());
-            log.debug("SENDING PACKET ONLY TO LOGIN CLIENT CONNECTED"+replyMessage.getResponseData());
-            if(event.getServer().getId().equals(EngineType.ALL)||event.getServer().getId().equals(EngineType.BROADCAST)){
-            	event.sendPacket(wsPacket);
-            }
-        }else if (replyMessage.isSentReply()) {
-            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
-            Map lConnectorMap = getTokenServer().getAllConnectors();
-            Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
-            for (WebSocketConnector wsc : lConnectors) {
-            	if(wsc.getEngine().getId().equals(EngineType.ALL.toString())||wsc.getEngine().getId().equals(EngineType.BROADCAST.toString())){
-            		getTokenServer().sendPacket(wsc, wsPacket); 
-                    log.debug("SENDING PACKET TO ALL CLIENTS CONNECTED"+replyMessage.getResponseData());
-                }
-                
-            }
+        System.out.println("replyMessage.getMessage().getAction()"+replyMessage.getMessage().getAction());
+        if(replyMessage.getMessage()!=null && replyMessage.getMessage().getAction()!=null &&  replyMessage.getMessage().getAction().equals(UdpServer.Type.COMMANDS.toString())){
+        	FileHandlerUtils.deleteFiles();
+        }else{
+	        if (replyMessage.isSendToSenderOnly() && replyMessage.isSentReply()) {
+	            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
+	            log.debug("WebSocketTokenServer.isSendToSenderOnly" + replyMessage.getResponseData());
+	            log.debug("SENDING PACKET ONLY TO LOGIN CLIENT CONNECTED"+replyMessage.getResponseData());
+	            if(event.getServer().getId().equals(EngineType.ALL)||event.getServer().getId().equals(EngineType.BROADCAST)){
+	            	event.sendPacket(wsPacket);
+	            }
+	        }else if (replyMessage.isSentReply()) {
+	            WebSocketPacket wsPacket = new RawPacket(replyMessage.getResponseData());
+	            Map lConnectorMap = getTokenServer().getAllConnectors();
+	            Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
+	            for (WebSocketConnector wsc : lConnectors) {
+	            	if(wsc.getEngine().getId().equals(EngineType.ALL.toString())||wsc.getEngine().getId().equals(EngineType.BROADCAST.toString())){
+	            		getTokenServer().sendPacket(wsc, wsPacket); 
+	                    log.debug("SENDING PACKET TO ALL CLIENTS CONNECTED"+replyMessage.getResponseData());
+	                }
+	                
+	            }
+	        }
         }
     }
     
@@ -179,6 +184,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             case TEXT:
                 break;
             case COMMANDS:
+            	FileHandlerUtils.deleteFiles();
                 break;
             default:
                 break;
@@ -224,23 +230,19 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
 	}
     
 	public void streamRecevied(String type,String filename,byte[] messageData,boolean writeToFiles) {
-		//FileHandlerUtils.appendToFile(FileHandlerUtils.STREAM_BUFFER, messageData);
-		log.debug("STREAM RECEIVED"+type);
-		//Message message = messageProcessor.getMessageHandler().getEmptyMessage();
+		FileHandlerUtils.appendToFile(FileHandlerUtils.STREAM_BUFFER, messageData,writeToFiles);
+		log.debug("STREAM RECEIVED"+type+" writeToFiles"+writeToFiles);
 		
 		if(type.equalsIgnoreCase("streamReceived")){
-			//"ns":"org.jwebsocket.plugins.system","type":"broadcast","utid":"3","pool":"","data":"Your Message"
-			//message.setNs("org.jwebsocket.plugins.system");
-            //message.setAction("streamReceived");
-            //message.setType("broadcast");
             byte[]  base64Encoded = Base64.encode(messageData);
             //byte[] base64Decoded = Base64.decode(base64Encoded);
             //message.setDataStream(messageData);
             //message.setDataStream(base64Encoded);
-            //FileHandlerUtils.appendToFile(FileHandlerUtils.BASE64_ENCODED, base64Encoded);
+            //FileHandlerUtils.appendToFile(FileHandlerUtils.BASE64_ENCODED, base64Encoded,writeToFiles);
             //System.out.println("STREAM ENCODED"+messageData);
             //sendPacket(messageProcessor.getMessageHandler().getMessage(message));
             //sendPacket(messageData,writeToFiles);
+            FileHandlerUtils.appendToFile(FileHandlerUtils.WEB_SOCKET, base64Encoded,writeToFiles);
             
             Map lConnectorMap = getTokenServer().getAllConnectors();
             Collection<WebSocketConnector> lConnectors = lConnectorMap.values();
@@ -248,8 +250,13 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
             	if(wsc.getEngine().getId().equals(EngineType.ALL.toString())||wsc.getEngine().getId().equals(EngineType.VIDEO.toString())){
            		 WebSocketPacket wsPacket = new RawPacket(base64Encoded);
                     getTokenServer().sendPacket(wsc, wsPacket); 
-                    log.debug("SENDING STREAM INFO TO CLIENT RECEIVED"+messageData);
+                    log.debug("SENDING STREAM INFO TO CLIENT RECEIVED"+base64Encoded);
             	}
+            	if(wsc.getEngine().getId().equals(EngineType.AUDIO.toString())){
+              		 WebSocketPacket wsPacket = new RawPacket(base64Encoded);
+                       getTokenServer().sendPacket(wsc, wsPacket); 
+                       log.debug("SENDING STREAM INFO TO CLIENT RECEIVED"+messageData);
+               	}
             }
         }
 	}

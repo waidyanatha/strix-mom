@@ -6,10 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FileHandlerUtils {
-	public static String STREAM_BUFFER = "streambuffer.ts";
-	public static String BASE64_ENCODED = "base64encoded.ts";
-	public static String UDP_LISTENER = "udpListener.ts";
-	public static String WEB_SOCKET = "websocket.ts";
+	public static String STREAM_BUFFER = "../ts/streambuffer.ts";
+	public static String BASE64_ENCODED = "../ts/base64encoded.ts";
+	public static String UDP_LISTENER = "../ts/udpListener.ts";
+	public static String WEB_SOCKET = "../ts/websocket.ts";
 	
 	
 	public static void appendToFile(String fileName,byte[] data,boolean writeToFiles){
@@ -58,6 +58,9 @@ public class FileHandlerUtils {
 	
 	public static void deleteFiles()
     {	
+		if (!new File("../ts/README.txt").exists()) {
+			new File("../ts/").mkdirs();
+		}
 		deleteFile(STREAM_BUFFER);
 		deleteFile(BASE64_ENCODED);
 		deleteFile(UDP_LISTENER);

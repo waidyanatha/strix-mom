@@ -35,6 +35,9 @@ public class JsonMessageHandler implements MessageHandler {
         	if(string.startsWith("d--")){
         		request.setType("d--");
         		request.setData(string);
+        	}else if(string.startsWith("API--")){
+        		request.setType("API--");
+        		request.setData(string);
         	}
         }
         

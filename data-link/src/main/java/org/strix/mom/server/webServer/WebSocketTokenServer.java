@@ -166,7 +166,7 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
         }
         FileHandlerUtils.appendToFile(FileHandlerUtils.WEB_SOCKET, messageData,writeToFiles);
     }
-
+    public static int COUNT = 0;
 
     @Override
     public void packetReceived(UdpServer.Event evt) {
@@ -179,6 +179,8 @@ public class WebSocketTokenServer implements WebSocketServerTokenListener, UdpSe
                 fileHandler.processFrame(evt);
                 break;
             case STREAM:
+            	COUNT ++;
+            	System.out.println("COUNT"+COUNT);
             	streamRecevied("streamReceived","stream",evt.getPacketAsBytes(),evt.getUdpServer().isWriteToFiles());
                 break;
             case TEXT:

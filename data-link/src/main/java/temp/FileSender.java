@@ -91,6 +91,14 @@ public class FileSender {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }finally{
+        	if(socket!=null){
+        		try {
+					socket.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+        	}
         }
     }
 

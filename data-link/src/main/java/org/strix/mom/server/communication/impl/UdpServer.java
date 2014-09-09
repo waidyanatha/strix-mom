@@ -854,28 +854,28 @@ public class UdpServer {
                     packet.getData(), packet.getOffset(),
                     data, 0, data.length);
             if(getUdpServer().isFilterBlank()){
-            int dataCount = 0;
-            char[] annoyingchar = new char[1];
-            for(int i=data.length;i<=0;i--){
-            	//System.out.println(data[i]+"%%%%%%"+annoyingchar[0]);
-            	if(data[i]!=annoyingchar[0]){
-            		dataCount = i;
-                    break;
-                }
-            }
-            System.out.println("dataCount1:"+dataCount+ " packet.getLength():"+packet.getLength()+" data.length:"+data.length) ;
-            byte[] filteredData = new byte[dataCount];
-            System.arraycopy(
-                    packet.getData(), packet.getOffset(),
-                    filteredData, 0, filteredData.length);
-            
-            
-            
-            
-            String s = new String(data, 0, packet.getLength());
-            byte[] filteredSData = s.trim().getBytes();
-            System.out.println("dataCount2:"+filteredSData.length+ " packet.getLength():"+packet.getLength()+" data.length:"+data.length) ;
-            return filteredSData;
+	            int dataCount = 0;
+	            char[] annoyingchar = new char[1];
+	            for(int i=data.length;i<=0;i--){
+	            	//System.out.println(data[i]+"%%%%%%"+annoyingchar[0]);
+	            	if(data[i]!=annoyingchar[0]){
+	            		dataCount = i;
+	                    break;
+	                }
+	            }
+	            System.out.println("dataCount1:"+dataCount+ " packet.getLength():"+packet.getLength()+" data.length:"+data.length) ;
+	            byte[] filteredData = new byte[dataCount];
+	            System.arraycopy(
+	                    packet.getData(), packet.getOffset(),
+	                    filteredData, 0, filteredData.length);
+	            
+	            
+	            
+	            
+	            String s = new String(data, 0, packet.getLength());
+	            byte[] filteredSData = s.trim().getBytes();
+	            System.out.println("dataCount2:"+filteredSData.length+ " packet.getLength():"+packet.getLength()+" data.length:"+data.length) ;
+	            return filteredSData;
             }else{
             	return data;
             }

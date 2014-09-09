@@ -41,6 +41,7 @@ public class UDPStreamSender {
                 event.setBufferSize(buffer.length);
                 if(i+buffer.length>event.getFileSize()){
                 	int length = (int)(event.getFileSize()-i);
+                	buffer = new byte[length];
                 	FileEvent chunkFileData = getFileChunk(fileName,i,length);
                 	System.arraycopy(chunkFileData.getData(),0,buffer,0,length);
                     //System.arraycopy(fileData,i,buffer,0,fileData.length-i);
@@ -62,16 +63,17 @@ public class UDPStreamSender {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 ObjectOutputStream os = new ObjectOutputStream(outputStream);
                 os.writeObject(buffer);
-                byte[] data = outputStream.toByteArray();
+                //byte[] data = outputStream.toByteArray();
                 //byte[] data = event.getFileData();
+                byte[] data = buffer;
                 noPacketsSend++;
-                System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" noPacketsSend++"+noPacketsSend);
+                //System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" noPacketsSend++"+noPacketsSend);
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(sendPacket);
                 Thread.sleep(1000);
             }
             System.out.println("File sent from client with "+noPacketsSend);
-            Thread.sleep(1000);
+            Thread.sleep(50000);
             //DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
             //socket.receive(incomingPacket);
             //String response = new String(incomingPacket.getData());
@@ -87,6 +89,14 @@ public class UDPStreamSender {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }finally{
+        	if(socket!=null){
+        		try {
+					socket.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+        	}
         }
     }
 

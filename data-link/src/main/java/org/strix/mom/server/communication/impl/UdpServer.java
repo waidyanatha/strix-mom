@@ -254,7 +254,7 @@ public class UdpServer {
                 LOGGER.warning(String.format("Could not set receive buffer to %d. It is now at %d. Error: %s",
                         pl, bl, exc.getMessage()));
             }   // end catch
-
+            //setGroups("231.0.0.1");
             String gg = getGroups();                                        // Get multicast groups
             if (gg != null) {
                 String[] proposed = gg.split("[\\s,]+");                        // Split along whitespace
@@ -289,14 +289,13 @@ public class UdpServer {
                     if (LOGGER.isLoggable(Level.FINE)) {
                         //LOGGER.fine("UDP Server received datagram: " + packet);
                     }
-                    synchronized (FileHandlerUtils.class) {
-                    	FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, getPacketAsBytes(packet),writeToFiles);
-        			}
+                    
+                    FileHandlerUtils.appendToFile(FileHandlerUtils.UDP_LISTENER, getPacketAsBytes(packet),writeToFiles);
                     fireUdpServerPacketReceived();
 
                 }   //end if: not closed
                 
-                Thread.sleep(1000);
+                Thread.sleep(10);
             }   // end while: keepGoing
 
         } catch (Exception exc) {

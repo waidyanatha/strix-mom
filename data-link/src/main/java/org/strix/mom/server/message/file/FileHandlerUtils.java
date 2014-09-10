@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FileHandlerUtils {
 	public static String STREAM_BUFFER = "../ts/streambuffer.ts";
@@ -12,13 +16,12 @@ public class FileHandlerUtils {
 	public static String WEB_SOCKET = "../ts/websocket.ts";
 	
 	
-	public static void appendToFile(String fileName,byte[] data,boolean writeToFiles){
+	public static void appendToFile(final String fileName,final byte[] data,final boolean writeToFiles){
 		System.out.println(fileName+":"+writeToFiles+"data"+data.length);
 		if(writeToFiles){
-			
 			FileOutputStream output=null;
-			try {
-				output = new FileOutputStream(fileName, writeToFiles);
+        	try {
+        	    output = new FileOutputStream(fileName, writeToFiles);
 				output.write(data);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -31,6 +34,34 @@ public class FileHandlerUtils {
 				e.printStackTrace();
 			   }
 			}
+        	
+			/*try {
+			    final int numberOfThread = 20;
+			    ExecutorService pool = Executors.newFixedThreadPool(numberOfThread);
+			     byte[] yourText = data;
+			        pool.submit(new Runnable() {
+			            @Override
+			            public void run() {
+			            	FileOutputStream output=null;
+			            	try {
+			            	    output = new FileOutputStream(fileName, writeToFiles);
+			    				output.write(data);
+			    			} catch (FileNotFoundException e) {
+			    				e.printStackTrace();
+			    			} catch (IOException e) {
+			    				e.printStackTrace();
+			    			}finally {
+			    			   try {
+			    				output.close();
+			    			   } catch (IOException e) {
+			    				e.printStackTrace();
+			    			   }
+			    			}
+			            }
+			        });
+			} catch (Exception e) {
+				e.printStackTrace();
+			}*/
 		}
 	}
 	

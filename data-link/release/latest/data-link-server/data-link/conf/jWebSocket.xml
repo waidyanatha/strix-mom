@@ -981,10 +981,10 @@
 					 be broadcasted per default. To suppress these broadcasts
 					 per events turn settings "on" here and optionally suppress
 					 them per client command. -->
-				<setting key="broadcastOpenEvent">true</setting>
-				<setting key="broadcastCloseEvent">true</setting>
-				<setting key="broadcastLoginEvent">true</setting>
-				<setting key="broadcastLogoutEvent">true</setting>
+				<setting key="broadcastOpenEvent">false</setting>
+				<setting key="broadcastCloseEvent">false</setting>
+				<setting key="broadcastLoginEvent">false</setting>
+				<setting key="broadcastLogoutEvent">false</setting>
 				<setting key="allowAnonymousLogin">true</setting>
 				<!-- this is the user name used for anonymous logins,
 					all anonymous users that just connect will get this user 

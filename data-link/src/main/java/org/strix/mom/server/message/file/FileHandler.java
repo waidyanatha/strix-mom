@@ -117,7 +117,9 @@ public class FileHandler {
 						(int) (fileEvent.getEnd() - fileEvent.getStart()));
 				//System.out.println("totalFileData"+new String(totalFileData));
 				if (fileEvent.getStart() == 0) {
-					FileHandlerUtils.writeToFile(tmpOutputFile,totalFileData,true);
+					File file = new File(tmpOutputFile);
+					file.delete();
+					FileHandlerUtils.appendToFile(tmpOutputFile,totalFileData,true);
 				}else{
 					FileHandlerUtils.appendToFile(tmpOutputFile,totalFileData,true);
 				}

@@ -11,6 +11,7 @@ import java.nio.channels.FileChannel;
 
 public class UDPStreamSender {
     private DatagramSocket socket = null;
+    //private MulticastSocket socket = null;
     private FileEvent event = null;
     private String sourceFilePath = null;//"G:\\Strix\\MyjWebSocketJavaClient\\WebSocketServer\\testData\\in\\1.avi";
     private String destinationPath = null;//"C:/Downloads/udp/";
@@ -28,7 +29,9 @@ public class UDPStreamSender {
     public void createConnection(String fileName) {
         try {
             socket = new DatagramSocket();
+            //socket = new MulticastSocket();
             InetAddress IPAddress = InetAddress.getByName(hostName);
+            //InetAddress IPAddress = InetAddress.getByName ("231.0.0.1");
             byte[] incomingData = new byte[1024*64];
             event = getFileEvent(fileName);
             byte[] fileData = event.getFileData();
@@ -36,7 +39,7 @@ public class UDPStreamSender {
             event.setFileData(null);
             int noPacketsSend = 0;
             for (int i = 0; i < event.getFileSize(); ) {
-                byte[] buffer = new byte[60000];//new byte[1024*60];
+                byte[] buffer =  new byte[12000];//new byte[60000];//new byte[1024*60];
                 event.setStart(i);
                 event.setBufferSize(buffer.length);
                 if(i+buffer.length>event.getFileSize()){
@@ -67,10 +70,10 @@ public class UDPStreamSender {
                 //byte[] data = event.getFileData();
                 byte[] data = buffer;
                 noPacketsSend++;
-                //System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" noPacketsSend++"+noPacketsSend);
+                System.out.println("$$$$$$$$$$$$$$$$$"+event.getStart()+"from to"+event.getEnd()+" noPacketsSend++"+noPacketsSend);
                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
                 socket.send(sendPacket);
-                Thread.sleep(1000);
+                Thread.sleep(100);
             }
             System.out.println("File sent from client with "+noPacketsSend);
             Thread.sleep(50000);

@@ -12,6 +12,7 @@ Install 'User Management Feature' if you need UI
 4. Then Create DB called 'strix'
 
 5. Create Table and Data from API
+
 http://localhost:9763/strix/api/
 
 6. Give permission for login 

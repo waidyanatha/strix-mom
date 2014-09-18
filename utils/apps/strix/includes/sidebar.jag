@@ -36,3 +36,4 @@ if(userRolesList){ %>
 				</div><!--/span-->
 				<script src="./js/assets/js/jquery.js"></script>
 				<script src="./js/notification.js"></script>
+				<script src="./js/notification-test.js"></script>

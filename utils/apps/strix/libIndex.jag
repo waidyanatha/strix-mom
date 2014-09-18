@@ -120,7 +120,7 @@ include('/includes/sidebar.jag');
 							<div class="thumbnail">
 								<img id="avatar" alt="{{resources_name}}" src="resources\common\{{resources_name}} - Thumbnail.png" onerror="this.src='./resources/icon_book.png';" />
 								<div class="caption">
-									<h4>Book {{resources_id}}</h4>
+									<h5>{{resources_name}}</h5>
 									<p>
 										<a href="./book.jag?id={{resources_id}}" class="btn btn-primary">View</a>
 									</p>

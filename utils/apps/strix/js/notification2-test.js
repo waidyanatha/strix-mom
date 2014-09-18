@@ -1,10 +1,10 @@
 $(function () {
 	 		var ws;
             var log = function (data) {
-			var res = data.split("b--");
-			if(res[1] != undefined){
-                $('#console').val($('#console').val() + res[1].split('"')[0] + '\n');
-				}
+			var res = data.split("d--");
+            if(res[1] != undefined){
+               $('#console2').val($('#console2').val() + res[1] + '\n');
+			}
             };
 
             var userCheck = function () {
@@ -28,11 +28,12 @@ $(function () {
             	  }
             	return true;
             };
-            
-            $('#connect').click(function () {
+             $('#disconnect2').removeClass('disabled');
+            $('#connect2').click(function () {
             //	if(!userCheck()){return;}
-             //   var url = 'ws://localhost:9763/strix/chatroom/server.jag';
-			var url = 'ws://202.69.197.118:8787/';
+                var url = 'ws://localhost:9763/strix/chatroom/server.jag';
+			  // var url = 'ws://202.69.197.118:8787/';
+
                 if ('WebSocket' in window) {
                     ws = new WebSocket(url);
                 } else if ('MozWebSocket' in window) {
@@ -44,49 +45,30 @@ $(function () {
 
                 ws.onopen = function () {                	
                     //log('Connected to the server.');
-                    ws.send("b--Allowed");
-                    $('#connect').addClass('disabled');
-                     $('#disconnect').removeClass('disabled');
+                    ws.send("d--Allowed");
+                    $('#connect2').addClass('disabled');
+                     $('#disconnect2').removeClass('disabled');
                 };
                 ws.onmessage = function (event) {
                 	console.log(event.data);
                     log(event.data);
-					var res = event.data.split("b--");
-				if(res[1] != undefined){
-				  Util
-                    .makeJsonRequest(
-                        "GET",
-                        './api/api/resources.jag?action=addresourcesbymatafile&resourcesName='+res[1].split('"')[0] ,
-                        null,
-                        null,
-                        function (datax) {
-                        	console.log(datax);
-                        });
-				}
+                   
                 };
                 ws.onclose = function () {
                     log('notification closed.');
                 	// ws.send(sessionStorage.getItem("lastname") +" left the chat room.");
-                	$('#connect').removeClass('disabled');
-                     $('#disconnect').addClass('disabled');
+                	$('#connect2').removeClass('disabled');
+                     $('#disconnect2').addClass('disabled');
                 };
             });
 
-            $('#disconnect').click(function () {
-            	 ws.send(sessionStorage.getItem("lastname") +" left the chat room.");
+            $('#disconnect2').click(function () {
+            	 ws.send(sessionStorage.getItem("lastname") +" left the notification service");
                 ws.close();
                 $('#username').prop('disabled', false);
             	$('#connect').prop('disabled', false);
             	
             });
 
-            $('#send').click(function () {
-                if (!ws) {
-                    alert('Please connect to the server fist');
-                    return;
-                }
-                ws.send(sessionStorage.getItem("lastname") +": "+ $('#content').val());
-                $('#content').val('');
-                
-            });
+    
         });

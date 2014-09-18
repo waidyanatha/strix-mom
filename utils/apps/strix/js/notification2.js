@@ -2,8 +2,9 @@ $(function () {
 	 		var ws;
             var log = function (data) {
 			var res = data.split("d--");
+alert(res);
             if(res[1] != undefined){
-               $('#console2').val($('#console2').val() + res[1] + '\n');
+               $('#console2').val($('#console2').val() + res[1].split('"')[0]  + '\n');
 			}
             };
 
@@ -31,7 +32,9 @@ $(function () {
              $('#disconnect2').removeClass('disabled');
             $('#connect2').click(function () {
             //	if(!userCheck()){return;}
-                var url = 'ws://localhost:9763/strix/chatroom/server.jag';
+               // var url = 'ws://localhost:9763/strix/chatroom/server.jag';
+///202.69.197.118/jWebSocket/jWebSocket
+			   var url = 'ws://202.69.197.118:8787/jWebSocket/jWebSocket';
 
                 if ('WebSocket' in window) {
                     ws = new WebSocket(url);

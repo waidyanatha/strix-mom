@@ -3,7 +3,7 @@ $(function () {
             var log = function (data) {
 			var res = data.split("b--");
 			if(res[1] != undefined){
-                $('#console').val($('#console').val() + res[1].split('"')[0] + '\n');
+                $('#console').val($('#console').val() + res[1] + '\n');
 				}
             };
 
@@ -31,8 +31,8 @@ $(function () {
             
             $('#connect').click(function () {
             //	if(!userCheck()){return;}
-             //   var url = 'ws://localhost:9763/strix/chatroom/server.jag';
-			var url = 'ws://202.69.197.118:8787/';
+              var url = 'ws://localhost:9763/strix/chatroom/server.jag';
+			//var url = 'ws://202.69.197.118:8787/';
                 if ('WebSocket' in window) {
                     ws = new WebSocket(url);
                 } else if ('MozWebSocket' in window) {
@@ -52,17 +52,20 @@ $(function () {
                 	console.log(event.data);
                     log(event.data);
 					var res = event.data.split("b--");
+					console.log(res[1]);
 				if(res[1] != undefined){
+             //   $('#console').val($('#console').val() + res[1] + '\n');
 				  Util
                     .makeJsonRequest(
                         "GET",
-                        './api/api/resources.jag?action=addresourcesbymatafile&resourcesName='+res[1].split('"')[0] ,
+                        './api/api/resources.jag?action=addresourcesbymatafile&resourcesName='+res[1],
                         null,
                         null,
                         function (datax) {
                         	console.log(datax);
                         });
 				}
+                  
                 };
                 ws.onclose = function () {
                     log('notification closed.');

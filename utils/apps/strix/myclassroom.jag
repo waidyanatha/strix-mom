@@ -144,6 +144,7 @@ include('/includes/topnavi.jag');
         <script src="js/mustache.js"></script>
         <script src="./js/util.js"></script>
 		<script src="./js/notification2.js"></script>
+		<script src="./js/notification2-test.js"></script>
         <script src="./js/usermgt.js"></script>
       
 
